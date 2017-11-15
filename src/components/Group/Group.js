@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 
-class Event extends Component {
+
+class Group extends Component {
     render() {
         return (
-            <h1>Event</h1>
+            <h1>Group</h1>
         )
     }
 }
 
-export default Event;
+export default Group;
