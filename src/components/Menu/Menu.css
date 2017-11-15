@@ -1,0 +1,29 @@
+@import 'https://fonts.googleapis.com/css?family=Permanent+Marker|Tienne';
+.menu {
+  background: #00825D;
+  height: 8vh;
+  display: grid;
+  grid-template-columns: 2fr repeat(4, 1fr) 2fr;
+  margin-bottom: 10px; }
+  .menu h2 {
+    color: #ffffff; }
+
+.logo-font {
+  font-family: "Permanent Marker", cursive;
+  grid-column: 1/2;
+  justify-self: center;
+  align-self: center;
+  margin: 5px; }
+
+.logout {
+  grid-column: 6/7; }
+
+.noti-icon, .group-icon {
+  color: #ffffff;
+  font-size: 48px;
+  grid-column: 5/6;
+  justify-self: center;
+  align-self: center; }
+
+.group-icon {
+  grid-column: 4/5; }
