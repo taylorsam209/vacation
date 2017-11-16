@@ -36,9 +36,8 @@ class Trip extends Component {
     this.setState({dayName: value});
   };
 
-  render() {
-    const {dayName} = this.state;
-    const actions =
+  actions(){
+    return (
       <div className='new-day-actions'>
         <RaisedButton
           label="Ok"
@@ -52,7 +51,13 @@ class Trip extends Component {
           onClick={this.handleClose}
           className='new-day-cancel'
         />
-      </div>;
+      </div>
+    );
+  }
+
+  render() {
+    const {dayName} = this.state;
+    const {actions} = this;
 
     return (
       <main>
