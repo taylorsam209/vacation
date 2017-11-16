@@ -11,7 +11,6 @@ import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 
-
 const richBlack = '#02111b';
 const dodgerBlue = '#1098f7';
 const green = '#00825D'
@@ -53,7 +52,7 @@ class Menu extends Component {
     const tempArr = ["Logan", "Taylor", "Jared", "Scott", "Logan", "Taylor", "Jared", "Scott", "Logan", "Taylor", "Jared", "Scott"]
     return tempArr.map((e, i, arr) => {
       return (
-        <div>
+        <div key={i}>
           {e}
         </div>
       )
