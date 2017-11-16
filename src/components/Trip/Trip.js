@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import Menu from '../Menu/Menu.js';
+import { showGroup } from '../../ducks/reducer';
+import { connect } from 'react-redux';
 
 class Trip extends Component {
+    componentDidMount() {
+        this.props.showGroup(true);
+    }
     render() {
         return (
             <div>
@@ -12,4 +17,10 @@ class Trip extends Component {
     }
 }
 
-export default Trip
+function mapStateToProps(state) {
+    return {
+        gIcon: state.gIcon
+    }
+}
+
+export default connect(mapStateToProps, { showGroup })(Trip);
