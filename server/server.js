@@ -39,14 +39,14 @@ passport.use(new Auth0Strategy({
     callbackURL: process.env.CALLBACK_URL
 }, function (accessToken, refreshToken, extraParams, profile, done) {
     const db = app.get('db');
-    db.find_user([profile.identities[0].user_id]).then(user => {
+    db.auth.find_user([profile.identities[0].user_id]).then(user => {
         if (user[0]) {
-            return done(null, user[0].id)
+            return done(null, user[0].user_id)
         } else {
             const user = profile._json;
-            db.create_user([user.name, user.email, user.picture, user.identities[0].user_id])
+            db.auth.create_user([user.name, user.email, user.picture, user.identities[0].user_id])
                 .then(user => {
-                    return done(null, user[0].id)
+                    return done(null, user[0].user_id)
                 })
         }
     })
@@ -75,7 +75,8 @@ passport.serializeUser(function (id, done) {
 });
 
 passport.deserializeUser(function (id, done) {
-    app.get('db').find_current_user([id])
+    const db = app.get('db');
+    db.auth.find_current_user([id])
         .then(user => {
             done(null, user[0]);
         })
@@ -100,29 +101,18 @@ app.put('api/flight/:id', dayController.editFlight);
 app.put('api/rentalcar/:id', dayController.editRentalCar);
 app.put('api/activity/:id', dayController.editActivity);
 app.put('/api/lodging/:id', dayController.editLodging);
-app.post('/api/lodging', dayController.addLodging);
-app.post('api/flight', dayController.addFlight);
-app.post('api/rentalcar', dayController.addRentalCar);
-app.post('api/activity', dayController.addActivity);
-app.delete('/api/lodging/:id', dayController.deleteLodging);
-app.delete('api/flight/:id', dayController.deleteFlight);
-app.delete('api/rentalcar/:id', dayController.deleteRentalCar);
-app.delete('api/activity/:id', dayController.deleteActivity);
+// app.post('/api/lodging', dayController.addLodging);
+// app.post('api/flight', dayController.addFlight);
+// app.post('api/rentalcar', dayController.addRentalCar);
+// app.post('api/activity', dayController.addActivity);
+// app.delete('/api/lodging/:id', dayController.deleteLodging);
+// app.delete('api/flight/:id', dayController.deleteFlight);
+// app.delete('api/rentalcar/:id', dayController.deleteRentalCar);
+// app.delete('api/activity/:id', dayController.deleteActivity);
 
 //Endpoints for Noti Component
 app.get('/api/notify/:id', notiController.getNotifications);
 app.post('/api/notify', notiController.addNotification);
 app.delete('/api/notify/:id', notiController.deleteNotification);
-
-
-
-
-
-
-
-
-
-
-
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
