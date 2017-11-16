@@ -4,6 +4,7 @@ import './Day.css';
 import {showGroup} from '../../ducks/reducer';
 /* Components*/
 import Menu from '../Menu/Menu.js';
+<<<<<<< HEAD
 import RaisedButton from 'material-ui/RaisedButton';
 import DatePicker from 'material-ui/DatePicker';
 import Dialog from 'material-ui/Dialog';
@@ -15,6 +16,22 @@ class Day extends Component {
     this.state = {
       open: false,
       eventName: 'New Event'
+=======
+import { showGroup } from '../../ducks/reducer';
+import { connect } from 'react-redux';
+
+class Day extends Component {
+    componentDidMount() {
+        this.props.showGroup(true);
+    }
+    render() {
+        return (
+            <div>
+                <Menu />
+                <h1>Day</h1>
+            </div>
+        )
+>>>>>>> master
     }
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -101,7 +118,13 @@ class Day extends Component {
     )
   }
 }
+function mapStateToProps(state) {
+    return {
+        gIcon: state.gIcon
+    }
+}
 
+<<<<<<< HEAD
 // function mapStateToProps(state){
 //   return {
 //
@@ -109,3 +132,6 @@ class Day extends Component {
 // };
 
 export default connect(null, {showGroup})(Day);
+=======
+export default connect(mapStateToProps, { showGroup })(Day);
+>>>>>>> master

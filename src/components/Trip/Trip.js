@@ -4,6 +4,7 @@ import './Trip.css';
 import {showGroup} from '../../ducks/reducer';
 /* Components*/
 import Menu from '../Menu/Menu.js';
+<<<<<<< HEAD
 import RaisedButton from 'material-ui/RaisedButton';
 import DatePicker from 'material-ui/DatePicker';
 import Dialog from 'material-ui/Dialog';
@@ -15,6 +16,22 @@ class Trip extends Component {
     this.state = {
       open: false,
       dayName: 'New Day'
+=======
+import { showGroup } from '../../ducks/reducer';
+import { connect } from 'react-redux';
+
+class Trip extends Component {
+    componentDidMount() {
+        this.props.showGroup(true);
+    }
+    render() {
+        return (
+            <div>
+                <Menu />
+                <h1>Current Trip</h1>
+            </div>
+        )
+>>>>>>> master
     }
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -83,6 +100,7 @@ class Trip extends Component {
   }
 }
 
+<<<<<<< HEAD
 // function mapStateToProps(state){
 //   return {
 //
@@ -90,3 +108,12 @@ class Trip extends Component {
 // };
 
 export default connect(null, {showGroup})(Trip);
+=======
+function mapStateToProps(state) {
+    return {
+        gIcon: state.gIcon
+    }
+}
+
+export default connect(mapStateToProps, { showGroup })(Trip);
+>>>>>>> master
