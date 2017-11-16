@@ -31,6 +31,7 @@ describe('Test getTrip(url, trip_id):', ()=>{
 });
 
 describe('Test getAllTrips(url, user_id)', ()=>{
+  /* Test Author: Scott */
   test('Check if getAllTrips returns an array.', ()=>{
     expect.assertions(1);
     return ab.getAllTrips(url, 1).then(res=>{
