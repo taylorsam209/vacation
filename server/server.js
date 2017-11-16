@@ -1,13 +1,15 @@
 require("dotenv").config();
 const express = require("express"),
-session = require("express-session"),
-bodyParser = require("body-parser"),
-massive = require("massive"),
-passport = require("passport"),
-Auth0Strategy = require("passport-auth0"),
-cors = require("cors");
-controllers = require('./controllers');
-tripController = require('./tripController');
+    session = require("express-session"),
+    bodyParser = require("body-parser"),
+    massive = require("massive"),
+    passport = require("passport"),
+    Auth0Strategy = require("passport-auth0"),
+    cors = require("cors"),
+    controllers = require('./controllers'),
+    tripController = require('./tripController'),
+    dayController = require('./dayController'),
+    notiController = require('./notiController');
 
 const PORT = 3010;
 const app = express();
@@ -57,7 +59,7 @@ app.get('/auth/callback', passport.authenticate('auth0', {
 }));
 
 app.get('/auth/me', (req, res) => {
-    if(!req.user) {
+    if (!req.user) {
         return res.status(200).send(false)
     }
     return res.status(200).send(req.user);
@@ -65,7 +67,7 @@ app.get('/auth/me', (req, res) => {
 
 app.get('/auth/logout', (req, res) => {
     req.logOut();
-    res.redirect(302,process.env.SUCCESS_REDIRECT)
+    res.redirect(302, process.env.SUCCESS_REDIRECT)
 })
 
 passport.serializeUser(function (id, done) {
@@ -81,7 +83,7 @@ passport.deserializeUser(function (id, done) {
 
 //Endpoints for Dashboard Component
 app.get('/api/trips/users/:id', controllers.getAllTrips)
-app.get('/api/trip/:id',controllers.getTrip)
+app.get('/api/trip/:id', controllers.getTrip)
 app.post('/api/trip', controllers.addTrip)
 app.delete('/api/trip/:id', controllers.deleteTrip)
 
@@ -91,6 +93,34 @@ app.get('/api/trip/day/:id', tripController.getDay);
 app.post('/api/trip/day', tripController.addDay);
 app.put('/api/trip/day', tripController.editDay);
 app.delete('/api/trip/day/:id', tripController.deleteDay);
+
+//Endpoints for Day Component
+app.get('/api/day/events/:id', dayController.getEvents);
+app.put('api/flight/:id', dayController.editFlight);
+app.put('api/rentalcar/:id', dayController.editRentalCar);
+app.put('api/activity/:id', dayController.editActivity);
+app.put('/api/lodging/:id', dayController.editLodging);
+app.post('/api/lodging', dayController.addLodging);
+app.post('api/flight', dayController.addFlight);
+app.post('api/rentalcar', dayController.addRentalCar);
+app.post('api/activity', dayController.addActivity);
+app.delete('/api/lodging/:id', dayController.deleteLodging);
+app.delete('api/flight/:id', dayController.deleteFlight);
+app.delete('api/rentalcar/:id', dayController.deleteRentalCar);
+app.delete('api/activity/:id', dayController.deleteActivity);
+
+//Endpoints for Noti Component
+app.get('/api/notify/:id', notiController.getNotifications);
+app.post('/api/notify', notiController.addNotification);
+app.delete('/api/notify/:id', notiController.deleteNotification);
+
+
+
+
+
+
+
+
 
 
 
