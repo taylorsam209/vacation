@@ -90,7 +90,7 @@ class Menu extends Component {
           <RaisedButton
             label='Logout'
             labelColor='white'
-            backgroundColor={dodgerBlue}
+            primary={true}
             style={{ margin: '5px' }}
           />
         </a>
