@@ -71,12 +71,12 @@ class Menu extends Component {
         </Link>
 
         {
-          gIcon ?
+          gIcon &&
             <GroupIcon
               className='group-icon'
               color='white'
               onClick={() => { this.handleGroupToggle() }}
-            /> : null
+            />
         }
 
         <NotificationsIcon

@@ -10,12 +10,16 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 const turqoiseGreen = '#8FD8AB'
     , jet = '#2E382E'
+    , spanishViridian = '#00825D';
 
 const theme1 = getMuiTheme({
   fontFamily: '"Tienne", serif',
   palette: {
     primary1Color: turqoiseGreen,
     accent1Color: jet
+  },
+  appBar: {
+    color: spanishViridian
   }
 })
 
