@@ -28,6 +28,7 @@
     "redux-promise-middleware": "^4.4.2"
   },
   "scripts": {
+    "test": "jest",
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start": "react-scripts start",
