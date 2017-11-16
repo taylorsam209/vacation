@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import './Trip.css';
-import {showGroup} from '../../ducks/reducer';
+import { showGroup } from '../../ducks/reducer';
 /* Components*/
 import Menu from '../Menu/Menu.js';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -10,34 +10,40 @@ import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 
 class Trip extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       open: false,
-      dayName: 'New Day'
+      dayName: 'New Day',
+      dayDate: ''
     }
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.props.showGroup(true);
   }
 
-  handleOpen(){
-    this.setState({open: true});
+  handleOpen() {
+    this.setState({ open: true });
   };
 
-  handleClose(){
-    this.setState({open: false});
+  handleClose() {
+    this.setState({ open: false });
+    console.log("State Date", this.state.dayDate)
   };
 
-  updateDayName(value){
-    this.setState({dayName: value});
+  updateDayName(value) {
+    this.setState({ dayName: value });
+  };
+
+  updateDayDate(event, value) {
+    this.setState({ dayDate: value });
   };
 
   render() {
-    const {dayName} = this.state;
+    const { dayName } = this.state;
     const actions = (
       <div className='new-day-actions'>
         <RaisedButton
@@ -57,9 +63,10 @@ class Trip extends Component {
 
     return (
       <main>
-        <Menu/>
+        <Menu />
         <section className='trip'>
           <h1>Current Trip</h1>
+          <br />
           <RaisedButton label="Add day" primary={true} onClick={this.handleOpen} />
           <Dialog
             title={dayName}
@@ -72,10 +79,10 @@ class Trip extends Component {
             <TextField
               id="text-field-default"
               defaultValue={dayName}
-              onChange={(e)=>this.updateDayName(e.target.value)}
+              onChange={(e) => this.updateDayName(e.target.value)}
             />
             Select a date.
-            <DatePicker hintText="New adventure begins..." />
+            <DatePicker hintText="New adventure begins..." onChange={(x, event) => { this.updateDayDate(x, event) }} />
           </Dialog>
         </section>
       </main>
@@ -89,4 +96,4 @@ class Trip extends Component {
 //   }
 // };
 
-export default connect(null, {showGroup})(Trip);
+export default connect(null, { showGroup })(Trip);
