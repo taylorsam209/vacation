@@ -1,0 +1,11 @@
+@import 'https://fonts.googleapis.com/css?family=Permanent+Marker|Tienne';
+.new-event-actions {
+  display: grid;
+  grid-template-columns: 2;
+  grid-column-gap: 8px; }
+
+.new-event-ok {
+  grid-column: 1/2; }
+
+.new-event-cancel {
+  grid-column: 2/3; }
