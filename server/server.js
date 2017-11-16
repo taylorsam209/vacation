@@ -7,6 +7,7 @@ passport = require("passport"),
 Auth0Strategy = require("passport-auth0"),
 cors = require("cors");
 controllers = require('./controllers');
+tripController = require('./tripController');
 
 const PORT = 3010;
 const app = express();
@@ -86,9 +87,10 @@ app.delete('/api/trip/:id', controllers.deleteTrip)
 
 //Endpoints for trip/current trip Component
 app.get('/api/trip/days/:id', controllers.getAllDays)
-
-
-
+app.get('/api/trip/day/:id', tripController.getDay);
+app.post('/api/trip/day', tripController.addDay);
+app.put('/api/trip/day', tripController.editDay);
+app.delete('/api/trip/day/:id', tripController.deleteDay);
 
 
 
