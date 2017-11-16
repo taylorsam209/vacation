@@ -7,6 +7,7 @@ import Menu from '../Menu/Menu.js';
 import RaisedButton from 'material-ui/RaisedButton';
 import DatePicker from 'material-ui/DatePicker';
 import Dialog from 'material-ui/Dialog';
+import TextField from 'material-ui/TextField';
 
 class Trip extends Component {
   constructor(props){
@@ -66,9 +67,10 @@ class Trip extends Component {
             open={this.state.open}
             onRequestClose={this.handleClose}
           >
-            <input
-              type='text'
-              placeholder={dayName}
+
+            <TextField
+              id="text-field-default"
+              defaultValue={dayName}
               onChange={(e)=>this.updateDayName(e.target.value)}
             />
             Select a date.
