@@ -2,10 +2,11 @@
 
 .menu {
   background: $mediumColor;
-  height: 8vh;
+  height: 46px;
   display: grid;
   grid-template-columns: 2fr repeat(4, 1fr) 2fr;
   margin-bottom: 10px;
+
 
   h2 {
     color: $lighterColor;
@@ -26,7 +27,6 @@
 
 .noti-icon {
   color: $lighterColor;
-  font-size: 48px;
   grid-column: 5/6;
   justify-self: center;
   align-self: center;
