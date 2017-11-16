@@ -1,15 +1,22 @@
 import axios from "axios";
 
-const initialState = {
-  groupOpen: false,
-  notiOpen: false,
-  gIcon: true,
-  newTripOpen: false
-}
-  , G_ICON_CHANGE = 'G_ICON_CHANGE',
-  NOTI_TOGGLE = 'NOTI_TOGGLE',
-  GROUP_TOGGLE = 'GROUP_TOGGLE',
-  NEW_TRIP = 'NEW_TRIP';
+const url = '/api/';
+const ab = require('./actionBuilders');
+const {getTrip} = ab;
+
+const G_ICON_CHANGE = 'G_ICON_CHANGE'
+    , NOTI_TOGGLE = 'NOTI_TOGGLE'
+    , GROUP_TOGGLE = 'GROUP_TOGGLE'
+    , NEW_TRIP = 'NEW_TRIP'
+    , UPDATE_CURRENT_TRIP = 'UPDATE_CURRENT_TRIP'
+    , _FULFILLED = '_FULFILLED'
+    , initialState = {
+        groupOpen: false,
+        notiOpen: false,
+        gIcon: true,
+        newTripOpen: false,
+        currentTrip: null
+      };
 
 export function showGroup(value) {
   console.log("Hit Redux showGroup")
@@ -18,6 +25,7 @@ export function showGroup(value) {
     payload: value
   }
 }
+
 export function showNoti(value) {
   console.log("Hit Redux showNoti")
   return {
@@ -41,6 +49,16 @@ export function newTripModal(value) {
     payload: value
   }
 }
+
+export function updateCurrentTrip(id) {
+  return getTrip(url, id).then(res=>{
+    return {
+      type: UPDATE_CURRENT_TRIP,
+      payload: res
+    };
+  });
+}
+
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case G_ICON_CHANGE:
@@ -50,7 +68,9 @@ export default function reducer(state = initialState, action) {
     case NOTI_TOGGLE:
       return Object.assign({}, state, { notiOpen: action.payload });
     case NEW_TRIP:
-      return Object.assign({}, state, { newTripOpen: action.payload })
+      return Object.assign({}, state, { newTripOpen: action.payload });
+    case UPDATE_CURRENT_TRIP + _FULFILLED:
+      return Object.assign({}, state, {currentTrip: action.payload});
     default:
       return state;
   }
