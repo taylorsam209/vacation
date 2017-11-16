@@ -2,7 +2,7 @@ const ab = require('./actionBuilders');
 
 const url = 'http://localhost:3010/api/';
 
-describe('Test getTrip(id):', ()=>{
+describe('Test getTrip(url, trip_id):', ()=>{
   /* Test Author: Scott */
   test('Check if getTrip returns a trip object.', ()=>{
     expect.assertions(1); // Expects one expect from the promise
@@ -26,6 +26,15 @@ describe('Test getTrip(id):', ()=>{
         }
       })
       expect(flag).toEqual(false); // fails if the flag is true
+    });
+  });
+});
+
+describe('Test getAllTrips(url, user_id)', ()=>{
+  test('Check if getAllTrips returns an array.', ()=>{
+    expect.assertions(1);
+    return ab.getAllTrips(url, 1).then(res=>{
+      expect(Array.isArray(res)).toEqual(true);
     });
   });
 });
