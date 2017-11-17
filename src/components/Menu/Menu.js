@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { showGroup, showNoti, groupShow } from '../../ducks/reducer';
+import { showGroup, showNoti, groupShow } from '../../ducks/frontEnd';
 import { connect } from 'react-redux';
 import './Menu.css';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -10,7 +10,6 @@ import GroupIcon from 'material-ui/svg-icons/social/group';
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
-
 
 const richBlack = '#02111b';
 const dodgerBlue = '#1098f7';
@@ -53,7 +52,7 @@ class Menu extends Component {
     const tempArr = ["Logan", "Taylor", "Jared", "Scott", "Logan", "Taylor", "Jared", "Scott", "Logan", "Taylor", "Jared", "Scott"]
     return tempArr.map((e, i, arr) => {
       return (
-        <div>
+        <div key={i}>
           {e}
         </div>
       )
@@ -72,12 +71,12 @@ class Menu extends Component {
         </Link>
 
         {
-          gIcon ?
+          gIcon &&
             <GroupIcon
               className='group-icon'
               color='white'
               onClick={() => { this.handleGroupToggle() }}
-            /> : null
+            />
         }
 
         <NotificationsIcon
@@ -90,7 +89,7 @@ class Menu extends Component {
           <RaisedButton
             label='Logout'
             labelColor='white'
-            backgroundColor={dodgerBlue}
+            primary={true}
             style={{ margin: '5px' }}
           />
         </a>
@@ -120,9 +119,9 @@ class Menu extends Component {
 
 function mapStateToProps(state) {
   return {
-    groupOpen: state.groupOpen,
-    notiOpen: state.notiOpen,
-    gIcon: state.gIcon
+    groupOpen: state.frontEnd.groupOpen,
+    notiOpen: state.frontEnd.notiOpen,
+    gIcon: state.frontEnd.gIcon
   }
 }
 
