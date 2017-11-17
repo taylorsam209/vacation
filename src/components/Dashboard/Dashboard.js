@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Menu from '../Menu/Menu.js';
-import { showGroup, newTripModal } from '../../ducks/reducer';
+import { showGroup, newTripModal } from '../../ducks/frontEnd';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import DatePicker from 'material-ui/DatePicker';
@@ -210,8 +210,8 @@ class Dashboard extends Component {
 
 function mapStateToProps(state) {
     return {
-        gIcon: state.gIcon,
-        newTripOpen: state.newTripOpen
+        gIcon: state.frontEnd.gIcon,
+        newTripOpen: state.frontEnd.newTripOpen
     }
 }
 

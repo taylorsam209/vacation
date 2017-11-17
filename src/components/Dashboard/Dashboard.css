@@ -1,0 +1,11 @@
+.new-day-actions {
+  display: grid;
+  grid-template-columns: 2;
+  grid-column-gap: 8px; }
+
+.new-day-ok {
+  grid-column: 1/2; }
+
+.new-day-cancel {
+  grid-column: 2/3;
+  color: #ffbb62; }
