@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { showGroup, showNoti, groupShow } from '../../ducks/reducer';
+import { showGroup, showNoti, groupShow } from '../../ducks/frontEnd';
 import { connect } from 'react-redux';
 import './Menu.css';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -119,9 +119,9 @@ class Menu extends Component {
 
 function mapStateToProps(state) {
   return {
-    groupOpen: state.groupOpen,
-    notiOpen: state.notiOpen,
-    gIcon: state.gIcon
+    groupOpen: state.frontEnd.groupOpen,
+    notiOpen: state.frontEnd.notiOpen,
+    gIcon: state.frontEnd.gIcon
   }
 }
 
