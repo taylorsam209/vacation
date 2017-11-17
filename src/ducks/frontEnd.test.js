@@ -70,23 +70,47 @@ describe('Test addTrip(url, obj):', ()=>{
   });
 });
 
-describe('Test deleteTrip(url, trip_id):', ()=>{
-  /* Test Author: Scott */
-  test('Check if deleteTrip deletes a trip with the matching trip_id', ()=>{
+// describe('Test deleteTrip(url, trip_id):', ()=>{
+//   /* Test Author: Scott */
+//   test('Check if deleteTrip deletes a trip with the matching trip_id', ()=>{
+//     expect.assertions(1);
+//     let flag = false;
+//     let newTripId = 0;
+//     return ab.addTrip(url, {user_id: 1}).then(res=>{
+//       newTripId = res[res.length-1].trip_id;
+//       const intialLength = res.length;
+//       return ab.deleteTrip(url, newTripId).then(res=>{
+//         res.forEach(trip=>{
+//           if(trip.trip_id === newTripId){
+//             flag = true;
+//           }
+//         });
+//         expect(flag).toEqual(false);
+//       });
+//     });
+//   });
+// });
+
+describe('Test to getAllDays(url, trip_id):', () => {
+  // Test Author: Jared
+  test('Check if getAllDays returns an array', () => {
     expect.assertions(1);
     let flag = false;
-    let newTripId = 0;
-    return ab.addTrip(url, {user_id: 1}).then(res=>{
-      newTripId = res[res.length-1].trip_id;
-      const intialLength = res.length;
-      return ab.deleteTrip(url, newTripId).then(res=>{
-        res.forEach(trip=>{
-          if(trip.trip_id === newTripId){
-            flag = true;
-          }
-        });
-        expect(flag).toEqual(false);
-      });
-    });
-  });
-});
+
+    return ab.getAllDays(url, 1).then(res => {
+      expect(Array.isArray(res)).toEqual(true);
+    })
+  })
+})
+
+describe('Test editDay(url, obj):', () => {
+  //Test Author: Jared
+  test('Check that the day edited is returned', () => {
+    expect.assertions(1);
+    let newVal = {"date": "03/29/2099", "day_id": 2}
+
+    return ab.editDay(url, newVal).then(res => {
+      expect(res[0].day_id).toEqual(2)
+    })
+  })
+})
