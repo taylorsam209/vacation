@@ -5,12 +5,7 @@ import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import DatePicker from 'material-ui/DatePicker';
 import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-
-const richBlack = '#02111b';
-const dodgerBlue = '#1098f7';
-const green = '#00825D'
 
 class Dashboard extends Component {
     constructor() {
@@ -40,14 +35,13 @@ class Dashboard extends Component {
 
     componentDidMount() {
         this.props.showGroup(false);
-        console.log("gIcon Results:", this.props.showGroup)
     }
 
     handleTrips() {
         const tempArr = ["Logan", "Taylor", "Jared", "Scott", "Logan", "Taylor", "Jared", "Scott", "Logan", "Taylor", "Jared", "Scott"]
         return tempArr.map((e, i, arr) => {
             return (
-                <div>
+                <div key={i}>
                     {e}
                 </div>
             )
@@ -55,7 +49,6 @@ class Dashboard extends Component {
     }
 
     handleOpen = () => {
-        console.log("New Trip Modal Opened")
         this.props.newTripModal(true);
     };
 
@@ -90,7 +83,7 @@ class Dashboard extends Component {
     }
 
     validationName() {
-        if (this.state.tripName == '') {
+        if (this.state.tripName === '') {
             return (
                 <div>
                     <TextField required

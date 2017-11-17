@@ -31,7 +31,6 @@ class Trip extends Component {
 
   handleClose() {
     this.setState({ open: false });
-    console.log("State Date", this.state.dayDate)
   };
 
   updateDayName(value) {

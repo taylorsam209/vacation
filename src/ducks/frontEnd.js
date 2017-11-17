@@ -3,21 +3,21 @@ import axios from "axios";
 
 const url = '/api/';
 const ab = require('./frontEndABs');
-const {getTrip} = ab;
+const { getTrip } = ab;
 
 const G_ICON_CHANGE = 'G_ICON_CHANGE'
-    , NOTI_TOGGLE = 'NOTI_TOGGLE'
-    , GROUP_TOGGLE = 'GROUP_TOGGLE'
-    , NEW_TRIP = 'NEW_TRIP'
-    , UPDATE_CURRENT_TRIP = 'UPDATE_CURRENT_TRIP'
-    , _FULFILLED = '_FULFILLED'
-    , initialState = {
-        groupOpen: false,
-        notiOpen: false,
-        gIcon: true,
-        newTripOpen: false,
-        currentTrip: null
-      };
+  , NOTI_TOGGLE = 'NOTI_TOGGLE'
+  , GROUP_TOGGLE = 'GROUP_TOGGLE'
+  , NEW_TRIP = 'NEW_TRIP'
+  , UPDATE_CURRENT_TRIP = 'UPDATE_CURRENT_TRIP'
+  , _FULFILLED = '_FULFILLED'
+  , initialState = {
+    groupOpen: false,
+    notiOpen: false,
+    gIcon: true,
+    newTripOpen: false,
+    currentTrip: null
+  };
 
 const FULFILLED = '_FULFILLED';
 const GET_LISTINGS = 'GET_LISTINGS';
@@ -61,7 +61,7 @@ export function newTripModal(value) {
 }
 
 export function updateCurrentTrip(id) {
-  return getTrip(url, id).then(res=>{
+  return getTrip(url, id).then(res => {
     return {
       type: UPDATE_CURRENT_TRIP,
       payload: res
@@ -80,7 +80,7 @@ export default function reducer(state = initialState, action) {
     case NEW_TRIP:
       return Object.assign({}, state, { newTripOpen: action.payload });
     case UPDATE_CURRENT_TRIP + _FULFILLED:
-      return Object.assign({}, state, {currentTrip: action.payload});
+      return Object.assign({}, state, { currentTrip: action.payload });
     default:
       return state;
   }

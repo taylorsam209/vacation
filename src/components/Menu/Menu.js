@@ -11,36 +11,31 @@ import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 
-const richBlack = '#02111b';
-const dodgerBlue = '#1098f7';
-const green = '#00825D'
-
 class Menu extends Component {
 
   handleNotiToggle() {
     if (this.props.groupOpen) {
       this.handleGroupToggle();
-      this.props.showNoti(!this.props.notiOpen); console.log("It Hit");
+      this.props.showNoti(!this.props.notiOpen);
     } else {
-      this.props.showNoti(!this.props.notiOpen); console.log("It Hit");
+      this.props.showNoti(!this.props.notiOpen);
     }
   }
 
   handleGroupToggle() {
     if (this.props.notiOpen) {
       this.handleNotiToggle();
-      this.props.groupShow(!this.props.groupOpen); console.log("It Hit")
+      this.props.groupShow(!this.props.groupOpen);
     } else {
-      this.props.groupShow(!this.props.groupOpen); console.log("It Hit")
+      this.props.groupShow(!this.props.groupOpen);
     }
   }
 
   handleGroup() {
-    console.log("Group Attempt")
     const tempArr = ["Logan", "Taylor", "Jared", "Scott", "Logan", "Taylor", "Jared", "Scott", "Logan", "Taylor", "Jared", "Scott"]
     return tempArr.map((e, i, arr) => {
       return (
-        <div>
+        <div key={i}>
           {e}
         </div>
       )
@@ -48,7 +43,6 @@ class Menu extends Component {
   }
 
   handleNoti() {
-    console.log("Group Attempt")
     const tempArr = ["Logan", "Taylor", "Jared", "Scott", "Logan", "Taylor", "Jared", "Scott", "Logan", "Taylor", "Jared", "Scott"]
     return tempArr.map((e, i, arr) => {
       return (
@@ -61,7 +55,6 @@ class Menu extends Component {
 
   render() {
     const { gIcon } = this.props;
-    console.log(gIcon)
     return (
       <nav className='menu'>
         <Link to='/dashboard' className='logo-font'>
@@ -72,11 +65,11 @@ class Menu extends Component {
 
         {
           gIcon &&
-            <GroupIcon
-              className='group-icon'
-              color='white'
-              onClick={() => { this.handleGroupToggle() }}
-            />
+          <GroupIcon
+            className='group-icon'
+            color='white'
+            onClick={() => { this.handleGroupToggle() }}
+          />
         }
 
         <NotificationsIcon

@@ -19,11 +19,15 @@ class Day extends Component {
       eventName: 'New Event',
       dayName: '',
       dayDate: '',
-      value: 1
+      value: 1,
+      inputOne: '',
+      inputTwo: ''
     }
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleEventType = this.handleEventType.bind(this);
+    this.updateInputOne = this.updateInputOne.bind(this);
+    // this.handleRestarauntSearch = this.handleRestarauntSearch.bind(this);
   }
 
   componentDidMount() {
@@ -38,18 +42,115 @@ class Day extends Component {
 
   handleClose() {
     this.setState({ open: false });
+    this.makeBlank();
   };
+
+  makeBlank() {
+    this.setState({
+      inputOne: '',
+      inputTwo: ''
+    })
+  }
+
+  // handleRestarauntSearch() {
+
+  // }
 
   updateEventName(value) {
     this.setState({ eventName: value });
   };
 
-  handleEventType() {
-    // if (this.state.value === 1) {
-    //   return (
+  updateInputOne(value) {
+    this.setState({ inputOne: value })
+  }
 
-    //   )
-    // }
+  updateInputTwo(value) {
+    this.setState({ inputTwo: value })
+  }
+
+
+  handleEventType() {
+    if (this.state.value === 1) {
+      return (
+        <div>
+          <TextField
+            hintText="Confirmation Number"
+            id="text-field-default-event"
+            defaultValue={this.state.inputOne}
+            onChange={(e) => this.updateInputOne(e.target.value)}
+          />
+          <TextField
+            hintText="Flight Airline"
+            id="text-field-default-event"
+            defaultValue={this.state.inputTwo}
+            onChange={(e) => this.updateInputTwo(e.target.value)}
+          />
+        </div>
+      )
+    } else if (this.state.value === 2) {
+      return (
+        <div>
+          <TextField
+            hintText="Rental Company"
+            id="text-field-default-event"
+            defaultValue={this.state.inputOne}
+            onChange={(e) => this.updateInputOne(e.target.value)}
+          />
+          <TextField
+            hintText="Rental Company Details"
+            id="text-field-default-event"
+            defaultValue={this.state.inputTwo}
+            onChange={(e) => this.updateInputTwo(e.target.value)}
+          />
+        </div>
+      )
+    } else if (this.state.value === 3) {
+      return (
+        <div>
+          <TextField
+            hintText="Lodge/Hotel Name"
+            id="text-field-default-event"
+            defaultValue={this.state.inputOne}
+            onChange={(e) => this.updateInputOne(e.target.value)}
+          />
+          <TextField
+            hintText="Lodging Details"
+            id="text-field-default-event"
+            defaultValue={this.state.inputTwo}
+            onChange={(e) => this.updateInputTwo(e.target.value)}
+          />
+        </div>
+      )
+    } else if (this.state.value === 4) {
+      return (
+        <div>
+          <TextField
+            hintText="Restaraunt Name"
+            id="text-field-default-event"
+            defaultValue={this.state.inputOne}
+            onChange={(e) => this.updateInputOne(e.target.value)}
+          />
+          <RaisedButton label="Search" primary={true} onClick={() => { this.handleRestarauntSearch() }} />
+        </div>
+      )
+    } else if (this.state.value === 5) {
+      return (
+        <div>
+          <TextField
+            hintText="Activity Name"
+            id="text-field-default-event"
+            defaultValue={this.state.inputOne}
+            onChange={(e) => this.updateInputOne(e.target.value)}
+          />
+          <TextField
+            hintText="Activity Details"
+            id="text-field-default-event"
+            defaultValue={this.state.inputTwo}
+            onChange={(e) => this.updateInputTwo(e.target.value)}
+          />
+        </div>
+      )
+    }
   }
 
   render() {
@@ -97,8 +198,6 @@ class Day extends Component {
               defaultValue={eventName}
               onChange={(e) => this.updateEventName(e.target.value)}
             />
-            Select a date.
-            <DatePicker hintText="This event starts on..." />
             {this.handleEventType()}
           </Dialog>
         </section>
