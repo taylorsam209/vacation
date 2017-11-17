@@ -39,3 +39,33 @@ describe('Test getAllTrips(url, user_id)', ()=>{
     });
   });
 });
+
+describe('Test addTrip(url, obj)', ()=>{
+  /* Test Author: Scott */
+  test('Check if addTrip returns an array.', ()=>{
+    expect.assertions(1);
+    const obj = {
+      user_id: 1
+    };
+    return ab.addTrip(url, obj).then(res=>{
+      expect(Array.isArray(res)).toEqual(true);
+    });
+  });
+  /* Test Author: Scott */
+  test('Check if addTrip adds the new trip object to the array.', ()=>{
+    expect.assertions(1);
+    const obj = {
+      user_id: 1,
+      date: '12/31/2999',
+      trip_name: 'Test Object',
+      trip_code: 'test1',
+      trip_location: 'DevMountain'
+    };
+    return ab.addTrip(url, obj).then(res=>{
+      let match = res.filter(trip=>{
+        return trip.date === obj.date && trip.trip_name === obj.trip_name;
+      });
+      expect(match.length > 0).toEqual(true);
+    });
+  });
+});
