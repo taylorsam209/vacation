@@ -1,5 +1,4 @@
 import axios from "axios";
-// import swal from 'sweetalert';
 
 const url = '/api/';
 const ab = require('./frontEndABs');
@@ -18,15 +17,6 @@ const G_ICON_CHANGE = 'G_ICON_CHANGE'
         newTripOpen: false,
         currentTrip: null
       };
-
-const FULFILLED = '_FULFILLED';
-const GET_LISTINGS = 'GET_LISTINGS';
-const ADD_FAV_RESTAURANT = 'ADD_FAV_RESTAURANT';
-const ADD_CURRENT_RESTAURANT = "ADD_CURRENT_RESTAURANT";
-const GET_USER = "GET_USER";
-const CLEAR_LISTINGS = "CLEAR_LISTINGS";
-const CLEAR_RESTAURANT = "CLEAR_RESTAURANT";
-
 
 export function showGroup(value) {
   console.log("Hit Redux showGroup")
