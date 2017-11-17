@@ -92,16 +92,14 @@ class Menu extends Component {
           <GroupIcon
             className='group-icon'
             color='white'
-            onClick={() => { this.handleGroupToggle() }}
-            onClick={() => { this.handleGetGroup() }}
+            onClick={() => { this.handleGroupToggle(), this.handleGetGroup() }}
           />
         }
 
         <NotificationsIcon
           className='noti-icon'
           color='white'
-          onClick={() => { this.handleNotiToggle() }}
-          onClick={() => { this.handleGetNoti() }}
+          onClick={() => { this.handleNotiToggle(), this.handleGetNoti() }}
         />
 
         <a href={process.env.REACT_APP_LOGOUT} className='logout'>

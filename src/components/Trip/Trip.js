@@ -86,8 +86,7 @@ class Trip extends Component {
         <RaisedButton
           label="Ok"
           primary={true}
-          onClick={this.handleClose}
-          onClick={() => { this.handleAddDay() }}
+          onClick={() => { this.handleAddDay(), this.handleClose() }}
           className='new-day-ok'
         />
         <RaisedButton

@@ -178,9 +178,8 @@ class Dashboard extends Component {
                     label="Ok"
                     primary={true}
                     keyboardFocused={true}
-                    onClick={this.handleClose}
+                    onClick={() => { this.handleClose(), this.newTrip() }}
                     disabled={this.tripDisableToggle()}
-                    onClick={() => { this.newTrip() }}
                 />
                 <RaisedButton
                     label='Cancel'

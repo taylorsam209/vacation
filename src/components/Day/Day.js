@@ -192,8 +192,7 @@ class Day extends Component {
         <RaisedButton
           label="Ok"
           primary={true}
-          onClick={this.handleClose}
-          onClick={() => { this.handleAddEvent() }}
+          onClick={() => { this.handleAddEvent(), this.handleClose() }}
           className='new-event-ok'
         />
         <RaisedButton
