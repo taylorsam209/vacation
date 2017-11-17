@@ -11,52 +11,29 @@ module.exports = {
         db.day.get_all_rentals(dayId)
             .then(rentals => {
                 arr.push(rentals)
-                db.day.get_all_restaurants(dayId)
-                    .then(yelpIdList => {
-                        let favListing = [];
-                        console.log("YelpID List", yelpIdList)
-                        if (!yelpIdList.length) { res.status(200).send(favListing) }
-                        for (let i = 0; i < yelpIdList.length; i++) {
-                            let yelpId = yelpIdList[i].yelp_id;
-                            GetMyResourceData(yelpId);
-                        }
-
-                        function GetMyResourceData(yelpId) {
-                            axios.get(`https://api.yelp.com/v3/businesses/${yelpId}`,
-                                { headers: { "Authorization": `Bearer ${process.env.YELP_ACCESS_TOKEN}` } })
-                                .then(response => {
-                                    console.log("Running")
-                                    console.log(response.data)
-                                    count++
-                                    console.log(count, yelpIdList.length)
-                                    favListing.push(response.data)
-                                    if (count === yelpIdList.length) {
-                                        arr.push(response.data)
-                                    }
-                                })
-                                .catch(err => {
-                                    console.log(count, "err")
-                                    count++
-                                })
-                        }
-                        console.log('this is favListing', favListing)
-
-                        // arr.push(restaurants);
-                        db.day.get_all_lodging(dayId)
-                            .then(lodging => {
-                                arr.push(lodging);
-                                db.day.get_all_flights(dayId)
-                                    .then(flights => {
-                                        arr.push(flights);
-                                        db.day.get_all_activities(dayId)
-                                            .then(activities => {
-                                                arr.push(activities)
-                                                res.status(200).send(arr);
-                                            })
+                db.day.get_all_lodging(dayId)
+                    .then(lodging => {
+                        arr.push(lodging);
+                        db.day.get_all_flights(dayId)
+                            .then(flights => {
+                                arr.push(flights);
+                                db.day.get_all_activities(dayId)
+                                    .then(activities => {
+                                        arr.push(activities)
+                                        res.status(200).send(arr);
                                     })
                             })
                     })
             })
+    },
+
+    getFlight: (req, res) => {
+        const db = req.app.get('db');
+        const flightId = req.params.id;
+
+        db.day.get_flight(flightId)
+        .then(flight => res.status(200).send(flight))
+        .catch(() => res.status(500).send());
     },
 
     editFlight: (req, res) => {
@@ -93,5 +70,55 @@ module.exports = {
         db.day.edit_lodging([lodging_name, lodging_details, day_id])
             .then(() => res.status(200).send())
             .catch(() => res.status(500).send());
+    },
+
+    addLodging: (req, res) => {
+        const db = req.app.get('db');
+        const {lodging_name, lodging_details} = req.body;
+
+        db.day.add_lodging([lodging_name, lodging_details])
+        .then(() => res.status(200).send())
+        .catch(() => res.status(500).send())
+    },
+
+    addFlight: (req, res) => {
+        const db = req.app.get('db');
+        const {confirmation, airline_name} = req.body;
+
+        db.day.add_flight([confirmation, airline_name])
+        .then(() => res.status(200).send())
+        .catch(() => res.status(500).send());
+    },
+
+    addRentalCar: (req, res) => {
+        const db = req.app.get('db');
+        const {rental_company, rental_details} = req.body;
+
+        db.day.add_rental_car([rental_company, rental_details])
+        .then(() => res.status(200).send())
+        .catch(() => res.status(500).send());
+    },
+
+    addActivity: (req, res) => {
+        const db = req.app.get('db');
+        const {activity_name, activity_details} = req.body;
+
+        db.day.add_activity([activity_name, activity_details])
+        .then(() => res.status(200).send())
+        .catch(() => res.status(500).send());
     }
+
+    // deleteLodging: (req, res) => {
+    //     const db = req.app.get('db')
+    //     const lodgingId = req.params.id;
+
+    //     db.day.get_lodging(lodgingId)
+    //     .then(lodging => {
+    //         db.day.delete_lodging(lodgingId)
+    //         .then(() => {
+    //             res.status(200).send(lodging)
+    //         })
+    //     })
+    //     .catch(() => res.status(500).send('Cannot delete user.'))
+    // }
 }

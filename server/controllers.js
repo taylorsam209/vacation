@@ -40,11 +40,9 @@ module.exports = {
     deleteTrip: (req, res) => {
         const db = req.app.get("db")
         const tripId = req.params.id;
-        // const deletedTrip = null;
 
         db.dashboard.get_trip(tripId)
         .then(trip => {
-            // deletedTrip = trip
             db.dashboard.delete_trip(tripId)
             .then(() => {
                 res.status(200).send(trip)
