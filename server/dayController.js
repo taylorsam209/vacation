@@ -6,14 +6,42 @@ module.exports = {
         const db = req.app.get('db');
         const dayId = req.params.id;
         const arr = [];
-
+        var count = 0;
 
         db.day.get_all_rentals(dayId)
             .then(rentals => {
                 arr.push(rentals)
                 db.day.get_all_restaurants(dayId)
-                    .then(restaurants => {
-                        arr.push(restaurants);
+                    .then(yelpIdList => {
+                        let favListing = [];
+                        console.log("YelpID List", yelpIdList)
+                        if (!yelpIdList.length) { res.status(200).send(favListing) }
+                        for (let i = 0; i < yelpIdList.length; i++) {
+                            let yelpId = yelpIdList[i].yelp_id;
+                            GetMyResourceData(yelpId);
+                        }
+
+                        function GetMyResourceData(yelpId) {
+                            axios.get(`https://api.yelp.com/v3/businesses/${yelpId}`,
+                                { headers: { "Authorization": `Bearer ${process.env.YELP_ACCESS_TOKEN}` } })
+                                .then(response => {
+                                    console.log("Running")
+                                    console.log(response.data)
+                                    count++
+                                    console.log(count, yelpIdList.length)
+                                    favListing.push(response.data)
+                                    if (count === yelpIdList.length) {
+                                        arr.push(response.data)
+                                    }
+                                })
+                                .catch(err => {
+                                    console.log(count, "err")
+                                    count++
+                                })
+                        }
+                        console.log('this is favListing', favListing)
+
+                        // arr.push(restaurants);
                         db.day.get_all_lodging(dayId)
                             .then(lodging => {
                                 arr.push(lodging);
