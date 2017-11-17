@@ -6,6 +6,12 @@ import RaisedButton from 'material-ui/RaisedButton';
 import DatePicker from 'material-ui/DatePicker';
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
+import { addTrip, getAllTrips, getAllDays } from '../../ducks/frontEndABs.js';
+import IconButton from 'material-ui/IconButton';
+import ActionCancel from 'material-ui/svg-icons/navigation/cancel';
+import ContentCreate from 'material-ui/svg-icons/content/create';
+import { Link } from "react-router-dom";
+
 
 class Dashboard extends Component {
     constructor() {
@@ -30,22 +36,31 @@ class Dashboard extends Component {
         this.handleTripLocation = this.handleTripLocation.bind(this);
         this.tripDisableToggle = this.tripDisableToggle.bind(this);
         this.newTrip = this.newTrip.bind(this);
+        this.handleTripDelete = this.handleTripDelete.bind(this);
 
     }
 
     componentDidMount() {
         this.props.showGroup(false);
+        // this.props.getAllTrips();
     }
 
     handleTrips() {
-        const tempArr = ["Logan", "Taylor", "Jared", "Scott", "Logan", "Taylor", "Jared", "Scott", "Logan", "Taylor", "Jared", "Scott"]
-        return tempArr.map((e, i, arr) => {
-            return (
-                <div key={i}>
-                    {e}
-                </div>
-            )
-        })
+        // return this.props.tripArr.map((e, i, arr) => {
+        //     return (
+        //         <div key={i}>
+        //             {e}
+        //             <IconButton tooltip="top-center" touch={true} tooltipPosition="top-center" onClick={() => { this.handleTripDelete() }}>
+        //                 <ActionCancel />
+        //             </IconButton>
+        //             <Link to='/trip' className='logo-font' onClick={() => { this.props.getAllDays }}>
+        // <IconButton tooltip="top-center" touch={true} tooltipPosition="top-center">
+        //                  <ContentCreate />
+        //             </IconButton>
+        // </Link>
+        //         </div>
+        //     )
+        // })
     }
 
     handleOpen = () => {
@@ -142,7 +157,18 @@ class Dashboard extends Component {
     }
 
     newTrip() {
+        const tripVar = [this.state.tripDate, this.state.tripName, this.state.tripCode, this.state.tripDetails, this.state.tripLocation]
+        let tempTripArr = []
+        for (let i = 0; i < tripVar.length; i++) {
+            if (tripVar[i] !== '') {
+                tempTripArr.push(tripVar[i])
+            }
+        }
+        this.props.addTrip(tempTripArr)
+    }
 
+    handleTripDelete(e) {
+        this.props.deleteTrip(e)
     }
 
     render() {
@@ -154,7 +180,7 @@ class Dashboard extends Component {
                     keyboardFocused={true}
                     onClick={this.handleClose}
                     disabled={this.tripDisableToggle()}
-                // onClick={() => { this.newTrip() }}
+                    onClick={() => { this.newTrip() }}
                 />
                 <RaisedButton
                     label='Cancel'
@@ -208,4 +234,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { showGroup, newTripModal })(Dashboard);
+export default connect(mapStateToProps, { showGroup, newTripModal, addTrip, getAllTrips, getAllDays })(Dashboard);

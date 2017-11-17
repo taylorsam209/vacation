@@ -5,11 +5,15 @@ import { showGroup } from '../../ducks/frontEnd';
 /* Components*/
 import Menu from '../Menu/Menu.js';
 import RaisedButton from 'material-ui/RaisedButton';
-import DatePicker from 'material-ui/DatePicker';
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
+import IconButton from 'material-ui/IconButton';
+import ActionCancel from 'material-ui/svg-icons/navigation/cancel';
+import { addEvent, getAllEvents, deleteEvent } from '../../ducks/frontEndABs.js';
+import { Link } from "react-router-dom";
+
 
 class Day extends Component {
   constructor(props) {
@@ -17,22 +21,49 @@ class Day extends Component {
     this.state = {
       open: false,
       eventName: 'New Event',
-      dayName: '',
-      dayDate: '',
       value: 1,
       inputOne: '',
-      inputTwo: ''
+      inputTwo: '',
+
     }
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleEventType = this.handleEventType.bind(this);
     this.updateInputOne = this.updateInputOne.bind(this);
+    this.updateInputTwo = this.updateInputTwo.bind(this);
+    this.handleAddEvent = this.handleAddEvent.bind(this);
+    this.handleGetAllEvents = this.handleGetAllEvents.bind(this);
+    this.handleEventDelete = this.handleEventDelete.bind(this);
     // this.handleRestarauntSearch = this.handleRestarauntSearch.bind(this);
   }
 
   componentDidMount() {
     this.props.showGroup(true);
+    this.props.getAllEvents;
   }
+
+  handleAddEvent() {
+    const eventArr = [this.state.eventName, this.state.inputOne, this.state.inputTwo, this.state.value]
+    this.props.addEvent(eventArr)
+  }
+
+  handleGetAllEvents() {
+    // return this.props.daysArr.map((e, i, arr) => {
+    //       return (
+    //           <div key={i}>
+    //               {e}
+    //               <IconButton tooltip="top-center" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventDelete() }}>
+    //                   <ActionCancel />
+    //               </IconButton>
+    //           </div>
+    //       )
+    //   })
+  }
+
+  handleEventDelete(e) {
+    this.props.deleteEvent(e)
+  }
+
 
   handleChange = (event, index, value) => this.setState({ value });
 
@@ -162,6 +193,7 @@ class Day extends Component {
           label="Ok"
           primary={true}
           onClick={this.handleClose}
+          onClick={() => { this.handleAddEvent() }}
           className='new-event-ok'
         />
         <RaisedButton
@@ -179,6 +211,7 @@ class Day extends Component {
           <h1>Day</h1>
           <br />
           <RaisedButton label="Add event" primary={true} onClick={this.handleOpen} />
+          {this.handleGetAllEvents()}
           <Dialog
             title={eventName}
             actions={actions}
