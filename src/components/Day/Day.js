@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux'
 import './Day.css';
-import { showGroup } from '../../ducks/reducer';
+import { showGroup } from '../../ducks/frontEnd';
 /* Components*/
 import Menu from '../Menu/Menu.js';
 import RaisedButton from 'material-ui/RaisedButton';
