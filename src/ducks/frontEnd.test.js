@@ -30,7 +30,7 @@ describe('Test getTrip(url, trip_id):', ()=>{
   });
 });
 
-describe('Test getAllTrips(url, user_id)', ()=>{
+describe('Test getAllTrips(url, user_id):', ()=>{
   /* Test Author: Scott */
   test('Check if getAllTrips returns an array.', ()=>{
     expect.assertions(1);
@@ -40,7 +40,7 @@ describe('Test getAllTrips(url, user_id)', ()=>{
   });
 });
 
-describe('Test addTrip(url, obj)', ()=>{
+describe('Test addTrip(url, obj):', ()=>{
   /* Test Author: Scott */
   test('Check if addTrip returns an array.', ()=>{
     expect.assertions(1);
@@ -66,6 +66,27 @@ describe('Test addTrip(url, obj)', ()=>{
         return trip.date === obj.date && trip.trip_name === obj.trip_name;
       });
       expect(match.length > 0).toEqual(true);
+    });
+  });
+});
+
+describe('Test deleteTrip(url, trip_id):', ()=>{
+  /* Test Author: Scott */
+  test('Check if deleteTrip deletes a trip with the matching trip_id', ()=>{
+    expect.assertions(1);
+    let flag = false;
+    let newTripId = 0;
+    return ab.addTrip(url, {user_id: 1}).then(res=>{
+      newTripId = res[res.length-1].trip_id;
+      const intialLength = res.length;
+      return ab.deleteTrip(url, newTripId).then(res=>{
+        res.forEach(trip=>{
+          if(trip.trip_id === newTripId){
+            flag = true;
+          }
+        });
+        expect(flag).toEqual(false);
+      });
     });
   });
 });
