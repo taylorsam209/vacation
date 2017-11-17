@@ -14,14 +14,14 @@
 .left-content-container {
     height: 100%;
     width:40%;
-    background-color: $color-dark; 
+    background-color: green; 
 
 }
 
 .right-content-container {
     min-height: 100%;
     width: 90%;
-    background-color: $color-dark;
+    background-color: green;
     margin: 20px auto 20px auto;
     display: flex;
     flex-wrap: wrap;
@@ -44,7 +44,7 @@
     margin:20px;
     align-content: center;
     justify-content: space-around;
-    font-family: $font-family-elegant;
+    font-family: sans-serif;
     -webkit-animation-name: fadeInUp;
     animation-name: fadeInUp;
     -webkit-animation-duration: 1s;
@@ -94,7 +94,7 @@ color: rgb(101, 150, 248);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: $font-family-bold;
+    font-family: sans-serif;
     font-size: 1.25em;
 }
 

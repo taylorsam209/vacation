@@ -5,7 +5,7 @@ const initialState = {
     listing: [],
     currentRestaurant: [],
     user: {},
-    yelpId: 0
+    yelpId: ''
 }
 
 const FULFILLED = '_FULFILLED';
@@ -63,32 +63,16 @@ export function getCurrentUser() {
     }
 }
 
-export function addRestaurant(userId, restaurant) {
-    console.log("this is addfav", userId)
+export function addRestaurant(dayId, yelpId) {
+    console.log("Add Restaurant Function", dayId)
     const data = {
-        userId: userId,
-        yelpId: restaurant
+        dayId: dayId,
+        yelpId: yelpId
     }
-    if (data.userId === undefined) {
-        // swal("User not found.", "Please login to add favorite restaurants.", "error")
-        alert("User not found. Login.")
-        return {
-            type: ADD_RESTAURANT
-        }
-    } else
-        axios.post('/api/addRestaurant', data).then(response => {
-            console.log(response.data)
-            if (response.data === "success") {
-                // swal("Added to favorites!", "Go to profile to view your list!", "success")
-                alert("Add successful")
-            }
-            else {
-                // swal("Attention", "Business already exists in your profile.", "warning")
-                alert("restaurant exist!")
-            }
-        }).catch(err => {
-            console.log("Create user error", err)
-        })
+    axios.post('/api/restaurant', data).then(response => {
+        console.log(response.data)
+        return response.data;
+    })
     return {
         type: ADD_RESTAURANT
     }
@@ -99,7 +83,7 @@ export default function reducer(state = initialState, action) {
         case SEARCH_RESTAURANTS + FULFILLED:
             return Object.assign({}, state, { listing: action.payload })
         case GET_RESTAURANT + FULFILLED:
-            return Object.assign({}, state, { currentRestaurant: action.payload }) 
+            return Object.assign({}, state, { currentRestaurant: action.payload })
         case GET_USER + FULFILLED:
             return Object.assign({}, state, { user: action.payload })
         case ADD_RESTAURANT + FULFILLED:
@@ -109,6 +93,6 @@ export default function reducer(state = initialState, action) {
         case CLEAR_RESTAURANT:
             return Object.assign({}, state, { currentRestaurant: action.payload })
         default:
-            return state;          
+            return state;
     }
 }

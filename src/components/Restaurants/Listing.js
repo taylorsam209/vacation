@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Listing.css';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Menu from "../Menu/Menu";
 import { getRestaurant, addRestaurant, clearRestaurant } from '../../ducks/restaurant';
 
 class Listing extends Component {
@@ -14,12 +15,13 @@ class Listing extends Component {
   }
 
   render() {
-    console.log(this.props.listings)
+    console.log(this.props.listing)
     
     return (
       <div className="Listing">
+      <Menu />
         <div className="right-content-container">
-          {this.props.listings.map((e, i, arr) => {
+          {this.props.listing.map((e, i, arr) => {
             return (
               <div key={i} className="listings-container">
                 <img className="listing-photo" src={e.image_url} alt="none available" />
@@ -36,7 +38,7 @@ class Listing extends Component {
                   <h4>Price range: {e.price} </h4>
                   <h4> Yelp rating: {e.rating} </h4>
                 </div>
-                <div className="add-listing-button" onClick={() => { this.props.addRestaurant(this.props.user.id, e.id) }}>Save</div>
+             {/* <div className="add-listing-button" onClick={() => { this.props.addRestaurant(day_id, e.id) }}>Save</div> needs Day_ID to be passed into add Rest function  */}
               </div>
             )
           })}
@@ -50,7 +52,7 @@ class Listing extends Component {
 function mapStateToProps(state) {
   console.log(state)
   return {
-    listings: state.restaurant.listings,
+    listing: state.restaurant.listing,
     user: state.restaurant.user,
     currentRestaurant: state.restaurant.currentRestaurant
   }
