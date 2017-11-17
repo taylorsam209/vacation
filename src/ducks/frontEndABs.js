@@ -50,26 +50,126 @@ module.exports = {
 
   /* Creates posts a new day object, object requires a trip_id and date */
   addDay(url, obj) {
-    return axios.post(`${url}trip/day`).then(res=>{
+    return axios.post(`${url}trip/day`, obj).then(res=>{
+      return res.data;
+    });
+  },
+
+  /* Updates the date of a day object saved on the server, requires
+     an object with a day_id and a date */
+  editDay(url, obj) {
+    return axios.put(`${url}trip/day`, obj).then(res=>{
+      return res.data;
+    });
+  },
+
+  /* Deletes a trip by trip_id */
+  deleteDay(url, trip_id){
+    return axios.delete(`${url}trip/${trip_id}`).then(res=>{
+      return res.data;
+    });
+  },
+
+//Day Component
+
+  /* Returns an array of arrays by day_id.
+     Each inner array is an array of
+     flight, rental car, activity,
+     lodging or restaurant objects */
+  getEvents(url, day_id){
+    return axios.get(`${url}day/events/${day_id}`).then(res=>{
+      return res.data;
+    });
+  },
+
+  /* Post a new flight */
+  addFlight(url){
+
+  },
+
+  editFlight(url){
+
+  },
+
+  deleteFlight(url){
+
+  },
+
+  addRentalCar(url){
+
+  },
+
+  editRentalCar(url){
+
+  },
+
+  deleteRentalCar(url){
+
+  },
+
+  addActivity(url){
+
+  },
+
+  editActivity(url){
+
+  },
+
+  deleteActivity(url){
+
+  },
+
+  addLodging(url){
+
+  },
+
+  editLodging(url){
+
+  },
+
+  deleteLodging(url){
+
+  },
+
+// Noti
+
+  /* Returns an array of all notifications by trip_id */
+  getNotifications(url, trip_id){
+    return axios.get(`${url}notify/${trip_id}`).then(res=>{
+      return res.data;
+    });
+  },
+
+  /* Posts a new notificaton object. Returns a string:
+      'Notification successfully created.'
+     Object requires trip_id, user_id and notification_text */
+  addNotification(url, obj){
+    return axios.post(`${url}notify`, obj).then(res=>{
+      return res.data;
+    });
+  },
+
+  /* Deletes a notificaton by notification_id.
+     Returns a string: 'Notification successfully deleted.' */
+  deleteNotification(url, notification_id){
+    return axios.delete(`${url}notify/${notification_id}`).then(res=>{
       return res.data;
     });
   }
-
-
 };
 
 // //Endpoints for Dashboard Component
 // app.get('/api/trips/users/:id', controllers.getAllTrips) **
 // app.get('/api/trip/:id', controllers.getTrip) **
 // app.post('/api/trip', controllers.addTrip) **
-// app.delete('/api/trip/:id', controllers.deleteTrip) *
+// app.delete('/api/trip/:id', controllers.deleteTrip) **
 //
 // //Endpoints for trip/current trip Component
 // app.get('/api/trip/days/:id', controllers.getAllDays) *
 // app.get('/api/trip/day/:id', tripController.getDay); *
 // app.post('/api/trip/day', tripController.addDay); *
-// app.put('/api/trip/day', tripController.editDay);
-// app.delete('/api/trip/day/:id', tripController.deleteDay);
+// app.put('/api/trip/day', tripController.editDay); *
+// app.delete('/api/trip/day/:id', tripController.deleteDay); *
 //
 // //Endpoints for Day Component
 // // app.get('/api/day/events/:id', dayController.getEvents);
@@ -87,6 +187,6 @@ module.exports = {
 // // app.delete('api/activity/:id', dayController.deleteActivity);
 //
 // //Endpoints for Noti Component
-// app.get('/api/notify/:id', notiController.getNotifications);
-// app.post('/api/notify', notiController.addNotification);
-// app.delete('/api/notify/:id', notiController.deleteNotification);
+// app.get('/api/notify/:id', notiController.getNotifications); *
+// app.post('/api/notify', notiController.addNotification); *
+// app.delete('/api/notify/:id', notiController.deleteNotification); *
