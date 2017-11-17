@@ -11,6 +11,7 @@ const express = require("express"),
     dayController = require('./dayController'),
     notiController = require('./notiController'),
     restController = require('./restController');
+    userController = require('./userController');
 
 const PORT = 3010;
 const app = express();
@@ -31,6 +32,7 @@ app.use(passport.session());
 
 massive(process.env.CONNECTION_STRING).then(db => {
     app.set('db', db);
+    console.log('Massive is running/connected to DB.')
 })
 
 passport.use(new Auth0Strategy({
@@ -81,8 +83,13 @@ passport.deserializeUser(function (id, done) {
     db.auth.find_current_user([id])
         .then(user => {
             done(null, user[0]);
+            console.log('This is USER[0]', user[0]);
         })
 })
+
+//Endpoints to work with Users
+app.get('/api/users/:id', userController.getUser);
+app.delete('/api/users/:id', userController.deleteUser);
 
 //Endpoints for Dashboard Component
 app.get('/api/trips/users/:id', controllers.getAllTrips)
@@ -98,15 +105,17 @@ app.put('/api/trip/day', tripController.editDay);
 app.delete('/api/trip/day/:id', tripController.deleteDay);
 
 //Endpoints for Day Component
+
 app.get('/api/day/events/:id', dayController.getEvents);
+app.get('/api/flight/:id', dayController.getFlight);
 app.put('/api/flight', dayController.editFlight);
 app.put('/api/rentalcar', dayController.editRentalCar);
 app.put('/api/activity', dayController.editActivity);
 app.put('/api/lodging', dayController.editLodging);
-// app.post('/api/lodging', dayController.addLodging);
-// app.post('/api/flight', dayController.addFlight);
-// app.post('/api/rentalcar', dayController.addRentalCar);
-// app.post('/api/activity', dayController.addActivity);
+app.post('/api/lodging', dayController.addLodging);
+app.post('/api/flight', dayController.addFlight);
+app.post('/api/rentalcar', dayController.addRentalCar);
+app.post('/api/activity', dayController.addActivity);
 // app.delete('/api/lodging/:id', dayController.deleteLodging);
 // app.delete('/api/flight/:id', dayController.deleteFlight);
 // app.delete('/api/rentalcar/:id', dayController.deleteRentalCar);

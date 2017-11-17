@@ -165,7 +165,7 @@ module.exports = {
 // app.delete('/api/trip/:id', controllers.deleteTrip) **
 //
 // //Endpoints for trip/current trip Component
-// app.get('/api/trip/days/:id', controllers.getAllDays) *
+// app.get('/api/trip/days/:id', controllers.getAllDays) **
 // app.get('/api/trip/day/:id', tripController.getDay); *
 // app.post('/api/trip/day', tripController.addDay); *
 // app.put('/api/trip/day', tripController.editDay); *

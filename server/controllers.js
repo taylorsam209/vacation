@@ -41,9 +41,12 @@ module.exports = {
         const db = req.app.get("db")
         const tripId = req.params.id;
 
-        db.dashboard.delete_trip(tripId)
+        db.dashboard.get_trip(tripId)
         .then(trip => {
-            res.status(200).send(trip)
+            db.dashboard.delete_trip(tripId)
+            .then(() => {
+                res.status(200).send(trip)
+            })
         })
         .catch(() => res.status(500).send("Cannot delete trip"))
     },
