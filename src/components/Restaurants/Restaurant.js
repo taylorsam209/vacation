@@ -2,7 +2,7 @@
 // import './Restaurant.css';
 // import Nav from '../Nav/Nav';
 // import { connect } from 'react-redux';
-// import { addFavRestaurant } from '../../ducks/reducer';
+// import { addRestaurant } from '../../ducks/reducer';
 // import 'font-awesome/css/font-awesome.min.css';
 // import Carousel from "../Carousel/Carousel";
 // import Map from "../Map/Map"
@@ -23,7 +23,7 @@
 //           <h1>Phone: {display_phone}</h1>
 //           <a target="_blank" href={url} style={{ textDecoration: "none" }}><div className='yelp-btn'><i className="fa fa-yelp fa-fw" aria-hidden="true"></i>
 //             Yelp Page!</div></a>
-//           <div className="add-restaurant-btn" onClick={() => { this.props.addFavRestaurant(this.props.user.id, id) }}>Save</div>
+//           <div className="add-restaurant-btn" onClick={() => { this.props.addRestaurant(this.props.user.id, id) }}>Save</div>
 //         </div>
 //         <Map />
 //       </div>
@@ -38,4 +38,4 @@
 //   }
 // }
 
-// export default connect(mapStateToProps, { addFavRestaurant })(Restaurant);
+// export default connect(mapStateToProps, { addRestaurant })(Restaurant);
