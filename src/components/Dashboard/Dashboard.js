@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Menu from '../Menu/Menu.js';
-import { showGroup, newTripModal } from '../../ducks/frontEnd';
+import { showGroup, newTripModal, searchTripModal, getTripByCode } from '../../ducks/frontEnd';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import DatePicker from 'material-ui/DatePicker';
@@ -37,7 +37,7 @@ class Dashboard extends Component {
         this.tripDisableToggle = this.tripDisableToggle.bind(this);
         this.newTrip = this.newTrip.bind(this);
         this.handleTripDelete = this.handleTripDelete.bind(this);
-
+        this.searchTrip = this.searchTrip.bind(this);
     }
 
     componentDidMount() {
@@ -70,6 +70,12 @@ class Dashboard extends Component {
     handleClose = () => {
         this.props.newTripModal(false);
     };
+    handleSearchOpen = () => {
+        this.props.searchTripModal(true);
+    };
+    handleSearchClose = () => {
+        this.props.searchTripModal(false);
+    };
 
     handleTripName(e) {
         this.setState({
@@ -79,6 +85,11 @@ class Dashboard extends Component {
     handleTripDetails(e) {
         this.setState({
             tripDetails: e
+        })
+    }
+    handleTripSearch(e) {
+        this.setState({
+            searchText: e
         })
     }
     handleTripCode(e) {
@@ -155,6 +166,13 @@ class Dashboard extends Component {
             return true
         }
     }
+    searchTripDisableToggle() {
+        if (this.state.tripCode.length === 5) {
+            return false
+        } else {
+            return true
+        }
+    }
 
     newTrip() {
         const tripVar = [this.state.tripDate, this.state.tripName, this.state.tripCode, this.state.tripDetails, this.state.tripLocation]
@@ -169,6 +187,10 @@ class Dashboard extends Component {
 
     handleTripDelete(e) {
         this.props.deleteTrip(e)
+    }
+
+    searchTrip(e) {
+        this.props.getTripByCode(e)
     }
 
     render() {
@@ -188,10 +210,32 @@ class Dashboard extends Component {
                     className='new-day-cancel'
                 /></div>
         ];
+        const searchActions = [
+            <div className='new-day-actions'>
+                <RaisedButton
+                    label="Ok"
+                    primary={true}
+                    keyboardFocused={true}
+                    onClick={() => { this.handleSearchClose(), this.searchTrip() }}
+                    disabled={this.searchTripDisableToggle()}
+                />
+                <RaisedButton
+                    label='Cancel'
+                    secondary={true}
+                    onClick={this.handleSearchClose}
+                    className='new-day-cancel'
+                /></div>
+        ];
         return (
             <div>
                 <Menu />
                 <h1>Dashboard</h1>
+                <RaisedButton
+                    label='Search for Trip'
+                    labelColor='white'
+                    primary={true}
+                    style={{ margin: '5px' }}
+                    onClick={() => { this.handleSearchOpen() }} />
                 <RaisedButton
                     label='Plan A New Trip'
                     labelColor='white'
@@ -220,6 +264,20 @@ class Dashboard extends Component {
                     /> <br />
                     <br />
                 </Dialog>
+                <Dialog
+                    title="Enter the Five Character Code to Search"
+                    actions={searchActions}
+                    modal={false}
+                    open={this.props.searchTripOpen}
+                    onRequestClose={this.handleSearchClose}
+                >
+                    <br /> <TextField
+                        hintText="Five Character Code Here"
+                        maxLength="5"
+                        onChange={e => { this.handleTripCode(e.target.value) }}
+                    /> <br />
+                    <br />
+                </Dialog>
                 <div>{this.handleTrips()}</div>
             </div>
         )
@@ -229,8 +287,9 @@ class Dashboard extends Component {
 function mapStateToProps(state) {
     return {
         gIcon: state.frontEnd.gIcon,
-        newTripOpen: state.frontEnd.newTripOpen
+        newTripOpen: state.frontEnd.newTripOpen,
+        searchTripOpen: state.frontEnd.searchTripOpen
     }
 }
 
-export default connect(mapStateToProps, { showGroup, newTripModal, addTrip, getAllTrips, getAllDays })(Dashboard);
+export default connect(mapStateToProps, { showGroup, newTripModal, searchTripModal, addTrip, getAllTrips, getAllDays, getTripByCode })(Dashboard);
