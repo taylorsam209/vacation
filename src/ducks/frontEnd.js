@@ -72,12 +72,12 @@ export function updateCurrentTrip(id) {
 }
 
 export function getTripByCode(code) {
-  return getTripByCode(url, code).then(res => {
-    return {
-      type: TRIP_CODE_SEARCH,
-      payload: res
-    };
-  });
+  // return getTripByCode(url, code).then(res => {
+  return {
+    type: TRIP_CODE_SEARCH,
+    payload: code
+  };
+  // });
 }
 
 export default function reducer(state = initialState, action) {
