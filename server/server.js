@@ -10,8 +10,9 @@ const express = require("express"),
     tripController = require('./tripController'),
     dayController = require('./dayController'),
     notiController = require('./notiController'),
-    restController = require('./restController');
-    userController = require('./userController');
+    restController = require('./restController'),
+    userController = require('./userController'),
+    groupController = require('./groupController');
 
 const PORT = 3010;
 const app = express();
@@ -32,6 +33,7 @@ app.use(passport.session());
 
 massive(process.env.CONNECTION_STRING).then(db => {
     app.set('db', db);
+    app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
     console.log('Massive is running/connected to DB.')
 })
 
@@ -105,7 +107,6 @@ app.put('/api/trip/day', tripController.editDay);
 app.delete('/api/trip/day/:id', tripController.deleteDay);
 
 //Endpoints for Day Component
-
 app.get('/api/day/events/:id', dayController.getEvents);
 app.get('/api/flight/:id', dayController.getFlight);
 app.put('/api/flight', dayController.editFlight);
@@ -127,11 +128,14 @@ app.post('/api/notify', notiController.addNotification);
 app.delete('/api/notify/:id', notiController.deleteNotification);
 
 //Endpoints for Restaurant Feature
-app.get('/api/restaurants/:location', restController.searchRestaurants) 
+app.get('/api/restaurants/:location', restController.searchRestaurants)
 app.get('/api/restaurant/:id', restController.getRestaurant)
 app.post('/api/restaurant', restController.addRestaurant)
 app.get('/api/savedRestaurants/:id', restController.getSavedRestaurants)
 app.delete('/api/restaurant/:id', restController.deleteRestaurant)
 
-
-app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+//Endpoints for Group Feature/Functions
+app.get('api/trip/group/:id', groupController.getGroup);
+app.get('api/trip/code/:id', groupController.getTripByCode);
+app.post('api/trip/group', groupController.joinGroup);
+app.delete('api/trip/group', groupController.deleteMember);
