@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { addRestaurant } from '../../ducks/restaurant';
 import 'font-awesome/css/font-awesome.min.css';
 // import Carousel from "../Carousel/Carousel";
-// import Map from "../Map/Map"
+import Map from "../Map/Map"
 import Menu from '../Menu/Menu';
 
 class Restaurant extends Component {
@@ -16,6 +16,7 @@ class Restaurant extends Component {
     return (
       <div className="Restaurant">
       <Menu />
+      <h1>{name}</h1>
         {/* <Carousel /> */}
         <div className="restaurant-description-container">
           <h1>Price range: {price}</h1>
@@ -25,7 +26,7 @@ class Restaurant extends Component {
             Yelp Page!</div></a>
           {/* <div className="add-restaurant-btn" onClick={() => { this.props.addRestaurant(day_id, id) }}>Save</div> //Must pass in DAY_ID for addRestaurantfunction() */}
         </div>
-        {/* <Map /> */}
+        <Map />
       </div>
     );
   }
