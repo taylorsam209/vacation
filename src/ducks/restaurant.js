@@ -5,7 +5,8 @@ const initialState = {
     listing: [],
     currentRestaurant: [],
     user: {},
-    yelpId: ''
+    yelpId: '',
+    reviews: {}
 }
 
 const FULFILLED = '_FULFILLED';
@@ -15,6 +16,8 @@ const GET_RESTAURANT = "GET_RESTAURANT";
 const GET_USER = "GET_USER";
 const CLEAR_LISTINGS = "CLEAR_LISTINGS";
 const CLEAR_RESTAURANT = "CLEAR_RESTAURANT";
+const GET_REVIEWS = 'GET_REVIEWS';
+const CLEAR_REVIEWS = 'CLEAR_REVIEWS';
 
 export function clearListings() {
     return {
@@ -27,6 +30,13 @@ export function clearRestaurant() {
     return {
         type: CLEAR_RESTAURANT,
         payload: []
+    }
+}
+
+export function clearReviews() {
+    return {
+        type: CLEAR_REVIEWS,
+        payload: {}
     }
 }
 
@@ -49,6 +59,17 @@ export function getRestaurant(id) {
     return {
         type: GET_RESTAURANT,
         payload: restaurant
+    }
+}
+
+export function getReviews(id) {
+    let reviews = axios.get(`/api/restaurant/reviews/${id}`)
+        .then(response => {
+            return response.data
+        })
+    return {
+        type: GET_REVIEWS,
+        payload: reviews
     }
 }
 
@@ -84,6 +105,8 @@ export default function reducer(state = initialState, action) {
             return Object.assign({}, state, { listing: action.payload })
         case GET_RESTAURANT + FULFILLED:
             return Object.assign({}, state, { currentRestaurant: action.payload })
+        case GET_REVIEWS + FULFILLED:
+            return Object.assign({}, state, { reviews: action.payload })
         case GET_USER + FULFILLED:
             return Object.assign({}, state, { user: action.payload })
         case ADD_RESTAURANT + FULFILLED:
@@ -92,6 +115,8 @@ export default function reducer(state = initialState, action) {
             return Object.assign({}, state, { listings: action.payload })
         case CLEAR_RESTAURANT:
             return Object.assign({}, state, { currentRestaurant: action.payload })
+        case CLEAR_REVIEWS:
+            return Object.assign({}, state, { reviews: action.payload })
         default:
             return state;
     }

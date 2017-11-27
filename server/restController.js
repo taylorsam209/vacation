@@ -11,10 +11,17 @@ module.exports = {
             })
     },
 
-    getRestaurant: (req, res) => {
+    getRestaurant: (req, res, next) => {
         axios.get(`https://api.yelp.com/v3/businesses/${req.params.id}`,
             { headers: { "Authorization": `Bearer ${process.env.YELP_ACCESS_TOKEN}` } })
             .then((response) => res.status(200).send(response.data))
+            // next()
+    },
+
+    getReviews:(req, res) => {
+        axios.get(`https://api.yelp.com/v3/businesses/${req.params.id}/reviews`,
+        { headers: { "Authorization": `Bearer ${process.env.YELP_ACCESS_TOKEN}` } })
+        .then((response) => res.status(200).send(response.data))
     },
 
     addRestaurant: (req, res) => {
