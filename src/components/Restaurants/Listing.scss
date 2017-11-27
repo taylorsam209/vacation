@@ -20,8 +20,8 @@
 
 .right-content-container {
     min-height: 100%;
-    width: 90%;
-    background-color: green;
+    width: 95%;
+    background-color: $mediumColor;
     margin: 20px auto 20px auto;
     display: flex;
     flex-wrap: wrap;
@@ -36,15 +36,9 @@
 }
 
 .listings-container {
-    height: 200px;
-    width: 500px;
     display: flex;
-    background-color: white;
-    border:5px solid rgb(80, 80, 80);
-    margin:20px;
     align-content: center;
     justify-content: space-around;
-    font-family: sans-serif;
     -webkit-animation-name: fadeInUp;
     animation-name: fadeInUp;
     -webkit-animation-duration: 1s;
@@ -69,17 +63,17 @@
     }
 }
 
-.restaurant-title {
+.details-button {
+    margin-top:10px;
     padding-right:5px;
-    color: rgb(32, 28, 28);
+    color: $mediumColor;
     text-decoration: none;
     transition: color 1s;
-    color: rgb(18, 91, 248);
     
 }
 
-.restaurant-title:hover {
-color: rgb(101, 150, 248);
+.details-button:hover {
+color: $lightColor;
 }
 
 .add-listing-button {
