@@ -36,12 +36,11 @@ module.exports = {
         const db = req.app.get('db');
         const {user_id, trip_id} = req.body;
 
-        db.delete_member([user_id, trip_id])
+        db.group.delete_member([user_id, trip_id])
         .then(()=> {
             res.status(200).send("Member has been removed.")
         })
         .catch(()=> res.status(500).send("Unable to remove member."))
     }
-
 
 }

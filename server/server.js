@@ -135,7 +135,7 @@ app.get('/api/savedRestaurants/:id', restController.getSavedRestaurants)
 app.delete('/api/restaurant/:id', restController.deleteRestaurant)
 
 //Endpoints for Group Feature/Functions
-app.get('api/trip/group/:id', groupController.getGroup);
-app.get('api/trip/code/:id', groupController.getTripByCode);
-app.post('api/trip/group', groupController.joinGroup);
-app.delete('api/trip/group', groupController.deleteMember);
+app.get('/api/trip/group/:id', groupController.getGroup);
+app.get('/api/trip/code/:id', groupController.getTripByCode);
+app.post('/api/group', groupController.joinGroup);
+app.delete('/api/group', groupController.deleteMember);
