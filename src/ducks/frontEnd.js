@@ -70,35 +70,37 @@ export function newTripModal(value) {
 
 // Changes the 'current trip' to the trip of the trip_id passed in.
 export function updateCurrentTrip(trip_id) {
-  return getTrip(url, trip_id).then(res=>{
-    return {
-      type: UPDATE_CURRENT_TRIP,
-      payload: res
-    };
+  let request = getTrip(url, trip_id).then(res=>{
+    return res;
   });
+  return {
+    type: UPDATE_CURRENT_TRIP,
+    payload: request
+  };
 }
 
 export function createNewTrip(tripObj){
-  return addTrip(url, tripObj).then(res=>{
-    return {
-      type: CREATE_NEW_TRIP,
-      payload: res
-    };
+  let request = addTrip(url, tripObj).then(res=>{
+    return res;
   });
+  return {
+    type: CREATE_NEW_TRIP,
+    payload: request
+  };
 }
 
 export function updateTripList(user_id){
-
-  return getAllTrips(url, user_id).then(res=>{
-    console.log(res);
-    return {
-      type: UPDATE_TRIP_LIST,
-      payload: res
-    }
+  let request = getAllTrips(url, user_id).then(res=>{
+    return res;
   });
+  return {
+    type: UPDATE_TRIP_LIST,
+    payload: request
+  };
 }
 
 export default function reducer(state = initialState, action) {
+  console.log(action.type);
   switch (action.type) {
     case GET_USER_ID + _FULFILLED:
         return Object.assign({}, state, { user_id: action.payload });
@@ -112,7 +114,8 @@ export default function reducer(state = initialState, action) {
       return Object.assign({}, state, { newTripOpen: action.payload });
     case UPDATE_CURRENT_TRIP + _FULFILLED:
       return Object.assign({}, state, {currentTrip: action.payload});
-    case UPDATE_TRIP_LIST:
+    case UPDATE_TRIP_LIST + _FULFILLED:
+      console.log(action.payload);
       return Object.assign({}, state, {tripList: action.payload});
     case CREATE_NEW_TRIP + _FULFILLED:
       return Object.assign({}, state, {})

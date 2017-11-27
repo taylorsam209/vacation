@@ -41,7 +41,7 @@ class Dashboard extends Component {
     componentDidMount() {
       this.props.showGroup(false);
       console.log("gIcon Results:", this.props.showGroup);
-      updateTripList(this.props.user_id);
+      this.props.updateTripList(this.props.user_id);
     }
 
     handleTrips() {
