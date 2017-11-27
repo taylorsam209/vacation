@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Menu from '../Menu/Menu.js';
-import { showGroup, newTripModal } from '../../ducks/frontEnd';
+import {showGroup, newTripModal, updateTripList} from '../../ducks/frontEnd';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import DatePicker from 'material-ui/DatePicker';
@@ -39,16 +39,16 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
-        this.props.showGroup(false);
-        console.log("gIcon Results:", this.props.showGroup)
+      this.props.showGroup(false);
+      console.log("gIcon Results:", this.props.showGroup);
+      updateTripList(this.props.user_id);
     }
 
     handleTrips() {
-        const tempArr = ["Logan", "Taylor", "Jared", "Scott", "Logan", "Taylor", "Jared", "Scott", "Logan", "Taylor", "Jared", "Scott"]
-        return tempArr.map((e, i, arr) => {
+        return this.props.tripList.map((e, i, arr) => {
             return (
                 <div>
-                    {e}
+                  {e.trip_name}
                 </div>
             )
         })
@@ -61,6 +61,13 @@ class Dashboard extends Component {
 
     handleClose = () => {
         this.props.newTripModal(false);
+        this.setState({
+          tripName: '',
+          tripDetails: '',
+          tripCode: '',
+          tripDate: '',
+          tripLocation: ''
+        });
     };
 
     handleTripName(e) {
@@ -210,9 +217,11 @@ class Dashboard extends Component {
 
 function mapStateToProps(state) {
     return {
+        user_id: state.frontEnd.user_id,
+        tripList: state.frontEnd.tripList,
         gIcon: state.frontEnd.gIcon,
         newTripOpen: state.frontEnd.newTripOpen
     }
 }
 
-export default connect(mapStateToProps, { showGroup, newTripModal })(Dashboard);
+export default connect(mapStateToProps, { showGroup, newTripModal, updateTripList })(Dashboard);
