@@ -146,19 +146,41 @@ module.exports = {
                     })
             })
             .catch(() => res.status(500).send('Cannot add this activity.'))
+    },
+
+    deleteLodging: (req, res) => {
+        const db = req.app.get('db')
+        const lodgingId = req.params.id;
+
+        db.day.delete_lodging(lodgingId)
+            .then(() => res.status(200).send())
+            .catch(() => res.status(500).send('Cannot delete lodging.'))
+    },
+
+    deleteFlight: (req, res) => {
+        const db = req.app.get('db')
+        const flightId = req.params.id;
+
+        db.day.delete_flight(flightId)
+            .then(() => res.status(200).send())
+            .catch(() => res.status(500).send('Cannot delete lodging.'))
+    },
+
+    deleteRentalCar: (req, res) => {
+        const db = req.app.get('db')
+        const rentalId = req.params.id;
+
+        db.day.delete_rental_car(rentalId)
+            .then(() => res.status(200).send())
+            .catch(() => res.status(500).send('Cannot delete lodging.'))
+    },
+
+    deleteActivity: (req, res) => {
+        const db = req.app.get('db')
+        const activityId = req.params.id;
+
+        db.day.delete_activity(activityId)
+            .then(() => res.status(200).send())
+            .catch(() => res.status(500).send('Cannot delete lodging.'))
     }
-
-    // deleteLodging: (req, res) => {
-    //     const db = req.app.get('db')
-    //     const lodgingId = req.params.id;
-
-    //     db.day.get_lodging(lodgingId)
-    //     .then(lodging => {
-    //         db.day.delete_lodging(lodgingId)
-    //         .then(() => {
-    //             res.status(200).send(lodging)
-    //         })
-    //     })
-    //     .catch(() => res.status(500).send('Cannot delete user.'))
-    // }
 }
