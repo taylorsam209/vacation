@@ -2,11 +2,15 @@ import React, { Component } from "react";
 import Menu from '../Menu/Menu.js';
 import {showGroup, newTripModal, updateTripList} from '../../ducks/frontEnd';
 import { connect } from 'react-redux';
+import './Dashboard.css';
+import tripPlaceholder from '../../assets/images/mountain-landscape.jpg';
+// Components
 import RaisedButton from 'material-ui/RaisedButton';
 import DatePicker from 'material-ui/DatePicker';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
+import {Card, CardText, CardMedia, CardTitle}from 'material-ui/Card';
 
 const richBlack = '#02111b';
 const dodgerBlue = '#1098f7';
@@ -44,12 +48,29 @@ class Dashboard extends Component {
       this.props.updateTripList(this.props.user_id);
     }
 
+    componentWillReceiveProps(nextProps) {
+      nextProps.updateTripList(nextProps.user_id);
+    }
+
     handleTrips() {
-        return this.props.tripList.map((e, i, arr) => {
+        return this.props.tripList.map((trip, index) => {
             return (
-                <div>
-                  {e.trip_name}
-                </div>
+                <Card key={index} className='trip'>
+                  <CardMedia
+                    overlay={<CardTitle
+                              title={trip.trip_name}
+                              subtitle={trip.trip_location}
+                            />}
+                  >
+                    <img
+                      src={trip.trip_image || tripPlaceholder}
+                      alt={trip.trip_name}
+                    />
+                  </CardMedia>
+                  <CardText>
+                    {trip.date}
+                  </CardText>
+                </Card>
             )
         })
     }
@@ -209,7 +230,9 @@ class Dashboard extends Component {
                     /> <br />
                     <br />
                 </Dialog>
-                <div>{this.handleTrips()}</div>
+                <section className='trip-display'>
+                  {this.handleTrips()}
+                </section>
             </div>
         )
     }

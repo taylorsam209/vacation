@@ -1,14 +1,27 @@
+@import "../../partials/themeController";
+
 .new-day-actions {
     display: grid;
     grid-template-columns: 2;
     grid-column-gap: 8px;
   }
-  
+
   .new-day-ok {
     grid-column: 1/2;
   }
-  
+
   .new-day-cancel {
     grid-column: 2/3;
     color: #ffbb62
   }
+
+.trip-display {
+  margin: 10px 10vw 10px 10vw;
+  background-color: $mediumColor;
+  padding: 5px 0 5px 0;
+  border-radius: 2px;
+}
+
+.trip {
+  margin: 20px;
+}

@@ -100,7 +100,6 @@ export function updateTripList(user_id){
 }
 
 export default function reducer(state = initialState, action) {
-  console.log(action.type);
   switch (action.type) {
     case GET_USER_ID + _FULFILLED:
         return Object.assign({}, state, { user_id: action.payload });
@@ -115,7 +114,6 @@ export default function reducer(state = initialState, action) {
     case UPDATE_CURRENT_TRIP + _FULFILLED:
       return Object.assign({}, state, {currentTrip: action.payload});
     case UPDATE_TRIP_LIST + _FULFILLED:
-      console.log(action.payload);
       return Object.assign({}, state, {tripList: action.payload});
     case CREATE_NEW_TRIP + _FULFILLED:
       return Object.assign({}, state, {})
