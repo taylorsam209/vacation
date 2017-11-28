@@ -40,7 +40,7 @@ class Day extends Component {
 
   componentDidMount() {
     this.props.showGroup(true);
-    this.props.getAllEvents;
+    // this.props.getAllEvents("/api/", day_id);
   }
 
   handleAddEvent() {
@@ -163,7 +163,7 @@ class Day extends Component {
             onChange={(e) => this.updateInputOne(e.target.value)}
           />
           <Link to="/listing" >
-            <RaisedButton label="Search" primary={true} onClick={() => { this.props.searchRestaurants(this.state.inputOne) }} />
+            <RaisedButton label="Search" primary={true} onClick={() => { this.props.searchRestaurants(this.state.inputOne), console.log(this.state.inputOne) }} />
           </Link>
         </div>
       )

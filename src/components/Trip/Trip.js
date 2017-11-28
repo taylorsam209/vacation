@@ -11,8 +11,9 @@ import TextField from 'material-ui/TextField';
 import { addDay, getAllDays, deleteDay, getAllEvents } from '../../ducks/frontEndABs.js';
 import IconButton from 'material-ui/IconButton';
 import ActionCancel from 'material-ui/svg-icons/navigation/cancel';
+import Info from 'material-ui/svg-icons/action/info';
 import { Link } from "react-router-dom";
-
+import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 
 class Trip extends Component {
   constructor(props) {
@@ -20,7 +21,72 @@ class Trip extends Component {
     this.state = {
       open: false,
       dayName: 'New Day',
-      dayDate: ''
+      dayDate: '12/03/2018',
+      daysArr: [{
+        "day_id": 3,
+        "trip_id": 1,
+        "date": "12/20/2017"
+      },
+      {
+        "day_id": 4,
+        "trip_id": 1,
+        "date": "12/21/2017"
+      },
+      {
+        "day_id": 6,
+        "trip_id": 1,
+        "date": "3/21/2017"
+      },
+      {
+        "day_id": 7,
+        "trip_id": 1,
+        "date": "01/14/2018"
+      },
+      {
+        "day_id": 8,
+        "trip_id": 1,
+        "date": "01/14/18"
+      },
+      {
+        "day_id": 9,
+        "trip_id": 1,
+        "date": "01/14/18"
+      },
+      {
+        "day_id": 10,
+        "trip_id": 1,
+        "date": "02/14/2088"
+      },
+      {
+        "day_id": 11,
+        "trip_id": 1,
+        "date": "02/14/2088"
+      },
+      {
+        "day_id": 12,
+        "trip_id": 1,
+        "date": "02/14/2088"
+      },
+      {
+        "day_id": 13,
+        "trip_id": 1,
+        "date": "02/14/2088"
+      },
+      {
+        "day_id": 14,
+        "trip_id": 1,
+        "date": "02/14/2088"
+      },
+      {
+        "day_id": 15,
+        "trip_id": 1,
+        "date": "02/14/2088"
+      },
+      {
+        "day_id": 16,
+        "trip_id": 1,
+        "date": "02/14/2088"
+      }]
     }
 
     this.handleOpen = this.handleOpen.bind(this);
@@ -33,30 +99,43 @@ class Trip extends Component {
 
   componentDidMount() {
     this.props.showGroup(true);
-    // this.props.getAllDays();
+    // this.props.getAllDays("/api/", 1);
   }
 
   handleAddDay() {
     const dayArr = [this.state.dayName, this.state.dayDate]
-    this.props.addDay(dayArr)
+    // this.props.addDay(dayArr)
   }
 
   handleGetAllDays() {
-    // return this.props.daysArr.map((e, i, arr) => {
-    //       return (
-    //           <div key={i}>
-    //               {e}
-    //               <IconButton tooltip="top-center" touch={true} tooltipPosition="top-center" onClick={() => { this.handleDayDelete() }}>
-    //                   <ActionCancel />
-    //               </IconButton>
-    //             <Link to='/day' className='logo-font' onClick={() => { this.props.getAllEvents }}>
-    //               <IconButton tooltip="top-center" touch={true} tooltipPosition="top-center">
-    //                  <ActionCancel />
-    //               </IconButton>
-    //             </Link>
-    //           </div>
-    //       )
-    //   })
+    const styles = {
+
+      largeIcon: {
+        width: 60,
+        height: 60,
+      },
+
+    };
+
+    return this.state.daysArr.map((e, i, arr) => {
+      return (
+        <div key={i}>
+          <br />
+          <Card className='' style={{ margin: '10px', padding: '10px' }}>
+            <p style={{ fontSize: '36px' }} >{e.date}</p>
+            <IconButton tooltip="Cancel Day" touch={true} tooltipPosition="top-center" onClick={() => { this.handleDayDelete() }} iconStyle={styles.largeIcon}>
+              <ActionCancel />
+            </IconButton>
+            <Link to='/day' className='logo-font' onClick={() => { this.props.getAllEvents }}>
+              <IconButton tooltip="Day Information" touch={true} tooltipPosition="top-center" iconStyle={styles.largeIcon} >
+                <Info />
+              </IconButton>
+            </Link>
+            <br />
+          </Card>
+        </div>
+      )
+    })
   }
 
   handleDayDelete(e) {
@@ -105,6 +184,9 @@ class Trip extends Component {
           <h1>Current Trip</h1>
           <br />
           <RaisedButton label="Add day" primary={true} onClick={this.handleOpen} />
+          <br />
+          <br />
+
           {this.handleGetAllDays()}
           <Dialog
             title={dayName}
