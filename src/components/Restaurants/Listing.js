@@ -622,14 +622,13 @@ class Listing extends Component {
   }
 
   render() {
-    console.log(this.props.listing)
 
     return (
       <div className="Listing">
         <Menu />
         <h1>Restaurants</h1>
         <div className='right-content-container'>
-          {this.state.business.map((e, i, arr) => {
+          {this.props.restaurant.listing.map((e, i, arr) => {
             return (
               <Card key={i} className='listings-container' style={{ margin: '10px' }}>
                 <CardMedia

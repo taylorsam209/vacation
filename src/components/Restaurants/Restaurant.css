@@ -57,28 +57,31 @@
 .restaurant-description-container {
   width: 80%;
   margin: 20px auto 20px auto;
-  font-family: sans-serif;
-  color: white;
   background-color: green;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  -webkit-animation-name: fadeInUp;
-  animation-name: fadeInUp;
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
   -webkit-animation-duration: 1s;
   animation-duration: 1s;
   animation-delay: 1s;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both; }
+  .restaurant-description-container h4 {
+    margin-top: 10px; }
+  .restaurant-description-container p {
+    margin-top: 10px; }
 
 .yelp-btn {
   height: 50px;
   width: 220px;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 10px;
   color: white;
-  border: solid 2px black;
-  background-color: red;
+  background-color: #00825D;
+  border-radius: 2px;
   font-size: 1.25em;
-  font-weight: bold;
+  font-weight: 550;
   display: flex;
   justify-content: center;
   align-items: center; }
