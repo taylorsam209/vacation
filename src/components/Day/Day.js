@@ -36,6 +36,7 @@ class Day extends Component {
     this.handleGetAllEvents = this.handleGetAllEvents.bind(this);
     this.handleEventDelete = this.handleEventDelete.bind(this);
     // this.handleRestarauntSearch = this.handleRestarauntSearch.bind(this);
+    this.handleRestaurants = this.handleRestaurants.bind(this);
   }
 
   componentDidMount() {
@@ -49,7 +50,7 @@ class Day extends Component {
   }
 
   handleGetAllEvents() {
-    // return this.props.daysArr.map((e, i, arr) => {
+    // return this.props.eventsArr.map((e, i, arr) => {
     //       return (
     //           <div key={i}>
     //               {e}
@@ -59,6 +60,21 @@ class Day extends Component {
     //           </div>
     //       )
     //   })
+  }
+
+  handleRestaurants() {
+    // axios.get('/api/savedRestaurants/:id', day_id).then(resp => {
+    //   return resp.map((e, i, arr) => {
+    //     return (
+    //       <div key={i}>
+    //         {e}
+    //         <IconButton tooltip="top-center" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventDelete() }}>
+    //           <ActionCancel />
+    //         </IconButton>
+    //       </div>
+    //     )
+    //   })
+    // })
   }
 
   handleEventDelete(e) {
@@ -214,6 +230,7 @@ class Day extends Component {
           <br />
           <RaisedButton label="Add event" primary={true} onClick={this.handleOpen} />
           {this.handleGetAllEvents()}
+          {this.handleRestaurants()}
           <Dialog
             title={eventName}
             actions={actions}
