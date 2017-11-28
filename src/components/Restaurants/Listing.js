@@ -3,10 +3,10 @@ import './Listing.css';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Menu from "../Menu/Menu";
-import { Card, CardActions, CardHeader, CardText, CardMedia, CardTitle } from 'material-ui/Card';
+import { Card, CardText, CardMedia, CardTitle } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
-import { getRestaurant, addRestaurant, clearRestaurant } from '../../ducks/restaurant';
+import { getRestaurant, addRestaurant, clearRestaurant, getReviews, clearReviews } from '../../ducks/restaurant';
 
 class Listing extends Component {
   constructor() {
@@ -643,16 +643,14 @@ class Listing extends Component {
                   <p> Yelp rating: {e.rating} </p>
                   <Link onClick={() => {
                     if (this.props.currentRestaurant.id !== e.id) {
-                      this.props.clearRestaurant()
+                      this.props.clearRestaurant(),
+                      this.props.clearReviews()
                     }
-                    this.props.getRestaurant(e.id)
+                    this.props.getRestaurant(e.id),
+                    this.props.getReviews(e.id)
                   }} style={{ textDecoration: "none" }} to={`/restaurant/${e.id}`}>
                     <h2 className='details-button' > More Details </h2>
                   </Link>
-                  {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-      Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-      Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio. */}
                 </CardText>
                 <RaisedButton label='Add Event' primary={true} style={{ marginBottom: '10px' }} />
               </Card>
@@ -661,7 +659,7 @@ class Listing extends Component {
         </div>
 
 
-        <div className="right-content-container">
+        {/* <div className="right-content-container">
           {this.props.listing.map((e, i, arr) => {
             return (
               <div key={i} className="listings-container">
@@ -679,12 +677,12 @@ class Listing extends Component {
                   <h4>Price range: {e.price} </h4>
                   <h4> Yelp rating: {e.rating} </h4>
                 </div>
-                {/* <div className="add-listing-button" onClick={() => { this.props.addRestaurant(day_id, e.id) }}>Save</div> needs Day_ID to be passed into add Rest function  */}
+                 <div className="add-listing-button" onClick={() => { this.props.addRestaurant(day_id, e.id) }}>Save</div> needs Day_ID to be passed into add Rest function  
               </div>
             )
           })}
 
-        </div>
+        </div> */}
       </div>
     );
   }
@@ -699,4 +697,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { getRestaurant, addRestaurant, clearRestaurant })(Listing);
+export default connect(mapStateToProps, { getRestaurant, addRestaurant, clearRestaurant, getReviews, clearReviews })(Listing);

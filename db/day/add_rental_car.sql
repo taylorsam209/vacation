@@ -1,5 +1,6 @@
 insert into rental_cars(
     rental_company,
-    rental_details
+    rental_details,
+    day_id
 )
-values($1, $2)
+values($1, $2, $3)
