@@ -1,16 +1,22 @@
 import React, { Component } from "react";
 import Menu from '../Menu/Menu.js';
-import { showGroup, newTripModal } from '../../ducks/frontEnd';
+import {showGroup, newTripModal, updateTripList} from '../../ducks/frontEnd';
 import { connect } from 'react-redux';
+import './Dashboard.css';
+import mountainLandscape from '../../assets/images/tripPlaceholders/mountain-landscape.jpg';
+import serengeti from '../../assets/images/tripPlaceholders/serengeti.jpg';
+// Components
 import RaisedButton from 'material-ui/RaisedButton';
 import DatePicker from 'material-ui/DatePicker';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
+import {Card, CardText, CardMedia, CardTitle}from 'material-ui/Card';
 
-const richBlack = '#02111b';
-const dodgerBlue = '#1098f7';
-const green = '#00825D'
+const tripPlaceholders = [
+  serengeti,
+  mountainLandscape
+];
 
 class Dashboard extends Component {
     constructor() {
@@ -39,17 +45,34 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
-        this.props.showGroup(false);
-        console.log("gIcon Results:", this.props.showGroup)
+      this.props.showGroup(false);
+      console.log("gIcon Results:", this.props.showGroup);
+      this.props.updateTripList(this.props.user_id);
+    }
+
+    componentWillReceiveProps(nextProps) {
+      nextProps.updateTripList(nextProps.user_id);
     }
 
     handleTrips() {
-        const tempArr = ["Logan", "Taylor", "Jared", "Scott", "Logan", "Taylor", "Jared", "Scott", "Logan", "Taylor", "Jared", "Scott"]
-        return tempArr.map((e, i, arr) => {
+        return this.props.tripList.map((trip, index) => {
             return (
-                <div>
-                    {e}
-                </div>
+                <Card key={index} className='trip'>
+                  <CardMedia
+                    overlay={<CardTitle
+                              title={trip.trip_name}
+                              subtitle={trip.trip_location}
+                            />}
+                  >
+                    <img
+                      src={trip.trip_image || tripPlaceholders[0]}
+                      alt={trip.trip_name}
+                    />
+                  </CardMedia>
+                  <CardText>
+                    {trip.date}
+                  </CardText>
+                </Card>
             )
         })
     }
@@ -61,6 +84,13 @@ class Dashboard extends Component {
 
     handleClose = () => {
         this.props.newTripModal(false);
+        this.setState({
+          tripName: '',
+          tripDetails: '',
+          tripCode: '',
+          tripDate: '',
+          tripLocation: ''
+        });
     };
 
     handleTripName(e) {
@@ -170,10 +200,26 @@ class Dashboard extends Component {
                     className='new-day-cancel'
                 /></div>
         ];
+        const {currentTrip} = this.props;
         return (
             <div>
                 <Menu />
-                <h1>Dashboard</h1>
+                <h6 className='dash-header'>Your most recently viewed trip:</h6>
+                <Card className='recently-viewed-trip' zDepth={3}>
+                  <CardTitle
+                    title={currentTrip ? currentTrip.trip_name : 'Testing...'}
+                    subtitle={currentTrip ? currentTrip.trip_location : '1 2 3'}
+                  />
+                  <CardMedia>
+                    <img src={currentTrip ? currentTrip.trip_image : mountainLandscape} />
+                  </CardMedia>
+                  <CardText>
+                    {currentTrip ? currentTrip.trip_location : '??/??/????'}
+                  </CardText>
+                  <CardText>
+                    {currentTrip ? currentTrip.trip_details : 'Stuff'}
+                  </CardText>
+                </Card>
                 <RaisedButton
                     label='Plan A New Trip'
                     labelColor='white'
@@ -202,7 +248,9 @@ class Dashboard extends Component {
                     /> <br />
                     <br />
                 </Dialog>
-                <div>{this.handleTrips()}</div>
+                <section className='trip-display'>
+                  {this.handleTrips()}
+                </section>
             </div>
         )
     }
@@ -210,9 +258,12 @@ class Dashboard extends Component {
 
 function mapStateToProps(state) {
     return {
+        user_id: state.frontEnd.user_id,
+        tripList: state.frontEnd.tripList,
         gIcon: state.frontEnd.gIcon,
-        newTripOpen: state.frontEnd.newTripOpen
+        newTripOpen: state.frontEnd.newTripOpen,
+        currentTrip: state.frontEnd.currentTrip
     }
 }
 
-export default connect(mapStateToProps, { showGroup, newTripModal })(Dashboard);
+export default connect(mapStateToProps, { showGroup, newTripModal, updateTripList })(Dashboard);

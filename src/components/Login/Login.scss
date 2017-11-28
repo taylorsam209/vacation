@@ -1,4 +1,7 @@
 .login {
-  background-image: url('../../assets/images/beach-vacation-water-summer.jpg');
+  $ratio: .30;
+  background-image: url('../../assets/images/beach-vacation-mobile.jpg');
+  background-position: top;
+  background-size: 1998px*$ratio 2696px*$ratio;
   height: 100vh;
 }
