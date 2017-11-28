@@ -166,9 +166,9 @@ module.exports = {
 //
 // //Endpoints for trip/current trip Component
 // app.get('/api/trip/days/:id', controllers.getAllDays) **
-// app.get('/api/trip/day/:id', tripController.getDay); *
-// app.post('/api/trip/day', tripController.addDay); *
-// app.put('/api/trip/day', tripController.editDay); *
+// app.get('/api/trip/day/:id', tripController.getDay); **
+// app.post('/api/trip/day', tripController.addDay); **
+// app.put('/api/trip/day', tripController.editDay); **
 // app.delete('/api/trip/day/:id', tripController.deleteDay); *
 //
 // //Endpoints for Day Component
@@ -187,6 +187,6 @@ module.exports = {
 // // app.delete('api/activity/:id', dayController.deleteActivity);
 //
 // //Endpoints for Noti Component
-// app.get('/api/notify/:id', notiController.getNotifications); *
+// app.get('/api/notify/:id', notiController.getNotifications); **
 // app.post('/api/notify', notiController.addNotification); *
 // app.delete('/api/notify/:id', notiController.deleteNotification); *
