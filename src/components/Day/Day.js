@@ -243,10 +243,4 @@ function mapStateToProps(state) {
   }
 }
 
-// function mapStateToProps(state){
-//   return {
-//
-//   }
-// };
-
 export default connect(null, { showGroup })(Day);
