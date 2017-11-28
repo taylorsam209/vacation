@@ -48,9 +48,9 @@ module.exports = {
     });
   },
 
-  /* Creates posts a new day object, object requires a trip_id and date */
-  addDay(url, obj) {
-    return axios.post(`${url}trip/day`, obj).then(res => {
+  /* Creates posts a new day object, object requires a trip_id and date. Returns all days by the trip_id of the day object*/
+  addDay(url, new_day) {
+    return axios.post(`${url}trip/day`, new_day).then(res => {
       return res.data;
     });
   },
@@ -63,9 +63,9 @@ module.exports = {
     });
   },
 
-  /* Deletes a trip by trip_id */
-  deleteDay(url, trip_id) {
-    return axios.delete(`${url}trip/${trip_id}`).then(res => {
+  /* Deletes a day by day_id, returns an array of days by the deleted day's trip_id*/
+  deleteDay(url, day_id) {
+    return axios.delete(`${url}trip/${day_id}`).then(res => {
       return res.data;
     });
   },

@@ -219,24 +219,6 @@ class Dashboard extends Component {
         this.props.getTripByCode(e)
     }
 
-    handleTrips() {
-        // return this.props.tripArr.map((e, i, arr) => {
-        //     return (
-        //         <div key={i}>
-        //             {e}
-        //             <IconButton tooltip="top-center" touch={true} tooltipPosition="top-center" onClick={() => { this.handleTripDelete() }}>
-        //                 <ActionCancel />
-        //             </IconButton>
-        //             <Link to='/trip' className='logo-font' onClick={() => { this.props.getAllDays }}>
-        // <IconButton tooltip="top-center" touch={true} tooltipPosition="top-center">
-        //                  <ContentCreate />
-        //             </IconButton>
-        // </Link>
-        //         </div>
-        //     )
-        // })
-    }
-
     render() {
         const searchActions = [
             <div className='new-day-actions'>
