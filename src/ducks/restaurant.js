@@ -41,7 +41,8 @@ export function clearReviews() {
 }
 
 export function searchRestaurants(location) {
-    let listing = axios.get(`/api/restaurants/${location}`)
+    console.log('Search Attempt', location)
+    let listing = axios.get("/api/restaurants/" + location)
         .then(response => {
             return response.data
         })

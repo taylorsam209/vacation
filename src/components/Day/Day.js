@@ -13,6 +13,7 @@ import IconButton from 'material-ui/IconButton';
 import ActionCancel from 'material-ui/svg-icons/navigation/cancel';
 import { addEvent, getAllEvents, deleteEvent } from '../../ducks/frontEndABs.js';
 import { Link } from "react-router-dom";
+import { searchRestaurants } from "../../ducks/restaurant.js"
 
 
 class Day extends Component {
@@ -39,7 +40,7 @@ class Day extends Component {
 
   componentDidMount() {
     this.props.showGroup(true);
-    this.props.getAllEvents;
+    // this.props.getAllEvents("/api/", day_id);
   }
 
   handleAddEvent() {
@@ -161,7 +162,9 @@ class Day extends Component {
             defaultValue={this.state.inputOne}
             onChange={(e) => this.updateInputOne(e.target.value)}
           />
-          <RaisedButton label="Search" primary={true} onClick={() => { this.handleRestarauntSearch() }} />
+          <Link to="/listing" >
+            <RaisedButton label="Search" primary={true} onClick={() => { this.props.searchRestaurants(this.state.inputOne), console.log(this.state.inputOne) }} />
+          </Link>
         </div>
       )
     } else if (this.state.value === 5) {
@@ -243,4 +246,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(null, { showGroup })(Day);
+export default connect(null, { showGroup, searchRestaurants })(Day);
