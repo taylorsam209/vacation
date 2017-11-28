@@ -10,30 +10,31 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 class Restaurant extends Component {
 
-  handleReviews() {
-    if(this.props.reviews.reviews) {
-      return(
-        <div className='reviews'>
-        <p>{this.props.reviews.reviews[0].text}</p>
-        <p>{this.props.reviews.reviews[1].text}</p>
-        <p>{this.props.reviews.reviews[2].text}</p>
-        </div>
-      )
-    } else
-    return <p>reviews</p>;
-  }
-
   // handleReviews() {
   //   if(this.props.reviews.reviews) {
-  //     <div className="reviews">
-  //     {this.props.reviews.reviews.map((e, i, arr) => {
-  //       return (
-  //         <p key={i}>{e}</p>
-  //       )
-  //     })}
-  //     </div>
-  //   }
+  //     return(
+  //       <div className='reviews'>
+  //       <h4>Reviews:</h4>
+  //       <p>{this.props.reviews.reviews[0].text}</p>
+  //       <p>{this.props.reviews.reviews[1].text}</p>
+  //       <p>{this.props.reviews.reviews[2].text}</p>
+  //       </div>
+  //     )
+  //   } else
+  //   return <p>reviews</p>;
   // }
+
+  handleReviews() {
+    if(this.props.reviews.reviews) {
+      <div className="reviews">
+      {this.props.reviews.reviews.map((e, i, arr) => {
+        return (
+          <p key={i}>{e}</p>
+        )
+      })}
+      </div>
+    }
+  }
   
  
   render() {
@@ -51,7 +52,7 @@ class Restaurant extends Component {
           <img src={image_url || 'https://pixy.org/images/placeholder.png'} alt=''/>
         </CardMedia>
       <div >
-          <p>Price range: {price}</p>
+          <p>Price range: {price || 'N/A'}</p>
           <p>Phone: {display_phone}</p>
           {this.handleReviews.bind(this)()}
           <a target="_blank" href={url} style={{ textDecoration: "none" }}><div className='yelp-btn'><i className="fa fa-yelp fa-fw" aria-hidden="true"></i>
