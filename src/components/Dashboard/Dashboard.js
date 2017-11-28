@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Menu from '../Menu/Menu.js';
-import {showGroup, newTripModal, updateTripList} from '../../ducks/frontEnd';
+import { showGroup, newTripModal, updateTripList, searchTripModal, getTripByCode } from '../../ducks/frontEnd';
 import { connect } from 'react-redux';
 import './Dashboard.css';
 import mountainLandscape from '../../assets/images/tripPlaceholders/mountain-landscape.jpg';
@@ -9,13 +9,17 @@ import serengeti from '../../assets/images/tripPlaceholders/serengeti.jpg';
 import RaisedButton from 'material-ui/RaisedButton';
 import DatePicker from 'material-ui/DatePicker';
 import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-import {Card, CardText, CardMedia, CardTitle}from 'material-ui/Card';
+import { Card, CardText, CardMedia, CardTitle } from 'material-ui/Card';
+import { addTrip, getAllTrips, getAllDays } from '../../ducks/frontEndABs.js';
+import IconButton from 'material-ui/IconButton';
+import ActionCancel from 'material-ui/svg-icons/navigation/cancel';
+import ContentCreate from 'material-ui/svg-icons/content/create';
+import { Link } from "react-router-dom";
 
 const tripPlaceholders = [
-  serengeti,
-  mountainLandscape
+    serengeti,
+    mountainLandscape
 ];
 
 class Dashboard extends Component {
@@ -41,56 +45,62 @@ class Dashboard extends Component {
         this.handleTripLocation = this.handleTripLocation.bind(this);
         this.tripDisableToggle = this.tripDisableToggle.bind(this);
         this.newTrip = this.newTrip.bind(this);
-
+        this.handleTripDelete = this.handleTripDelete.bind(this);
+        this.searchTrip = this.searchTrip.bind(this);
     }
 
     componentDidMount() {
-      this.props.showGroup(false);
-      console.log("gIcon Results:", this.props.showGroup);
-      this.props.updateTripList(this.props.user_id);
+        this.props.showGroup(false);
+        console.log("gIcon Results:", this.props.showGroup);
+        this.props.updateTripList(this.props.user_id);
     }
 
     componentWillReceiveProps(nextProps) {
-      nextProps.updateTripList(nextProps.user_id);
+        nextProps.updateTripList(nextProps.user_id);
     }
 
     handleTrips() {
         return this.props.tripList.map((trip, index) => {
             return (
                 <Card key={index} className='trip'>
-                  <CardMedia
-                    overlay={<CardTitle
-                              title={trip.trip_name}
-                              subtitle={trip.trip_location}
-                            />}
-                  >
-                    <img
-                      src={trip.trip_image || tripPlaceholders[0]}
-                      alt={trip.trip_name}
-                    />
-                  </CardMedia>
-                  <CardText>
-                    {trip.date}
-                  </CardText>
+                    <CardMedia
+                        overlay={<CardTitle
+                            title={trip.trip_name}
+                            subtitle={trip.trip_location}
+                        />}
+                    >
+                        <img
+                            src={trip.trip_image || tripPlaceholders[0]}
+                            alt={trip.trip_name}
+                        />
+                    </CardMedia>
+                    <CardText>
+                        {trip.date}
+                    </CardText>
                 </Card>
             )
         })
     }
 
     handleOpen = () => {
-        console.log("New Trip Modal Opened")
         this.props.newTripModal(true);
     };
 
     handleClose = () => {
         this.props.newTripModal(false);
         this.setState({
-          tripName: '',
-          tripDetails: '',
-          tripCode: '',
-          tripDate: '',
-          tripLocation: ''
+            tripName: '',
+            tripDetails: '',
+            tripCode: '',
+            tripDate: '',
+            tripLocation: ''
         });
+    };
+    handleSearchOpen = () => {
+        this.props.searchTripModal(true);
+    };
+    handleSearchClose = () => {
+        this.props.searchTripModal(false);
     };
 
     handleTripName(e) {
@@ -101,6 +111,11 @@ class Dashboard extends Component {
     handleTripDetails(e) {
         this.setState({
             tripDetails: e
+        })
+    }
+    handleTripSearch(e) {
+        this.setState({
+            searchText: e
         })
     }
     handleTripCode(e) {
@@ -120,7 +135,7 @@ class Dashboard extends Component {
     }
 
     validationName() {
-        if (this.state.tripName == '') {
+        if (this.state.tripName === '') {
             return (
                 <div>
                     <TextField required
@@ -177,21 +192,76 @@ class Dashboard extends Component {
             return true
         }
     }
+    searchTripDisableToggle() {
+        if (this.state.tripCode.length === 5) {
+            return false
+        } else {
+            return true
+        }
+    }
 
     newTrip() {
+        const tripVar = [this.state.tripDate, this.state.tripName, this.state.tripCode, this.state.tripDetails, this.state.tripLocation]
+        let tempTripArr = []
+        for (let i = 0; i < tripVar.length; i++) {
+            if (tripVar[i] !== '') {
+                tempTripArr.push(tripVar[i])
+            }
+        }
+        this.props.addTrip(tempTripArr)
+    }
 
+    handleTripDelete(e) {
+        this.props.deleteTrip(e)
+    }
+
+    searchTrip(e) {
+        this.props.getTripByCode(e)
+    }
+
+    handleTrips() {
+        // return this.props.tripArr.map((e, i, arr) => {
+        //     return (
+        //         <div key={i}>
+        //             {e}
+        //             <IconButton tooltip="top-center" touch={true} tooltipPosition="top-center" onClick={() => { this.handleTripDelete() }}>
+        //                 <ActionCancel />
+        //             </IconButton>
+        //             <Link to='/trip' className='logo-font' onClick={() => { this.props.getAllDays }}>
+        // <IconButton tooltip="top-center" touch={true} tooltipPosition="top-center">
+        //                  <ContentCreate />
+        //             </IconButton>
+        // </Link>
+        //         </div>
+        //     )
+        // })
     }
 
     render() {
+        const searchActions = [
+            <div className='new-day-actions'>
+                <RaisedButton
+                    label="Ok"
+                    primary={true}
+                    keyboardFocused={true}
+                    onClick={() => { this.handleSearchClose(), this.searchTrip() }}
+                    disabled={this.searchTripDisableToggle()}
+                />
+                <RaisedButton
+                    label='Cancel'
+                    secondary={true}
+                    onClick={this.handleSearchClose}
+                    className='new-day-cancel'
+                /></div>
+        ];
         const actions = [
             <div className='new-day-actions'>
                 <RaisedButton
                     label="Ok"
                     primary={true}
                     keyboardFocused={true}
-                    onClick={this.handleClose}
+                    onClick={() => { this.handleClose(), this.newTrip() }}
                     disabled={this.tripDisableToggle()}
-                // onClick={() => { this.newTrip() }}
                 />
                 <RaisedButton
                     label='Cancel'
@@ -200,26 +270,32 @@ class Dashboard extends Component {
                     className='new-day-cancel'
                 /></div>
         ];
-        const {currentTrip} = this.props;
+        const { currentTrip } = this.props;
         return (
             <div>
                 <Menu />
                 <h6 className='dash-header'>Your most recently viewed trip:</h6>
                 <Card className='recently-viewed-trip' zDepth={3}>
-                  <CardTitle
-                    title={currentTrip ? currentTrip.trip_name : 'Testing...'}
-                    subtitle={currentTrip ? currentTrip.trip_location : '1 2 3'}
-                  />
-                  <CardMedia>
-                    <img src={currentTrip ? currentTrip.trip_image : mountainLandscape} />
-                  </CardMedia>
-                  <CardText>
-                    {currentTrip ? currentTrip.trip_location : '??/??/????'}
-                  </CardText>
-                  <CardText>
-                    {currentTrip ? currentTrip.trip_details : 'Stuff'}
-                  </CardText>
+                    <CardTitle
+                        title={currentTrip ? currentTrip.trip_name : 'Testing...'}
+                        subtitle={currentTrip ? currentTrip.trip_location : '1 2 3'}
+                    />
+                    <CardMedia>
+                        <img src={currentTrip ? currentTrip.trip_image : mountainLandscape} />
+                    </CardMedia>
+                    <CardText>
+                        {currentTrip ? currentTrip.trip_location : '??/??/????'}
+                    </CardText>
+                    <CardText>
+                        {currentTrip ? currentTrip.trip_details : 'Stuff'}
+                    </CardText>
                 </Card>
+                <RaisedButton
+                    label='Search for Trip'
+                    labelColor='white'
+                    primary={true}
+                    style={{ margin: '5px' }}
+                    onClick={() => { this.handleSearchOpen() }} />
                 <RaisedButton
                     label='Plan A New Trip'
                     labelColor='white'
@@ -248,10 +324,24 @@ class Dashboard extends Component {
                     /> <br />
                     <br />
                 </Dialog>
+                <Dialog
+                    title="Enter the Five Character Code to Search"
+                    actions={searchActions}
+                    modal={false}
+                    open={this.props.searchTripOpen}
+                    onRequestClose={this.handleSearchClose}
+                >
+                    <br /> <TextField
+                        hintText="Five Character Code Here"
+                        maxLength="5"
+                        onChange={e => { this.handleTripCode(e.target.value) }}
+                    /> <br />
+                    <br />
+                </Dialog>
                 <section className='trip-display'>
-                  {this.handleTrips()}
+                    {this.handleTrips()}
                 </section>
-            </div>
+            </div >
         )
     }
 }
@@ -262,8 +352,9 @@ function mapStateToProps(state) {
         tripList: state.frontEnd.tripList,
         gIcon: state.frontEnd.gIcon,
         newTripOpen: state.frontEnd.newTripOpen,
-        currentTrip: state.frontEnd.currentTrip
+        currentTrip: state.frontEnd.currentTrip,
+        searchTripOpen: state.frontEnd.searchTripOpen
     }
 }
 
-export default connect(mapStateToProps, { showGroup, newTripModal, updateTripList })(Dashboard);
+export default connect(mapStateToProps, { showGroup, newTripModal, updateTripList, searchTripModal, addTrip, getAllTrips, getAllDays, getTripByCode })(Dashboard);
