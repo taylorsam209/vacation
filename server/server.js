@@ -117,10 +117,10 @@ app.post('/api/lodging', dayController.addLodging);
 app.post('/api/flight', dayController.addFlight);
 app.post('/api/rentalcar', dayController.addRentalCar);
 app.post('/api/activity', dayController.addActivity);
-// app.delete('/api/lodging/:id', dayController.deleteLodging);
-// app.delete('/api/flight/:id', dayController.deleteFlight);
-// app.delete('/api/rentalcar/:id', dayController.deleteRentalCar);
-// app.delete('/api/activity/:id', dayController.deleteActivity);
+app.delete('/api/lodging/:id', dayController.deleteLodging);
+app.delete('/api/flight/:id', dayController.deleteFlight);
+app.delete('/api/rentalcar/:id', dayController.deleteRentalCar);
+app.delete('/api/activity/:id', dayController.deleteActivity);
 
 //Endpoints for Noti Component
 app.get('/api/notify/:id', notiController.getNotifications);
@@ -130,12 +130,13 @@ app.delete('/api/notify/:id', notiController.deleteNotification);
 //Endpoints for Restaurant Feature
 app.get('/api/restaurants/:location', restController.searchRestaurants)
 app.get('/api/restaurant/:id', restController.getRestaurant)
+app.get('/api/restaurant/reviews/:id', restController.getReviews)
 app.post('/api/restaurant', restController.addRestaurant)
 app.get('/api/savedRestaurants/:id', restController.getSavedRestaurants)
 app.delete('/api/restaurant/:id', restController.deleteRestaurant)
 
 //Endpoints for Group Feature/Functions
-app.get('api/trip/group/:id', groupController.getGroup);
-app.get('api/trip/code/:id', groupController.getTripByCode);
-app.post('api/trip/group', groupController.joinGroup);
-app.delete('api/trip/group', groupController.deleteMember);
+app.get('/api/trip/group/:id', groupController.getGroup);
+app.get('/api/trip/code/:id', groupController.getTripByCode);
+app.post('/api/group', groupController.joinGroup);
+app.delete('/api/group', groupController.deleteMember);

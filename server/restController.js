@@ -4,17 +4,24 @@ module.exports = {
 
     searchRestaurants: (req, res) => {
         const location = req.params.location
-        axios.get(`https://api.yelp.com/v3/businesses/search?categories=restaurants&radius=20000&limit=50&location=${location}`,
+        axios.get(`https://api.yelp.com/v3/businesses/search?categories=restaurants&radius=500&limit=50&location=${location}`,
             { headers: { "Authorization": `Bearer ${process.env.YELP_ACCESS_TOKEN}` } })
             .then(response => {
                 res.status(200).send(response.data.businesses)
             })
     },
 
-    getRestaurant: (req, res) => {
+    getRestaurant: (req, res, next) => {
         axios.get(`https://api.yelp.com/v3/businesses/${req.params.id}`,
             { headers: { "Authorization": `Bearer ${process.env.YELP_ACCESS_TOKEN}` } })
             .then((response) => res.status(200).send(response.data))
+            // next()
+    },
+
+    getReviews:(req, res) => {
+        axios.get(`https://api.yelp.com/v3/businesses/${req.params.id}/reviews`,
+        { headers: { "Authorization": `Bearer ${process.env.YELP_ACCESS_TOKEN}` } })
+        .then((response) => res.status(200).send(response.data))
     },
 
     addRestaurant: (req, res) => {
