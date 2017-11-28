@@ -628,6 +628,7 @@ class Listing extends Component {
         <Menu />
         <h1>Restaurants</h1>
         <div className='right-content-container'>
+        
           {this.props.listing.map((e, i, arr) => {
             return (
               <Card key={i} className='listings-container' style={{ margin: '10px' }}>
