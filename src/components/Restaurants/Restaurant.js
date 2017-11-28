@@ -3,39 +3,37 @@ import './Restaurant.css';
 import { connect } from 'react-redux';
 import { addRestaurant } from '../../ducks/restaurant';
 import 'font-awesome/css/font-awesome.min.css';
-// import Carousel from "../Carousel/Carousel";
 import Map from "../Map/Map"
 import Menu from '../Menu/Menu';
 import { Card, CardText, CardMedia, CardTitle } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
-import Paper from 'material-ui/Paper';
 
 class Restaurant extends Component {
 
-  // handleReviews() {
-  //   if(this.props.reviews.reviews) {
-  //     return(
-  //       <div className='reviews'>
-  //       <p>{this.props.reviews.reviews[0].text}</p>
-  //       <p>{this.props.reviews.reviews[1].text}</p>
-  //       <p>{this.props.reviews.reviews[2].text}</p>
-  //       </div>
-  //     )
-  //   } else
-  //   return <p>reviews</p>;
-  // }
-
   handleReviews() {
     if(this.props.reviews.reviews) {
-      <div className="reviews">
-      {this.props.reviews.reviews.map((e, i, arr) => {
-        return (
-          <p>{e.text}</p>
-        )
-      })}
-      </div>
-    }
+      return(
+        <div className='reviews'>
+        <p>{this.props.reviews.reviews[0].text}</p>
+        <p>{this.props.reviews.reviews[1].text}</p>
+        <p>{this.props.reviews.reviews[2].text}</p>
+        </div>
+      )
+    } else
+    return <p>reviews</p>;
   }
+
+  // handleReviews() {
+  //   if(this.props.reviews.reviews) {
+  //     <div className="reviews">
+  //     {this.props.reviews.reviews.map((e, i, arr) => {
+  //       return (
+  //         <p key={i}>{e}</p>
+  //       )
+  //     })}
+  //     </div>
+  //   }
+  // }
   
  
   render() {
@@ -63,9 +61,6 @@ class Restaurant extends Component {
         <RaisedButton label='Add Event' primary={true} style={{ margin: '10px 0 10px 0' }} />
         </Card>
 
-
-
-        {/* <Carousel /> */}
          {/* <div className="restaurant-description-container">
           <h1>Price range: {price}</h1>
           <h1>Yelp rating based on {review_count} reviews: {rating}</h1>

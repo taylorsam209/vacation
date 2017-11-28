@@ -41,17 +41,6 @@
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both; }
 
-.listing-photo {
-  height: 160px;
-  width: 35%;
-  margin: 20px;
-  object-fit: cover;
-  overflow: hidden;
-  background-color: cornflowerblue; }
-
-.listing-description-container h4 {
-  margin: 5px; }
-
 .details-button {
   margin-top: 10px;
   padding-right: 5px;

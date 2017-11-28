@@ -39,8 +39,8 @@
     display: flex;
     align-content: center;
     justify-content: space-around;
-    -webkit-animation-name: fadeInUp;
-    animation-name: fadeInUp;
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
     -webkit-animation-duration: 1s;
     animation-duration: 1s;
     animation-delay: 1.5s;
@@ -48,20 +48,6 @@
     animation-fill-mode: both;
 }
 
-.listing-photo {
-    height: 160px;
-    width: 35%;
-    margin: 20px;
-    object-fit: cover;
-    overflow: hidden;
-    background-color: cornflowerblue;
-}
-
-.listing-description-container {
-    h4{
-        margin: 5px;
-    }
-}
 
 .details-button {
     margin-top:10px;
