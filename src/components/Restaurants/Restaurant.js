@@ -12,17 +12,29 @@ import Paper from 'material-ui/Paper';
 
 class Restaurant extends Component {
 
+  // handleReviews() {
+  //   if(this.props.reviews.reviews) {
+  //     return(
+  //       <div className='reviews'>
+  //       <p>{this.props.reviews.reviews[0].text}</p>
+  //       <p>{this.props.reviews.reviews[1].text}</p>
+  //       <p>{this.props.reviews.reviews[2].text}</p>
+  //       </div>
+  //     )
+  //   } else
+  //   return <p>reviews</p>;
+  // }
+
   handleReviews() {
     if(this.props.reviews.reviews) {
-      return(
-        <div className='reviews'>
-        <p>{this.props.reviews.reviews[0].text}</p>
-        <p>{this.props.reviews.reviews[1].text}</p>
-        <p>{this.props.reviews.reviews[2].text}</p>
-        </div>
-      )
-    } else
-    return <p>reviews</p>;
+      <div className="reviews">
+      {this.props.reviews.reviews.map((e, i, arr) => {
+        return (
+          <p>{e.text}</p>
+        )
+      })}
+      </div>
+    }
   }
   
  
@@ -36,7 +48,7 @@ class Restaurant extends Component {
       <Menu />
       <h1>{name}</h1>
 
-      <Card>
+      <Card className='restaurant-description-container'>
         <CardMedia overlay={<CardTitle title={'Rating: '+ rating} subtitle={'Review Count: ' + review_count} />}>
           <img src={image_url || 'https://pixy.org/images/placeholder.png'} alt=''/>
         </CardMedia>
@@ -45,7 +57,7 @@ class Restaurant extends Component {
           <p>Phone: {display_phone}</p>
           {this.handleReviews.bind(this)()}
           <a target="_blank" href={url} style={{ textDecoration: "none" }}><div className='yelp-btn'><i className="fa fa-yelp fa-fw" aria-hidden="true"></i>
-            Yelp Page!</div></a>
+            Yelp Page</div></a>
           {/* <div className="add-restaurant-btn" onClick={() => { this.props.addRestaurant(day_id, id) }}>Save</div> //Must pass in DAY_ID for addRestaurantfunction() */}
         </div>
         <RaisedButton label='Add Event' primary={true} style={{ margin: '10px 0 10px 0' }} />
