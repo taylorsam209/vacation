@@ -43,8 +43,18 @@ module.exports = {
         const db = req.app.get('db');
         const dayId = req.params.id;
 
-        db.trip.delete_day(dayId)
-        .then(() => res.status(200).send())
-        .catch(() => res.status(500).send('Cannot delete specified day.'))
+        db.trip.get_day(dayId)
+        .then(day => {
+            let tripId = day[0].trip_id;
+            console.log(tripId);
+            db.trip.delete_day(dayId)
+            .then(() => {
+                db.trip.get_all_days(tripId)
+                .then((days) => {
+                    res.status(200).send(days)
+                })
+            })
+        })
+        .catch(() => res.status(500).send("Cannot delete day."))
     }
 }

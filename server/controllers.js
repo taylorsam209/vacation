@@ -43,9 +43,14 @@ module.exports = {
 
         db.dashboard.get_trip(tripId)
         .then(trip => {
+            let userId = trip[0].user_id;
+            console.log(userId);
             db.dashboard.delete_trip(tripId)
             .then(() => {
-                res.status(200).send(trip)
+                db.dashboard.get_all_trips(userId)
+                .then((trips) => {
+                    res.status(200).send(trips)
+                })
             })
         })
         .catch(() => res.status(500).send("Cannot delete trip"))
