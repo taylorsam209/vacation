@@ -8,6 +8,11 @@ import RaisedButton from 'material-ui/RaisedButton';
 import DatePicker from 'material-ui/DatePicker';
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
+import { addDay, getAllDays, deleteDay, getAllEvents } from '../../ducks/frontEndABs.js';
+import IconButton from 'material-ui/IconButton';
+import ActionCancel from 'material-ui/svg-icons/navigation/cancel';
+import { Link } from "react-router-dom";
+
 
 class Trip extends Component {
   constructor(props) {
@@ -17,12 +22,45 @@ class Trip extends Component {
       dayName: 'New Day',
       dayDate: ''
     }
+
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.handleAddDay = this.handleAddDay.bind(this);
+    this.handleGetAllDays = this.handleGetAllDays.bind(this);
+    this.handleDayDelete = this.handleDayDelete.bind(this);
+
   }
 
   componentDidMount() {
     this.props.showGroup(true);
+    // this.props.getAllDays();
+  }
+
+  handleAddDay() {
+    const dayArr = [this.state.dayName, this.state.dayDate]
+    this.props.addDay(dayArr)
+  }
+
+  handleGetAllDays() {
+    // return this.props.daysArr.map((e, i, arr) => {
+    //       return (
+    //           <div key={i}>
+    //               {e}
+    //               <IconButton tooltip="top-center" touch={true} tooltipPosition="top-center" onClick={() => { this.handleDayDelete() }}>
+    //                   <ActionCancel />
+    //               </IconButton>
+    //             <Link to='/day' className='logo-font' onClick={() => { this.props.getAllEvents }}>
+    //               <IconButton tooltip="top-center" touch={true} tooltipPosition="top-center">
+    //                  <ActionCancel />
+    //               </IconButton>
+    //             </Link>
+    //           </div>
+    //       )
+    //   })
+  }
+
+  handleDayDelete(e) {
+    this.props.deleteDay(e)
   }
 
   handleOpen() {
@@ -31,7 +69,6 @@ class Trip extends Component {
 
   handleClose() {
     this.setState({ open: false });
-    console.log("State Date", this.state.dayDate)
   };
 
   updateDayName(value) {
@@ -49,7 +86,7 @@ class Trip extends Component {
         <RaisedButton
           label="Ok"
           primary={true}
-          onClick={this.handleClose}
+          onClick={() => { this.handleAddDay(), this.handleClose() }}
           className='new-day-ok'
         />
         <RaisedButton
@@ -68,6 +105,7 @@ class Trip extends Component {
           <h1>Current Trip</h1>
           <br />
           <RaisedButton label="Add day" primary={true} onClick={this.handleOpen} />
+          {this.handleGetAllDays()}
           <Dialog
             title={dayName}
             actions={actions}
@@ -75,7 +113,6 @@ class Trip extends Component {
             open={this.state.open}
             onRequestClose={this.handleClose}
           >
-
             <TextField
               id="text-field-default"
               defaultValue={dayName}
@@ -96,4 +133,4 @@ class Trip extends Component {
 //   }
 // };
 
-export default connect(null, { showGroup })(Trip);
+export default connect(null, { showGroup, addDay, getAllDays, deleteDay, getAllEvents })(Trip);

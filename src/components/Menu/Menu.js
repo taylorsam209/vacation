@@ -10,61 +10,78 @@ import GroupIcon from 'material-ui/svg-icons/social/group';
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
-
-const richBlack = '#02111b';
-const dodgerBlue = '#1098f7';
-const green = '#00825D'
+import { getAllTrips, getAllGroup, getAllNoti } from '../../ducks/frontEndABs.js';
+import ActionCancel from 'material-ui/svg-icons/navigation/cancel';
 
 class Menu extends Component {
 
   handleNotiToggle() {
     if (this.props.groupOpen) {
       this.handleGroupToggle();
-      this.props.showNoti(!this.props.notiOpen); console.log("It Hit");
+      this.props.showNoti(!this.props.notiOpen);
     } else {
-      this.props.showNoti(!this.props.notiOpen); console.log("It Hit");
+      this.props.showNoti(!this.props.notiOpen);
     }
+  }
+
+  handleGetNoti() {
+    // this.props.getAllNoti()
   }
 
   handleGroupToggle() {
     if (this.props.notiOpen) {
       this.handleNotiToggle();
-      this.props.groupShow(!this.props.groupOpen); console.log("It Hit")
+      this.props.groupShow(!this.props.groupOpen);
     } else {
-      this.props.groupShow(!this.props.groupOpen); console.log("It Hit")
+      this.props.groupShow(!this.props.groupOpen);
     }
   }
 
+  handleGetGroup() {
+    // this.props.getAllGroup()
+  }
+
   handleGroup() {
-    console.log("Group Attempt")
-    const tempArr = ["Logan", "Taylor", "Jared", "Scott", "Logan", "Taylor", "Jared", "Scott", "Logan", "Taylor", "Jared", "Scott"]
-    return tempArr.map((e, i, arr) => {
-      return (
-        <div>
-          {e}
-        </div>
-      )
-    })
+    // return this.props.groupArr.map((e, i, arr) => {
+    //   return (
+    //     <div key={i}>
+    //       {e}
+    //       <IconButton tooltip="top-center" touch={true} tooltipPosition="top-center" onClick={() => { this.handleGroupDelete() }}>
+    //         <ActionCancel />
+    //       </IconButton>
+    //     </div>
+    //   )
+    // })
+  }
+
+  handleGroupDelete(e) {
+    this.props.deleteGroup(e)
   }
 
   handleNoti() {
-    console.log("Group Attempt")
-    const tempArr = ["Logan", "Taylor", "Jared", "Scott", "Logan", "Taylor", "Jared", "Scott", "Logan", "Taylor", "Jared", "Scott"]
-    return tempArr.map((e, i, arr) => {
-      return (
-        <div key={i}>
-          {e}
-        </div>
-      )
-    })
+    // return this.props.notiArr.map((e, i, arr) => {
+    //   return (
+    //     <div key={i}>
+    //       {e}
+    //       <IconButton tooltip="top-center" touch={true} tooltipPosition="top-center" onClick={() => { this.handleNotiDelete() }}>
+    //         <ActionCancel />
+    //       </IconButton>
+    //     </div>
+    //   )
+    // })
+  }
+
+  handleNotiDelete(e) {
+    this.props.deleteNoti(e)
   }
 
   render() {
+    { this.handleGetNoti() }
+    { this.handleGetGroup() }
     const { gIcon } = this.props;
-    console.log(gIcon)
     return (
       <nav className='menu'>
-        <Link to='/dashboard' className='logo-font'>
+        <Link to='/dashboard' className='logo-font' onClick={() => { this.props.getAllTrips }}>
           <h2 >
             Trippin'
               </h2>
@@ -72,17 +89,17 @@ class Menu extends Component {
 
         {
           gIcon &&
-            <GroupIcon
-              className='group-icon'
-              color='white'
-              onClick={() => { this.handleGroupToggle() }}
-            />
+          <GroupIcon
+            className='group-icon'
+            color='white'
+            onClick={() => { this.handleGroupToggle(), this.handleGetGroup() }}
+          />
         }
 
         <NotificationsIcon
           className='noti-icon'
           color='white'
-          onClick={() => { this.handleNotiToggle() }}
+          onClick={() => { this.handleNotiToggle(), this.handleGetNoti() }}
         />
 
         <a href={process.env.REACT_APP_LOGOUT} className='logout'>
@@ -96,8 +113,8 @@ class Menu extends Component {
         <Drawer width={250} openSecondary={true} open={this.props.notiOpen} >
           <AppBar title="Notifications"
 
-            iconElementLeft={<IconButton><NavigationClose onClick={() => { this.handleNotiToggle() }}
-
+            iconElementLeft={<IconButton><NavigationClose
+              onClick={() => { this.handleNotiToggle() }}
             />
             </IconButton>}
           />
@@ -106,7 +123,9 @@ class Menu extends Component {
         <Drawer width={250} openSecondary={false} open={this.props.groupOpen} >
           <AppBar title="Group"
 
-            iconElementRight={<IconButton><NavigationClose onClick={() => { this.handleGroupToggle() }} />
+            iconElementRight={<IconButton><NavigationClose
+              onClick={() => { this.handleGroupToggle() }}
+            />
             </IconButton>}
             iconElementLeft={<IconButton></IconButton>}
           />
@@ -125,4 +144,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { showGroup, showNoti, groupShow })(Menu);
+export default connect(mapStateToProps, { showGroup, showNoti, groupShow, getAllTrips, getAllGroup, getAllNoti })(Menu);
