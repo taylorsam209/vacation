@@ -45,6 +45,9 @@ const G_ICON_CHANGE = 'G_ICON_CHANGE'
   , NEW_TRIP = 'NEW_TRIP'
   , UPDATE_CURRENT_TRIP = 'UPDATE_CURRENT_TRIP'
   , CREATE_NEW_TRIP = 'CREATE_NEW_TRIP'
+  , CREATE_NEW_DAY = 'CREATE_NEW_DAY'
+  , EDIT_SELECTED_DAY = 'EDIT_SELECTED_DAY'
+  , DELETE_SELECTED_DAY = 'DELETE_SELECTED_DAY'
   , UPDATE_TRIP_LIST = 'UPDATE_TRIP_LIST'
   , DELETE_SELECTED_TRIP = 'DELETE_SELECTED_TRIP'
   , UPDATE_DAYS_LIST = 'UPDATE_DAYS_LIST'
@@ -55,6 +58,11 @@ const G_ICON_CHANGE = 'G_ICON_CHANGE'
   , _FULFILLED = '_FULFILLED'
   , SEARCH_TRIP = 'SEARCH_TRIP'
   , TRIP_CODE_SEARCH = 'TRIP_CODE_SEARCH'
+  , CLOSE_RESTAURANT_MODAL = 'CLOSE_RESTAURANT_MODAL'
+  , OPEN_RESTAURANT_MODAL = 'OPEN_RESTAURANT_MODAL'
+  , UPDATE_NOTIFICATIONS_LIST = 'UPDATE_NOTIFICATIONS_LIST'
+  , CREATE_NEW_NOTIFICATION = 'CREATE_NEW_NOTIFICATION'
+  , DELETE_SELECTED_NOTIFICATION = 'DELETE_SELECTED_NOTIFICATION'
   , initialState = {
     user_id: 4, // Temporary default user_id is Scott Serage's
     groupOpen: false,
@@ -68,7 +76,9 @@ const G_ICON_CHANGE = 'G_ICON_CHANGE'
     eventsList: [],
     currentEvent: null,
     searchTripOpen: false,
-    currentTripForCode: ''
+    currentTripForCode: '',
+    notificationsList: [],
+    restaurantModalToggle: false
   };
 
 export function getCurrentUserID() {
@@ -159,7 +169,7 @@ export function updateTripList(user_id) {
     payload: request
   };
 }
-// Requests all days by trip_id and updates the daylist with the returned array
+// Requests all days by trip_id and updates the dayList with the returned array
 export function updateDaysList(trip_id){
   let request = getAllDays(url, trip_id).then(res=>{
     return res;
@@ -181,7 +191,38 @@ export function updateCurrentDay(day_id){
   };
 }
 
+// Takes a 'day' object and returns the updated daysList
+export function createNewDay(new_day) {
+  let request = addDay(url, new_day).then(res=>{
+    return res;
+  });
+  return {
+    type: CREATE_NEW_DAY,
+    payload: request
+  }
+}
 
+// Takes a 'day' object (day_id and date required) and returns the edited day
+export function editSelectedDay(day_obj) {
+  let request = editDay(url, day_obj).then(res=>{
+    return res;
+  });
+  return {
+    type: EDIT_SELECTED_DAY,
+    payload: request
+  };
+}
+
+// Takes a day_id and returns an updateDaysList with the day with the given day_id deleted
+export function deletedSelectedDay(day_id){
+  let request = deleteDay(url, day_id).then(res=>{
+    return res;
+  });
+  return {
+    type: DELETE_SELECTED_DAY,
+    payload: request
+  };
+}
 
 // Updates the eventsList by day_id
 export function updateEventsList(day_id) {
@@ -202,8 +243,6 @@ export function updateCurrentEvent(eventObj){
   };
 }
 
-
-
 export function searchTripModal(value) {
   console.log("Hit Redux NEW_TRIP")
   return {
@@ -219,6 +258,59 @@ export function getTripByCode(code) {
     payload: code
   };
   // });
+}
+
+// Updates the notificationsList by trip_id
+export function updateNotificationsList(trip_id){
+  let request = getNotifications(url, trip_id).then(res=>{
+    return res;
+  });
+  return {
+    type: UPDATE_NOTIFICATIONS_LIST,
+    payload: request
+  };
+};
+
+
+// Takes a 'trip' object (trip_id, user_id, and notification_text required)
+// returns a message
+export function createNewNotification(tripObj){
+  let request = addNotification(url, tripObj).then(res=>{
+    return res;
+  });
+  return {
+    type: CREATE_NEW_NOTIFICATION,
+    payload: request
+  }
+}
+
+// Not sure if this works either
+// Takes a Notification id and returns a message
+export function deleteSelectedNotification(notification_id){
+  let request = deleteNotification(url, notification_id).then(res=>{
+    return res;
+  });
+  return {
+    type: DELETE_SELECTED_NOTIFICATION,
+    payload: request
+  }
+}
+
+
+// Sets the restaurant modal to false
+export function closeRestaurantModal(){
+  return {
+    type: CLOSE_RESTAURANT_MODAL,
+    payload: false
+  };
+}
+
+// Sets the restaurant modal to true
+export function openRestaurantModal(){
+  return {
+    type: OPEN_RESTAURANT_MODAL,
+    payload: true
+  };
 }
 
 export default function reducer(state = initialState, action) {
@@ -254,6 +346,22 @@ export default function reducer(state = initialState, action) {
     case CREATE_NEW_TRIP + _FULFILLED:
       let {updatedTripList, updatedCurrentTrip} = action.payload
       return Object.assign({}, state, {tripList: updatedTripList, currentTrip: updatedCurrentTrip});
+    case CREATE_NEW_DAY + _FULFILLED:
+      return Object.assign({}, state, {daysList: action.payload});
+    case EDIT_SELECTED_DAY + _FULFILLED:
+      return Object.assign({}, state, {currentDay: action.payload});
+    case DELETE_SELECTED_DAY + _FULFILLED:
+      return Object.assign({}, state, {daysList: action.payload});
+    case CLOSE_RESTAURANT_MODAL:
+      return Object.assign({}, state, {restaurantModalToggle: action.payload});
+    case OPEN_RESTAURANT_MODAL:
+      return Object.assign({}, state, {restaurantModalToggle: action.payload});
+    case UPDATE_NOTIFICATIONS_LIST:
+      return Object.assign({}, state, {notificationsList: action.payload});
+    case CREATE_NEW_NOTIFICATION:
+      return state; // action.payload is a message, need to create a way to display it
+    case DELETE_SELECTED_NOTIFICATION:
+      return state; // action.payload is a message, need to create a way to display it
     default:
       return state;
   }
