@@ -1,18 +1,18 @@
 const axios = require('axios');
 
 module.exports = {
-//Dashboard Component
+  //Dashboard Component
 
   /* Returns an array all trip objects owned by a user by user_id */
   getAllTrips(url, user_id) {
-    return axios.get(`${url}trips/users/${user_id}`).then(res=>{
+    return axios.get(`${url}trips/users/${user_id}`).then(res => {
       return res.data;
     });
   },
 
   /* Returns one trip object by trip_id */
   getTrip(url, trip_id) {
-    return axios.get(`${url}trip/${trip_id}`).then(res=>{
+    return axios.get(`${url}trip/${trip_id}`).then(res => {
       return res.data;
     });
   },
@@ -21,36 +21,36 @@ module.exports = {
      Returns an array of trip objects
      including the new trip */
   addTrip(url, obj) {
-    return axios.post(`${url}trip`, obj).then(res=>{
+    return axios.post(`${url}trip`, obj).then(res => {
       return res.data;
     });
   },
 
   /* Deletes a trip object by trip_id, returns an array of trips */
   deleteTrip(url, trip_id) {
-    return axios.delete(`${url}trip/${trip_id}`).then(res=>{
+    return axios.delete(`${url}trip/${trip_id}`).then(res => {
       return res.data;
     });
   },
-//Trip Component
+  //Trip Component
 
   /* Gets an array of day objects by trip id */
   getAllDays(url, trip_id) {
-    return axios.get(`${url}trip/days/${trip_id}`).then(res=>{
+    return axios.get(`${url}trip/days/${trip_id}`).then(res => {
       return res.data;
     });
   },
 
   /* Gets a day object by day id */
   getDay(url, day_id) {
-    return axios.get(`${url}trip/day/${day_id}`).then(res=>{
+    return axios.get(`${url}trip/day/${day_id}`).then(res => {
       return res.data;
     });
   },
 
   /* Creates posts a new day object, object requires a trip_id and date */
   addDay(url, obj) {
-    return axios.post(`${url}trip/day`, obj).then(res=>{
+    return axios.post(`${url}trip/day`, obj).then(res => {
       return res.data;
     });
   },
@@ -58,84 +58,84 @@ module.exports = {
   /* Updates the date of a day object saved on the server, requires
      an object with a day_id and a date */
   editDay(url, obj) {
-    return axios.put(`${url}trip/day`, obj).then(res=>{
+    return axios.put(`${url}trip/day`, obj).then(res => {
       return res.data;
     });
   },
 
   /* Deletes a trip by trip_id */
-  deleteDay(url, trip_id){
-    return axios.delete(`${url}trip/${trip_id}`).then(res=>{
+  deleteDay(url, trip_id) {
+    return axios.delete(`${url}trip/${trip_id}`).then(res => {
       return res.data;
     });
   },
 
-//Day Component
+  //Day Component
 
   /* Returns an array of arrays by day_id.
      Each inner array is an array of
      flight, rental car, activity,
      lodging or restaurant objects */
-  getEvents(url, day_id){
-    return axios.get(`${url}day/events/${day_id}`).then(res=>{
+  getEvents(url, day_id) {
+    return axios.get(`${url}day/events/${day_id}`).then(res => {
       return res.data;
     });
   },
 
   /* Post a new flight */
-  addFlight(url){
+  addFlight(url) {
 
   },
 
-  editFlight(url){
+  editFlight(url) {
 
   },
 
-  deleteFlight(url){
+  deleteFlight(url) {
 
   },
 
-  addRentalCar(url){
+  addRentalCar(url) {
 
   },
 
-  editRentalCar(url){
+  editRentalCar(url) {
 
   },
 
-  deleteRentalCar(url){
+  deleteRentalCar(url) {
 
   },
 
-  addActivity(url){
+  addActivity(url) {
 
   },
 
-  editActivity(url){
+  editActivity(url) {
 
   },
 
-  deleteActivity(url){
+  deleteActivity(url) {
 
   },
 
-  addLodging(url){
+  addLodging(url) {
 
   },
 
-  editLodging(url){
+  editLodging(url) {
 
   },
 
-  deleteLodging(url){
+  deleteLodging(url) {
 
   },
 
-// Noti
+  // Noti
 
   /* Returns an array of all notifications by trip_id */
-  getNotifications(url, trip_id){
-    return axios.get(`${url}notify/${trip_id}`).then(res=>{
+  getNotifications(url, trip_id) {
+    return axios.get(`${url}notify/${trip_id}`).then(res => {
       return res.data;
     });
   },
@@ -143,16 +143,16 @@ module.exports = {
   /* Posts a new notificaton object. Returns a string:
       'Notification successfully created.'
      Object requires trip_id, user_id and notification_text */
-  addNotification(url, obj){
-    return axios.post(`${url}notify`, obj).then(res=>{
+  addNotification(url, obj) {
+    return axios.post(`${url}notify`, obj).then(res => {
       return res.data;
     });
   },
 
   /* Deletes a notificaton by notification_id.
      Returns a string: 'Notification successfully deleted.' */
-  deleteNotification(url, notification_id){
-    return axios.delete(`${url}notify/${notification_id}`).then(res=>{
+  deleteNotification(url, notification_id) {
+    return axios.delete(`${url}notify/${notification_id}`).then(res => {
       return res.data;
     });
   }
