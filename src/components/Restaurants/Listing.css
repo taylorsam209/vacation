@@ -3,7 +3,6 @@
   text-align: center; }
 
 .content-container {
-  min-height: 100%;
   width: 95%;
   background-color: #00825D;
   margin: 20px auto 20px auto;
@@ -19,9 +18,8 @@
   animation-fill-mode: both; }
 
 .listings-container {
-  display: flex;
-  align-content: center;
-  justify-content: space-around;
+  margin: 10px;
+  border-radius: 5px;
   -webkit-animation-name: fadeIn;
   animation-name: fadeIn;
   -webkit-animation-duration: 1s;

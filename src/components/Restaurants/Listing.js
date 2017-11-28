@@ -6,6 +6,7 @@ import Menu from "../Menu/Menu";
 import { Card, CardText, CardMedia, CardTitle } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import { getRestaurant, addRestaurant, clearRestaurant, getReviews, clearReviews } from '../../ducks/restaurant';
+import { openRestaurantModal } from '../../ducks/frontEnd';
 
 class Listing extends Component {
 
@@ -17,6 +18,7 @@ class Listing extends Component {
   }
 
   render() {
+    const { currentDay } = this.props;
     return (
       <div className="Listing">
         <Menu />
@@ -24,16 +26,14 @@ class Listing extends Component {
         <div className='content-container'>
           {this.props.listing.map((e, i, arr) => {
             return (
-              <Card key={i} className='listings-container' style={{ margin: '10px' }}>
-                <CardMedia
-                  overlay={<CardTitle title={e.name} subtitle={e.categories[0].title} />}
-                >
+              <Card key={i} className='listings-container'>
+                <CardMedia overlay={<CardTitle title={e.name} subtitle={e.categories[0].title} />}>
                   <img src={e.image_url || 'https://pixy.org/images/placeholder.png'} alt="" />
                 </CardMedia>
                 <CardText>
                   <p>{this.insertAddress.bind(this)(e)} </p>
                   <p>Price range: {e.price || 'N/A'} </p>
-                  <p> Yelp rating: {e.rating} </p>
+                  <p> Yelp rating: {e.rating || 'N/A'} </p>
                   <Link onClick={() => {
                     if (this.props.currentRestaurant.id !== e.id) {
                       this.props.clearRestaurant(),
@@ -45,12 +45,13 @@ class Listing extends Component {
                     <h2 className='details-button' > More Details </h2>
                   </Link>
                 </CardText>
-                <RaisedButton label='Add Event' primary={true} style={{ marginBottom: '10px' }} />
+                <Link to={`/day/${currentDay}`} >
+                  <RaisedButton label='Add Event' primary={true} style={{ margin: '10px 0 10px 0' }} onClick={() => { this.props.addRestaurant(currentDay, e.id), this.props.openRestaurantModal() }} />
+                </Link>
               </Card>
             )
           })}
         </div>
-        {/* <div className="add-listing-button" onClick={() => { this.props.addRestaurant(day_id, e.id) }}>Save</div> needs Day_ID to be passed into add Rest function   */}
       </div>
     )
   }
@@ -60,7 +61,8 @@ function mapStateToProps(state) {
   console.log(state)
   return {
     listing: state.restaurant.listing,
-    currentRestaurant: state.restaurant.currentRestaurant
+    currentRestaurant: state.restaurant.currentRestaurant,
+    currentDay: state.frontEnd.currentDay
   }
 }
 

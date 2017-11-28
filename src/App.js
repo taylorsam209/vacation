@@ -16,8 +16,8 @@ class App extends Component {
         <div className="App">
           <Route component={Login} path="/" exact />
           <Route component={Dashboard} path="/dashboard" />
-          <Route component={Trip} path="/trip" />
-          <Route component={Day} path="/day" />
+          <Route component={Trip} path="/trip/:id" />
+          <Route component={Day} path="/day/:id" />
           <Route component={Listing} path='/listing'/>
           <Route component= {Restaurant} path='/restaurant/:id'/>
         </div>
