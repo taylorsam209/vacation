@@ -3,7 +3,8 @@ import Menu from '../Menu/Menu.js';
 import {showGroup, newTripModal, updateTripList} from '../../ducks/frontEnd';
 import { connect } from 'react-redux';
 import './Dashboard.css';
-import tripPlaceholder from '../../assets/images/mountain-landscape.jpg';
+import mountainLandscape from '../../assets/images/tripPlaceholders/mountain-landscape.jpg';
+import serengeti from '../../assets/images/tripPlaceholders/serengeti.jpg';
 // Components
 import RaisedButton from 'material-ui/RaisedButton';
 import DatePicker from 'material-ui/DatePicker';
@@ -12,9 +13,10 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import {Card, CardText, CardMedia, CardTitle}from 'material-ui/Card';
 
-const richBlack = '#02111b';
-const dodgerBlue = '#1098f7';
-const green = '#00825D'
+const tripPlaceholders = [
+  serengeti,
+  mountainLandscape
+];
 
 class Dashboard extends Component {
     constructor() {
@@ -63,7 +65,7 @@ class Dashboard extends Component {
                             />}
                   >
                     <img
-                      src={trip.trip_image || tripPlaceholder}
+                      src={trip.trip_image || tripPlaceholders[0]}
                       alt={trip.trip_name}
                     />
                   </CardMedia>
@@ -198,10 +200,26 @@ class Dashboard extends Component {
                     className='new-day-cancel'
                 /></div>
         ];
+        const {currentTrip} = this.props;
         return (
             <div>
                 <Menu />
-                <h1>Dashboard</h1>
+                <h6 className='dash-header'>Your most recently viewed trip:</h6>
+                <Card className='recently-viewed-trip' zDepth={3}>
+                  <CardTitle
+                    title={currentTrip ? currentTrip.trip_name : 'Testing...'}
+                    subtitle={currentTrip ? currentTrip.trip_location : '1 2 3'}
+                  />
+                  <CardMedia>
+                    <img src={currentTrip ? currentTrip.trip_image : mountainLandscape} />
+                  </CardMedia>
+                  <CardText>
+                    {currentTrip ? currentTrip.trip_location : '??/??/????'}
+                  </CardText>
+                  <CardText>
+                    {currentTrip ? currentTrip.trip_details : 'Stuff'}
+                  </CardText>
+                </Card>
                 <RaisedButton
                     label='Plan A New Trip'
                     labelColor='white'
@@ -243,7 +261,8 @@ function mapStateToProps(state) {
         user_id: state.frontEnd.user_id,
         tripList: state.frontEnd.tripList,
         gIcon: state.frontEnd.gIcon,
-        newTripOpen: state.frontEnd.newTripOpen
+        newTripOpen: state.frontEnd.newTripOpen,
+        currentTrip: state.frontEnd.currentTrip
     }
 }
 
