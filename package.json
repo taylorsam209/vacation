@@ -26,7 +26,8 @@
     "react-scripts": "1.0.17",
     "recompose": "^0.26.0",
     "redux": "^3.7.2",
-    "redux-promise-middleware": "^4.4.2"
+    "redux-promise-middleware": "^4.4.2",
+    "scroll-to-element": "^2.0.0"
   },
   "scripts": {
     "test": "react-scripts test --env=jsdom",

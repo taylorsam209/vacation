@@ -1,16 +1,23 @@
 import React, { Component } from "react";
 import './About.css';
+import scrollToElement from 'scroll-to-element';
 
 export default function About(props) {
   return (
     <section className='about'>
       <div className='about-content'>
-        <h1 className='about-header'>What's Trippin'?</h1>
+        <header className='about-header'>
+          <h1>What's Trippin'?</h1>
+        </header>
         <p>
           Lorem ipsum dolor sit amet, est no aliquid eruditi, ea adhuc aperiri accusamus vix, primis docendi signiferumque eam at. Mea lobortis adipiscing concludaturque ut. Habeo eripuit id pri, mei cu bonorum nonumes interesset, vim aliquid consetetur consequuntur ne. Est ad impedit consulatu expetendis, cibo dolores adversarium an mei. An vix delenit epicuri dolores, in dicta philosophia vix, ea nec rebum virtute labores. Eam ei quidam vivendum. Ex eam dolorem persequeris, mei et antiopam platonem.
         </p>
-
       </div>
+      <footer className='about-footer'>
+        <h2 onClick={()=>scrollToElement('.login',{
+          duration: 1000
+        })}>Let's go Trippin'</h2>
+      </footer>
     </section>
   )
 }
