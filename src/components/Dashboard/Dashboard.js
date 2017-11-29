@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Menu from '../Menu/Menu.js';
-import { showGroup, newTripModal, updateTripList, searchTripModal, getTripByCode } from '../../ducks/frontEnd';
+import { showGroup, newTripModal, updateTripList, searchTripModal, getTripByCode, getCurrentUserID } from '../../ducks/frontEnd';
 import { connect } from 'react-redux';
 import './Dashboard.css';
 import mountainLandscape from '../../assets/images/tripPlaceholders/mountain-landscape.jpg';
@@ -26,6 +26,14 @@ class Dashboard extends Component {
     constructor() {
         super();
         this.state = {
+            wizard: {
+                user_id: 0,
+                date: "01/31/17",
+                trip_name: "Just render",
+                trip_code: "789kl",
+                trip_location: "Taylorsville",
+                trip_details: "Dancing the night away."
+            },
             tripName: '',
             tripDetails: '',
             tripCode: '',
@@ -50,9 +58,12 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
+        this.props.getCurrentUserID();
+        console.log(getCurrentUserID());
         this.props.showGroup(false);
         console.log("gIcon Results:", this.props.showGroup);
         this.props.updateTripList(this.props.user_id);
+        this.state.wizard.user_id = this.props.user_id;
     }
 
     componentWillReceiveProps(nextProps) {
@@ -201,14 +212,9 @@ class Dashboard extends Component {
     }
 
     newTrip() {
-        const tripVar = [this.state.tripDate, this.state.tripName, this.state.tripCode, this.state.tripDetails, this.state.tripLocation]
-        let tempTripArr = []
-        for (let i = 0; i < tripVar.length; i++) {
-            if (tripVar[i] !== '') {
-                tempTripArr.push(tripVar[i])
-            }
-        }
-        this.props.addTrip(tempTripArr)
+        let tripObj = this.state.wizard;
+
+        this.props.addTrip('http://localhost:3010/api/', tripObj)
     }
 
     handleTripDelete(e) {
@@ -339,4 +345,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { showGroup, newTripModal, updateTripList, searchTripModal, addTrip, getAllTrips, getAllDays, getTripByCode })(Dashboard);
+export default connect(mapStateToProps, { showGroup, newTripModal, updateTripList, searchTripModal, addTrip, getAllTrips, getAllDays, getTripByCode, getCurrentUserID })(Dashboard);
