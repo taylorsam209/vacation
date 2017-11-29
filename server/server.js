@@ -85,7 +85,7 @@ passport.deserializeUser(function (id, done) {
     db.auth.find_current_user([id])
         .then(user => {
             done(null, user[0]);
-            console.log('This is USER[0]', user[0]);
+            // console.log('This is USER[0]', user[0]);
         })
 })
 
