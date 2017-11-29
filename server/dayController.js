@@ -20,7 +20,8 @@ module.exports = {
                                 db.day.get_all_activities(dayId)
                                     .then(activities => {
                                         arr.push(activities)
-                                        res.status(200).send(arr);
+                                        let newArr = [].concat.apply([], arr)
+                                        res.status(200).send(newArr);
                                     })
                             })
                     })
@@ -112,6 +113,7 @@ module.exports = {
 
         db.day.add_flight([confirmation, airline_name, day_id])
             .then(() => {
+                console.log("Create Flight Succession")
                 db.day.get_all_flights(day_id)
                     .then(flights => {
                         res.status(200).send(flights)
