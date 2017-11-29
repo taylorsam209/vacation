@@ -91,7 +91,9 @@ module.exports = {
   },
 
   editFlight(url, edit_flight) {
+    console.log("Hit SReducer")
     return axios.put(`${url}flight`, edit_flight).then(res => {
+      console.log("Received back to SReducer")
       return res.data;
     });
   },

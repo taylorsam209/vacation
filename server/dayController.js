@@ -314,7 +314,7 @@ module.exports = {
     deleteLodging: (req, res) => {
         const db = req.app.get('db')
         const lodgingId = req.params.id;
-        const arr =[];
+        const arr = [];
 
         db.day.get_lodging([lodgingId])
             .then(lodging => {
