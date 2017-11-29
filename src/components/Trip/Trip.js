@@ -33,8 +33,9 @@ class Trip extends Component {
   }
 
   componentDidMount() {
+    const {currentTrip} = this.props;
     this.props.showGroup(true);
-    this.props.updateDaysList(2);
+    this.props.updateDaysList(currentTrip ? currentTrip.trip_id : 124);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -64,11 +65,15 @@ class Trip extends Component {
         <div key={i}>
           <br />
           <Card className='' style={{ margin: '10px', padding: '10px' }}>
-            <p style={{ fontSize: '36px' }} >{e.date}</p>
+            {/*<p style={{ fontSize: '36px' }} >{e.date}</p>*/}
+            <CardTitle
+              title={`Day ${i+1}`}
+              subtitle={e.date}
+            />
             <IconButton tooltip="Cancel Day" touch={true} tooltipPosition="top-center" onClick={() => { this.handleDayDelete(e) }} iconStyle={styles.largeIcon}>
               <ActionCancel />
             </IconButton>
-            <Link to='/day' className='logo-font' onClick={() => { this.props.getAllEvents }}>
+            <Link to={`/day/${e.day_id}`} className='logo-font' onClick={() => { this.props.getAllEvents }}>
               <IconButton tooltip="Day Information" touch={true} tooltipPosition="top-center" iconStyle={styles.largeIcon} onClick={() => { this.props.updateCurrentDay(e.day_id), this.props.updateEventsList(e.day_id) }}>
                 <Info />
               </IconButton>
@@ -153,7 +158,8 @@ class Trip extends Component {
 
 function mapStateToProps(state) {
   return {
-    daysList: state.frontEnd.daysList
+    daysList: state.frontEnd.daysList,
+    currentTrip: state.frontEnd.currentTrip
   }
 };
 
