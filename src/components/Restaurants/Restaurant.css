@@ -1,60 +1,9 @@
 @import 'https://fonts.googleapis.com/css?family=Permanent+Marker|Tienne';
 .Restaurant {
   min-height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column; }
+  width: 100%; }
 
-.reviews p {
-  margin: 10px;
-  font-style: italic;
-  color: #8b8888; }
-
-.photo-container {
-  display: flex;
-  flex-direction: row;
-  margin: auto;
-  margin-top: 50px; }
-
-.carousel-container {
-  height: 400px;
-  width: 700px;
-  overflow: hidden;
-  position: relative;
-  margin: auto;
-  display: flex;
-  align-items: center;
-  align-content: center;
-  justify-content: center;
-  background-color: #b3b3b3; }
-
-.image {
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  background-size: cover;
-  animation: fadeIn 1s;
-  transition: left .4s;
-  /* transition lets photos slide over smoothly */ }
-
-.carousel-btn {
-  cursor: pointer;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 3px;
-  border: medium solid black;
-  background-color: green;
-  transition: .4s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2em;
-  font-weight: bold; }
-
-.carousel-btn:hover {
-  background-color: gray; }
-
-.restaurant-description-container {
+.restaurant-container {
   width: 80%;
   margin: 20px auto 20px auto;
   background-color: green;
@@ -66,10 +15,15 @@
   animation-delay: 1s;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both; }
-  .restaurant-description-container h4 {
+  .restaurant-container h4 {
     margin-top: 10px; }
-  .restaurant-description-container p {
+  .restaurant-container p {
     margin-top: 10px; }
+
+.reviews p {
+  margin: 10px;
+  font-style: italic;
+  color: #8b8888; }
 
 .yelp-btn {
   height: 50px;
@@ -106,23 +60,3 @@
     opacity: 0; }
   to {
     opacity: 1; } }
-
-@-webkit-keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    -webkit-transform: translate3d(0, 100%, 0);
-    transform: translate3d(0, 100%, 0); }
-  100% {
-    opacity: 1;
-    -webkit-transform: none;
-    transform: none; } }
-
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    -webkit-transform: translate3d(0, 100%, 0);
-    transform: translate3d(0, 100%, 0); }
-  100% {
-    opacity: 1;
-    -webkit-transform: none;
-    transform: none; } }
