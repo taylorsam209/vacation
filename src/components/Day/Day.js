@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux'
 import './Day.css';
-import { showGroup } from '../../ducks/frontEnd';
+import { showGroup, updateEventsList, createNewFlight, createNewLodging, createNewActivity, createNewRental, deleteSelectedFlight, deleteSelectedLodging, deleteSelectedRental, deleteSelectedActivity } from '../../ducks/frontEnd';
 /* Components*/
 import Menu from '../Menu/Menu.js';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -13,8 +13,11 @@ import IconButton from 'material-ui/IconButton';
 import ActionCancel from 'material-ui/svg-icons/navigation/cancel';
 import { addEvent, getAllEvents, deleteEvent } from '../../ducks/frontEndABs.js';
 import { Link } from "react-router-dom";
-import { searchRestaurants } from "../../ducks/restaurant.js"
-
+import { searchRestaurants, updateSavedRestaurants } from "../../ducks/restaurant.js"
+import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import Edit from 'material-ui/svg-icons/image/edit'
+import { mapProps } from "recompose";
+import axios from "axios"
 
 class Day extends Component {
   constructor(props) {
@@ -25,7 +28,7 @@ class Day extends Component {
       value: 1,
       inputOne: '',
       inputTwo: '',
-
+      restaurantArray: [],
     }
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -35,36 +38,131 @@ class Day extends Component {
     this.handleAddEvent = this.handleAddEvent.bind(this);
     this.handleGetAllEvents = this.handleGetAllEvents.bind(this);
     this.handleEventDelete = this.handleEventDelete.bind(this);
-    // this.handleRestarauntSearch = this.handleRestarauntSearch.bind(this);
+    // this.handleRestaurants = this.handleRestaurants.bind(this);
   }
+
+
 
   componentDidMount() {
     this.props.showGroup(true);
-    // this.props.getAllEvents("/api/", day_id);
+    this.props.updateEventsList(1);
   }
 
+  // componentWillReceiveProps(nextProps) {
+  //   nextProps.eventsList;
+  //   this.handleGetAllEvents();
+  // }
+
   handleAddEvent() {
-    const eventArr = [this.state.eventName, this.state.inputOne, this.state.inputTwo, this.state.value]
-    this.props.addEvent(eventArr)
+    if (this.state.value === 1) {
+      const flightObj = { confirmation: this.state.inputOne, airline_name: this.state.inputTwo, day_id: 1 }
+      this.props.createNewFlight(flightObj)
+    } else if (this.state.value === 3) {
+      const lodgingObj = { lodging_name: this.state.inputOne, lodging_details: this.state.inputTwo, day_id: 1 }
+      this.props.createNewLodging(lodgingObj)
+    } else if (this.state.value === 5) {
+      const activityObj = { activity_name: this.state.inputOne, activity_details: this.state.inputTwo, day_id: 1 }
+      this.props.createNewActivity(activityObj)
+    } else if (this.state.value === 2) {
+      const rentalObj = { rental_company: this.state.inputOne, rental_details: this.state.inputTwo, day_id: 1 }
+      this.props.createNewRental(rentalObj)
+    }
+  }
+
+  handleAddRestaurant() {
+    const restArr = [this.state.eventName, this.props.currentRestaurant.name]
+    this.props.addRestaurant(restArr)
   }
 
   handleGetAllEvents() {
-    // return this.props.daysArr.map((e, i, arr) => {
-    //       return (
-    //           <div key={i}>
-    //               {e}
-    //               <IconButton tooltip="top-center" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventDelete() }}>
-    //                   <ActionCancel />
-    //               </IconButton>
-    //           </div>
-    //       )
-    //   })
+    console.log('look at me', this.props.eventsList)
+    return this.props.eventsList.map((e, i, arr) => {
+      return (
+        <div key={i}>
+          <Card className='' style={{ margin: '10px', padding: '10px' }}>
+            <p>{e.confirmation || null}</p>
+            <p>{e.airline_name || null}</p>
+            <p>{e.lodging_name || null}</p>
+            <p>{e.lodging_details || null}</p>
+            <p>{e.activity_name || null}</p>
+            <p>{e.activity_details || null}</p>
+            <p>{e.rental_company || null}</p>
+            <p>{e.rental_details || null}</p>
+            <IconButton tooltip="Cancel Event" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventDelete(e) }}>
+              <ActionCancel />
+            </IconButton>
+            <IconButton tooltip="Edit Event" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventEdit(e) }}>
+              <Edit />
+            </IconButton>
+          </Card>
+        </div>
+      )
+    })
   }
+
+
+  // handleRestaurants() {
+  //   axios.get('/api/savedRestaurants/:id', 1).then(resp => {
+  //     return resp.map((e, i, arr) => {
+  //       return (
+  //         <div key={i}>
+  //           <Card className='' style={{ margin: '10px', padding: '10px' }}>
+  //             <Link to={`/restaraunt/${e.yelpId}`}>{e.title}</Link>
+  //             <img src={e.image_url || 'https://pixy.org/images/placeholder.png'} alt="" />
+  //             <IconButton tooltip="top-center" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventDelete(e) }}>
+  //               <ActionCancel />
+  //             </IconButton>
+  //             <IconButton tooltip="Edit Event" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventEdit(e) }}>
+  //               <Edit />
+  //             </IconButton>
+  //           </Card>
+  //         </div>
+  //       )
+  //     })
+  //   })
+  // }
 
   handleEventDelete(e) {
-    this.props.deleteEvent(e)
+    console.log("Attempt")
+    if (e.confirmation) {
+      this.props.deleteSelectedFlight(e.flight_id);
+      this.props.updateEventsList(1);
+    } else if (e.lodging_name) {
+      this.props.deleteSelectedLodging(e.lodging_id);
+      this.props.updateEventsList(1);
+    } else if (e.activity_name) {
+      this.props.deleteSelectedActivity(e.activity_id);
+      this.props.updateEventsList(1);
+    } else if (e.rental_company) {
+      this.props.deleteSelectedRental(e.rental_id);
+      this.props.updateEventsList(1);
+    } else if (e.yelpId) {
+
+    }
   }
 
+  handleEventEdit(e) {
+    if (e.confirmation) {
+      this.handleOpen();
+      this.updateInputOne(e.confirmation);
+      this.updateInputTwo(e.airline_name);
+    } else if (e.lodging_name) {
+      this.handleOpen();
+      this.updateInputOne(e.lodging_name);
+      this.updateInputTwo(e.airline_details);
+    } else if (e.activity_name) {
+      this.handleOpen();
+      this.updateInputOne(e.activity_name);
+      this.updateInputTwo(e.activity_details);
+    } else if (e.rental_company) {
+      this.handleOpen();
+      this.updateInputOne(e.rental_company);
+      this.updateInputTwo(e.rental_details);
+    } else if (e.yelpId) {
+      this.handleOpen();
+      this.updateInputOne(e.location);
+    }
+  }
 
   handleChange = (event, index, value) => this.setState({ value });
 
@@ -83,10 +181,6 @@ class Day extends Component {
       inputTwo: ''
     })
   }
-
-  // handleRestarauntSearch() {
-
-  // }
 
   updateEventName(value) {
     this.setState({ eventName: value });
@@ -157,7 +251,7 @@ class Day extends Component {
       return (
         <div>
           <TextField
-            hintText="Restaraunt Name"
+            hintText="Enter City"
             id="text-field-default-event"
             defaultValue={this.state.inputOne}
             onChange={(e) => this.updateInputOne(e.target.value)}
@@ -206,6 +300,22 @@ class Day extends Component {
         />
       </div>
     );
+    const restaurantActions = (
+      <div className='new-event-actions'>
+        <RaisedButton
+          label="Ok"
+          primary={true}
+          onClick={() => { this.handleAddRestaurant(), this.props.closeRestaurantModal() }}
+          className='new-event-ok'
+        />
+        <RaisedButton
+          label='Cancel'
+          secondary={true}
+          onClick={this.handleClose}
+          className='new-event-cancel'
+        />
+      </div>
+    );
     return (
       <main>
         <Menu />
@@ -214,6 +324,7 @@ class Day extends Component {
           <br />
           <RaisedButton label="Add event" primary={true} onClick={this.handleOpen} />
           {this.handleGetAllEvents()}
+          {/* {this.handleRestaurants()} */}
           <Dialog
             title={eventName}
             actions={actions}
@@ -234,7 +345,26 @@ class Day extends Component {
               onChange={(e) => this.updateEventName(e.target.value)}
             />
             {this.handleEventType()}
-          </Dialog>
+          </Dialog >
+          {/* <Dialog
+            title={eventName}
+            actions={restaurantActions}
+            modal={false}
+            open={this.props.restaurantModalToggle}
+            onRequestClose={this.props.closeRestaurantModal()}>
+            <div>
+              <TextField
+                id="text-field-default-event"
+                defaultValue={eventName}
+                onChange={(e) => this.updateEventName(e.target.value)}
+              />
+              <TextField
+                hintText={this.props.currentRestaurant.name}
+                id="text-field-default-event"
+                defaultValue={this.props.currentRestaurant.name}
+              />
+            </div>
+          </Dialog> */}
         </section>
       </main>
     )
@@ -242,8 +372,13 @@ class Day extends Component {
 }
 function mapStateToProps(state) {
   return {
-    gIcon: state.gIcon
+    gIcon: state.gIcon,
+    restaurantModalToggle: state.frontEnd.restaurantModalToggle,
+    currentRestaurant: state.restaurant.currentRestaurant,
+    eventsList: state.frontEnd.eventsList,
+    currentDay: state.frontEnd.currentDay,
+    savedRestaurants: state.restaurant.savedRestaurants
   }
 }
 
-export default connect(null, { showGroup, searchRestaurants })(Day);
+export default connect(mapStateToProps, { updateSavedRestaurants, showGroup, searchRestaurants, updateEventsList, createNewFlight, createNewLodging, createNewActivity, createNewRental, deleteSelectedFlight, deleteSelectedLodging, deleteSelectedRental, deleteSelectedActivity })(Day);

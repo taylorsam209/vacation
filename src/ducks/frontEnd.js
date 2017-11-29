@@ -18,18 +18,18 @@ const { getAllTrips // Dashboard
   // Day Component
 
   , getEvents
-  // , addFlight
-  // , editFlight
-  // , deleteFlight
-  // , addRentalCar
-  // , editRentalCar
-  // , deleteRentalCar
-  // , addActivity
-  // , editActivity
-  // , deleteActivity
-  // , addLodging
-  // , editLodging
-  // , deleteLodging
+  , addFlight
+  , editFlight
+  , deleteFlight
+  , addRentalCar
+  , editRentalCar
+  , deleteRentalCar
+  , addActivity
+  , editActivity
+  , deleteActivity
+  , addLodging
+  , editLodging
+  , deleteLodging
 
   // NOTI
 
@@ -79,15 +79,16 @@ const G_ICON_CHANGE = 'G_ICON_CHANGE'
     currentTripForCode: '',
     notificationsList: [],
     restaurantModalToggle: false
+
   };
 
 export function getCurrentUserID() {
-  let user = axios.get('/auth/me').then(response => {
-    return response.data
+  let userId = axios.get('/auth/me').then(response => {
+    return response.data.user_id
   })
   return {
     type: GET_USER_ID,
-    payload: user.user_id
+    payload: userId
   }
 }
 
@@ -149,7 +150,7 @@ export function createNewTrip(tripObj) {
 }
 
 // Deletes a trip by trip_id and returns an array of trips by the deleted trip's user_id
-export function deleteSelectedTrip(trip_id){
+export function deleteSelectedTrip(trip_id) {
   let request = deleteTrip(url, trip_id).then(res => {
     return res;
   });
@@ -170,8 +171,10 @@ export function updateTripList(user_id) {
   };
 }
 // Requests all days by trip_id and updates the dayList with the returned array
-export function updateDaysList(trip_id){
-  let request = getAllDays(url, trip_id).then(res=>{
+export function updateDaysList(trip_id) {
+  console.log("Attempt at Day List")
+  let request = getAllDays(url, trip_id).then(res => {
+    console.log("Response", res)
     return res;
   });
   return {
@@ -181,8 +184,8 @@ export function updateDaysList(trip_id){
 }
 
 // Updates the currentDay by day_id
-export function updateCurrentDay(day_id){
-  let request = getDay(url, day_id).then(res=>{
+export function updateCurrentDay(day_id) {
+  let request = getDay(url, day_id).then(res => {
     return res;
   });
   return {
@@ -193,7 +196,7 @@ export function updateCurrentDay(day_id){
 
 // Takes a 'day' object and returns the updated daysList
 export function createNewDay(new_day) {
-  let request = addDay(url, new_day).then(res=>{
+  let request = addDay(url, new_day).then(res => {
     return res;
   });
   return {
@@ -204,7 +207,7 @@ export function createNewDay(new_day) {
 
 // Takes a 'day' object (day_id and date required) and returns the edited day
 export function editSelectedDay(day_obj) {
-  let request = editDay(url, day_obj).then(res=>{
+  let request = editDay(url, day_obj).then(res => {
     return res;
   });
   return {
@@ -214,8 +217,8 @@ export function editSelectedDay(day_obj) {
 }
 
 // Takes a day_id and returns an updateDaysList with the day with the given day_id deleted
-export function deletedSelectedDay(day_id){
-  let request = deleteDay(url, day_id).then(res=>{
+export function deletedSelectedDay(day_id) {
+  let request = deleteDay(url, day_id).then(res => {
     return res;
   });
   return {
@@ -226,7 +229,7 @@ export function deletedSelectedDay(day_id){
 
 // Updates the eventsList by day_id
 export function updateEventsList(day_id) {
-  let request = getEvents(url, day_id).then(res=>{
+  let request = getEvents(url, day_id).then(res => {
     return res;
   });
   return {
@@ -236,11 +239,131 @@ export function updateEventsList(day_id) {
 }
 
 // Unique function, stores the passed in flight, activity, lodging, or rentalcar obj
-export function updateCurrentEvent(eventObj){
+export function updateCurrentEvent(eventObj) {
   return {
     type: UPDATE_CURRENT_EVENT,
     payload: eventObj
   };
+}
+
+export function createNewFlight(flightObj) {
+  let request = addFlight(url, flightObj).then(res => {
+    return res
+  });
+  return {
+    type: UPDATE_EVENTS_LIST,
+    payload: request
+  }
+}
+
+export function editSelectedFlight(flightObj) {
+  let request = editFlight(url, flightObj).then(res => {
+    return res
+  });
+  return {
+    type: UPDATE_EVENTS_LIST,
+    payload: request
+  }
+}
+
+export function deleteSelectedFlight(flightId) {
+  let request = deleteFlight(url, flightId).then(res => {
+    return res
+  });
+  return {
+    type: UPDATE_EVENTS_LIST,
+    payload: request
+  }
+}
+
+export function createNewRental(rentalObj) {
+  let request = addRentalCar(url, rentalObj).then(res => {
+    return res
+  });
+  return {
+    type: UPDATE_EVENTS_LIST,
+    payload: request
+  }
+}
+
+export function editSelectedRental(rentalObj) {
+  let request = editRentalCar(url, rentalObj).then(res => {
+    return res
+  });
+  return {
+    type: UPDATE_EVENTS_LIST,
+    payload: request
+  }
+}
+
+export function deleteSelectedRental(rentalId) {
+  let request = deleteRentalCar(url, rentalId).then(res => {
+    return res
+  });
+  return {
+    type: UPDATE_EVENTS_LIST,
+    payload: request
+  }
+}
+
+export function createNewActivity(activityObj) {
+  let request = addActivity(url, activityObj).then(res => {
+    return res
+  });
+  return {
+    type: UPDATE_EVENTS_LIST,
+    payload: request
+  }
+}
+
+export function editSelectedActivity(activityObj) {
+  let request = editActivity(url, activityObj).then(res => {
+    return res
+  });
+  return {
+    type: UPDATE_EVENTS_LIST,
+    payload: request
+  }
+}
+
+export function deleteSelectedActivity(activityId) {
+  let request = deleteActivity(url, activityId).then(res => {
+    return res
+  });
+  return {
+    type: UPDATE_EVENTS_LIST,
+    payload: request
+  }
+}
+
+export function createNewLodging(lodgingObj) {
+  let request = addLodging(url, lodgingObj).then(res => {
+    return res
+  });
+  return {
+    type: UPDATE_EVENTS_LIST,
+    payload: request
+  }
+}
+
+export function editSelectedLodging(lodgingObj) {
+  let request = editLodging(url, lodgingObj).then(res => {
+    return res
+  });
+  return {
+    type: UPDATE_EVENTS_LIST,
+    payload: request
+  }
+}
+
+export function deleteSelectedLodging(lodgingId) {
+  let request = deleteLodging(url, lodgingId).then(res => {
+    return res
+  });
+  return {
+    type: UPDATE_EVENTS_LIST,
+    payload: request
+  }
 }
 
 export function searchTripModal(value) {
@@ -261,8 +384,8 @@ export function getTripByCode(code) {
 }
 
 // Updates the notificationsList by trip_id
-export function updateNotificationsList(trip_id){
-  let request = getNotifications(url, trip_id).then(res=>{
+export function updateNotificationsList(trip_id) {
+  let request = getNotifications(url, trip_id).then(res => {
     return res;
   });
   return {
@@ -274,8 +397,8 @@ export function updateNotificationsList(trip_id){
 
 // Takes a 'trip' object (trip_id, user_id, and notification_text required)
 // returns a message
-export function createNewNotification(tripObj){
-  let request = addNotification(url, tripObj).then(res=>{
+export function createNewNotification(tripObj) {
+  let request = addNotification(url, tripObj).then(res => {
     return res;
   });
   return {
@@ -286,8 +409,8 @@ export function createNewNotification(tripObj){
 
 // Not sure if this works either
 // Takes a Notification id and returns a message
-export function deleteSelectedNotification(notification_id){
-  let request = deleteNotification(url, notification_id).then(res=>{
+export function deleteSelectedNotification(notification_id) {
+  let request = deleteNotification(url, notification_id).then(res => {
     return res;
   });
   return {
@@ -298,7 +421,7 @@ export function deleteSelectedNotification(notification_id){
 
 
 // Sets the restaurant modal to false
-export function closeRestaurantModal(){
+export function closeRestaurantModal() {
   return {
     type: CLOSE_RESTAURANT_MODAL,
     payload: false
@@ -306,7 +429,7 @@ export function closeRestaurantModal(){
 }
 
 // Sets the restaurant modal to true
-export function openRestaurantModal(){
+export function openRestaurantModal() {
   return {
     type: OPEN_RESTAURANT_MODAL,
     payload: true
@@ -334,30 +457,30 @@ export default function reducer(state = initialState, action) {
     case UPDATE_TRIP_LIST + _FULFILLED:
       return Object.assign({}, state, { tripList: action.payload });
     case DELETE_SELECTED_TRIP + _FULFILLED:
-      return Object.assign({}, state, {tripList: action.payload });
+      return Object.assign({}, state, { tripList: action.payload });
     case UPDATE_DAYS_LIST + _FULFILLED:
-      return Object.assign({}, state, {daysList: action.payload});
+      return Object.assign({}, state, { daysList: action.payload });
     case UPDATE_CURRENT_DAY + _FULFILLED:
-      return Object.assign({}, state, {currentDay: action.payload});
+      return Object.assign({}, state, { currentDay: action.payload });
     case UPDATE_EVENTS_LIST + _FULFILLED:
-      return Object.assign({}, state, {eventsList: action.payload});
+      return Object.assign({}, state, { eventsList: action.payload });
     case UPDATE_CURRENT_EVENT:
-      return Object.assign({}, state, {currentEvent: action.payload});
+      return Object.assign({}, state, { currentEvent: action.payload });
     case CREATE_NEW_TRIP + _FULFILLED:
-      let {updatedTripList, updatedCurrentTrip} = action.payload
-      return Object.assign({}, state, {tripList: updatedTripList, currentTrip: updatedCurrentTrip});
+      let { updatedTripList, updatedCurrentTrip } = action.payload
+      return Object.assign({}, state, { tripList: updatedTripList, currentTrip: updatedCurrentTrip });
     case CREATE_NEW_DAY + _FULFILLED:
-      return Object.assign({}, state, {daysList: action.payload});
+      return Object.assign({}, state, { daysList: action.payload });
     case EDIT_SELECTED_DAY + _FULFILLED:
-      return Object.assign({}, state, {currentDay: action.payload});
+      return Object.assign({}, state, { currentDay: action.payload });
     case DELETE_SELECTED_DAY + _FULFILLED:
-      return Object.assign({}, state, {daysList: action.payload});
+      return Object.assign({}, state, { daysList: action.payload });
     case CLOSE_RESTAURANT_MODAL:
-      return Object.assign({}, state, {restaurantModalToggle: action.payload});
+      return Object.assign({}, state, { restaurantModalToggle: action.payload });
     case OPEN_RESTAURANT_MODAL:
-      return Object.assign({}, state, {restaurantModalToggle: action.payload});
+      return Object.assign({}, state, { restaurantModalToggle: action.payload });
     case UPDATE_NOTIFICATIONS_LIST:
-      return Object.assign({}, state, {notificationsList: action.payload});
+      return Object.assign({}, state, { notificationsList: action.payload });
     case CREATE_NEW_NOTIFICATION:
       return state; // action.payload is a message, need to create a way to display it
     case DELETE_SELECTED_NOTIFICATION:
