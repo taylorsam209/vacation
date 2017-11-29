@@ -138,14 +138,14 @@ export function updateCurrentTrip(trip_id) {
 // Makes a new trip on the backend, returns array of trip objects
 export function createNewTrip(tripObj) {
   let request = addTrip(url, tripObj).then(res => {
-    return res;
+    return {
+      updatedTripList: res,
+      updatedCurrentTrip: res.slice(-1)[0]// newest trip, aka the last item in the returned array
+    };
   });
   return {
     type: CREATE_NEW_TRIP,
-    payload: {
-      updatedTripList: request,
-      updatedCurrentTrip: request.slice(-1)[0]// newest trip, aka the last item in the returned array
-    }
+    payload: request
   };
 }
 

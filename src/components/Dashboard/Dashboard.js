@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Menu from '../Menu/Menu.js';
-import { showGroup, newTripModal, updateTripList, searchTripModal, getTripByCode, getCurrentUserID } from '../../ducks/frontEnd';
+import { showGroup, newTripModal, updateTripList, searchTripModal, getTripByCode, getCurrentUserID, createNewTrip } from '../../ducks/frontEnd';
 import { connect } from 'react-redux';
 import './Dashboard.css';
 import mountainLandscape from '../../assets/images/tripPlaceholders/mountain-landscape.jpg';
@@ -11,7 +11,7 @@ import DatePicker from 'material-ui/DatePicker';
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 import { Card, CardText, CardMedia, CardTitle } from 'material-ui/Card';
-import { addTrip, getAllTrips, getAllDays } from '../../ducks/frontEndABs.js';
+import { getAllTrips, getAllDays } from '../../ducks/frontEndABs.js';
 import IconButton from 'material-ui/IconButton';
 import ActionCancel from 'material-ui/svg-icons/navigation/cancel';
 import ContentCreate from 'material-ui/svg-icons/content/create';
@@ -26,19 +26,12 @@ class Dashboard extends Component {
     constructor() {
         super();
         this.state = {
-            wizard: {
                 user_id: 0,
-                date: "01/31/17",
-                trip_name: "Just render",
-                trip_code: "789kl",
-                trip_location: "Taylorsville",
-                trip_details: "Dancing the night away."
-            },
-            tripName: '',
-            tripDetails: '',
-            tripCode: '',
-            tripDate: '',
-            tripLocation: ''
+                date: "",
+                trip_name: "",
+                trip_code: "",
+                trip_location: "",
+                trip_details: ""
         }
 
         this.handleTrips = this.handleTrips.bind(this);
@@ -59,15 +52,16 @@ class Dashboard extends Component {
 
     componentDidMount() {
         this.props.getCurrentUserID();
-        console.log(getCurrentUserID());
         this.props.showGroup(false);
         console.log("gIcon Results:", this.props.showGroup);
         this.props.updateTripList(this.props.user_id);
-        this.state.wizard.user_id = this.props.user_id;
+
+
     }
 
     componentWillReceiveProps(nextProps) {
         nextProps.updateTripList(nextProps.user_id);
+        this.state.user_id = nextProps.user_id;
     }
 
     handleTrips() {
@@ -116,12 +110,12 @@ class Dashboard extends Component {
 
     handleTripName(e) {
         this.setState({
-            tripName: e
+            trip_name: e
         })
     }
     handleTripDetails(e) {
         this.setState({
-            tripDetails: e
+            trip_details: e
         })
     }
     handleTripSearch(e) {
@@ -131,22 +125,22 @@ class Dashboard extends Component {
     }
     handleTripCode(e) {
         this.setState({
-            tripCode: e
+            trip_code: e
         })
     }
     handleTripDate(event, date) {
         this.setState({
-            tripDate: date
+            date: date
         })
     }
     handleTripLocation(e) {
         this.setState({
-            tripLocation: e
+            trip_location: e
         })
     }
 
     validationName() {
-        if (this.state.tripName === '') {
+        if (this.state.trip_name === '') {
             return (
                 <div>
                     <TextField required
@@ -170,7 +164,7 @@ class Dashboard extends Component {
         }
     }
     validationCode() {
-        if (this.state.tripCode.length !== 5) {
+        if (this.state.trip_code.length !== 5) {
             return (
                 <div>
                     <TextField required
@@ -197,14 +191,14 @@ class Dashboard extends Component {
     }
 
     tripDisableToggle() {
-        if (this.state.tripName !== '' && this.state.tripCode.length === 5) {
+        if (this.state.trip_code !== '' && this.state.trip_code.length === 5) {
             return false
         } else {
             return true
         }
     }
     searchTripDisableToggle() {
-        if (this.state.tripCode.length === 5) {
+        if (this.state.trip_code.length === 5) {
             return false
         } else {
             return true
@@ -212,9 +206,9 @@ class Dashboard extends Component {
     }
 
     newTrip() {
-        let tripObj = this.state.wizard;
+        let tripObj = this.state;
 
-        this.props.addTrip('http://localhost:3010/api/', tripObj)
+        this.props.createNewTrip(tripObj)
     }
 
     handleTripDelete(e) {
@@ -265,17 +259,17 @@ class Dashboard extends Component {
                 <h6 className='dash-header'>Your most recently viewed trip:</h6>
                 <Card className='recently-viewed-trip' zDepth={3}>
                     <CardTitle
-                        title={currentTrip ? currentTrip.trip_name : 'Testing...'}
-                        subtitle={currentTrip ? currentTrip.trip_location : '1 2 3'}
+                        title={currentTrip ? currentTrip.trip_name : ''}
+                        subtitle={currentTrip ? currentTrip.trip_location : ''}
                     />
                     <CardMedia>
                         <img src={currentTrip ? currentTrip.trip_image : mountainLandscape} />
                     </CardMedia>
                     <CardText>
-                        {currentTrip ? currentTrip.trip_location : '??/??/????'}
+                        {currentTrip ? currentTrip.trip_location : ''}
                     </CardText>
                     <CardText>
-                        {currentTrip ? currentTrip.trip_details : 'Stuff'}
+                        {currentTrip ? currentTrip.trip_details : ''}
                     </CardText>
                 </Card>
                 <RaisedButton
@@ -345,4 +339,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { showGroup, newTripModal, updateTripList, searchTripModal, addTrip, getAllTrips, getAllDays, getTripByCode, getCurrentUserID })(Dashboard);
+export default connect(mapStateToProps, { showGroup, newTripModal, updateTripList, searchTripModal, createNewTrip, getAllTrips, getAllDays, getTripByCode, getCurrentUserID })(Dashboard);
