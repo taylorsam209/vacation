@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux'
 import './Day.css';
-import { showGroup, updateEventsList, createNewFlight, createNewLodging, createNewActivity, createNewRental, deleteSelectedFlight, deleteSelectedLodging, deleteSelectedRental, deleteSelectedActivity } from '../../ducks/frontEnd';
+import {
+  showGroup, updateEventsList, createNewFlight, createNewLodging, createNewActivity, createNewRental, deleteSelectedFlight,
+  deleteSelectedLodging, deleteSelectedRental, deleteSelectedActivity, editSelectedActivity, editSelectedFlight, editSelectedLodging, editSelectedRental
+} from '../../ducks/frontEnd';
 /* Components*/
 import Menu from '../Menu/Menu.js';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -29,6 +32,8 @@ class Day extends Component {
       inputOne: '',
       inputTwo: '',
       restaurantArray: [],
+      editOpen: false,
+      editedId: ''
     }
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -39,6 +44,8 @@ class Day extends Component {
     this.handleGetAllEvents = this.handleGetAllEvents.bind(this);
     this.handleEventDelete = this.handleEventDelete.bind(this);
     // this.handleRestaurants = this.handleRestaurants.bind(this);
+    this.handleEventEditWindow = this.handleEventEditWindow.bind(this);
+    this.handleEditEvent = this.handleEditEvent.bind(this);
   }
 
 
@@ -46,6 +53,7 @@ class Day extends Component {
   componentDidMount() {
     this.props.showGroup(true);
     this.props.updateEventsList(1);
+    console.log("Current Day", this.props.currentDay)
   }
 
   // componentWillReceiveProps(nextProps) {
@@ -76,28 +84,30 @@ class Day extends Component {
 
   handleGetAllEvents() {
     console.log('look at me', this.props.eventsList)
-    return this.props.eventsList.map((e, i, arr) => {
-      return (
-        <div key={i}>
-          <Card className='' style={{ margin: '10px', padding: '10px' }}>
-            <p>{e.confirmation || null}</p>
-            <p>{e.airline_name || null}</p>
-            <p>{e.lodging_name || null}</p>
-            <p>{e.lodging_details || null}</p>
-            <p>{e.activity_name || null}</p>
-            <p>{e.activity_details || null}</p>
-            <p>{e.rental_company || null}</p>
-            <p>{e.rental_details || null}</p>
-            <IconButton tooltip="Cancel Event" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventDelete(e) }}>
-              <ActionCancel />
-            </IconButton>
-            <IconButton tooltip="Edit Event" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventEdit(e) }}>
-              <Edit />
-            </IconButton>
-          </Card>
-        </div>
-      )
-    })
+    if (this.props.eventsList.length) {
+      return this.props.eventsList.map((e, i, arr) => {
+        return (
+          <div key={i}>
+            <Card className='' style={{ margin: '10px', padding: '10px' }}>
+              <p>{e.confirmation || null}</p>
+              <p>{e.airline_name || null}</p>
+              <p>{e.lodging_name || null}</p>
+              <p>{e.lodging_details || null}</p>
+              <p>{e.activity_name || null}</p>
+              <p>{e.activity_details || null}</p>
+              <p>{e.rental_company || null}</p>
+              <p>{e.rental_details || null}</p>
+              <IconButton tooltip="Cancel Event" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventDelete(e) }}>
+                <ActionCancel />
+              </IconButton>
+              <IconButton tooltip="Edit Event" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventEditWindow(e) }}>
+                <Edit />
+              </IconButton>
+            </Card>
+          </div>
+        )
+      })
+    }
   }
 
 
@@ -141,23 +151,57 @@ class Day extends Component {
     }
   }
 
-  handleEventEdit(e) {
+  handleEditEvent() {
+    console.log("Hit Edit Event Function")
+    const value = this.state.value;
+    if (value === 1) {
+      console.log("Hit Flight Edit")
+      this.props.editSelectedFlight({ confirmation: this.state.inputOne, airline_name: this.state.inputTwo, flight_id: this.state.editedId })
+    } else if (value === 2) {
+      this.props.editSelectedRental({ valueOne: this.state.inputOne, valueTwo: this.state.inputTwo, id: this.state.editedId })
+    } else if (value === 3) {
+      this.props.editSelectedLodging({ valueOne: this.state.inputOne, valueTwo: this.state.inputTwo, id: this.state.editedId })
+    } else if (value === 5) {
+      this.props.editSelectedActivity({ valueOne: this.state.inputOne, valueTwo: this.state.inputTwo, id: this.state.editedId })
+    }
+  }
+
+  handleEventEditWindow(e) {
+    this.setState({
+      editOpen: true
+    })
     if (e.confirmation) {
       this.handleOpen();
       this.updateInputOne(e.confirmation);
       this.updateInputTwo(e.airline_name);
+      this.setState({
+        editedId: e.flight_id,
+        value: 1
+      })
     } else if (e.lodging_name) {
       this.handleOpen();
       this.updateInputOne(e.lodging_name);
-      this.updateInputTwo(e.airline_details);
+      this.updateInputTwo(e.lodging_details);
+      this.setState({
+        editedId: e.lodging_id,
+        value: 3
+      })
     } else if (e.activity_name) {
       this.handleOpen();
       this.updateInputOne(e.activity_name);
       this.updateInputTwo(e.activity_details);
+      this.setState({
+        editedId: e.activity_id,
+        value: 5
+      })
     } else if (e.rental_company) {
       this.handleOpen();
       this.updateInputOne(e.rental_company);
       this.updateInputTwo(e.rental_details);
+      this.setState({
+        editedId: e.rental_id,
+        value: 2
+      })
     } else if (e.yelpId) {
       this.handleOpen();
       this.updateInputOne(e.location);
@@ -171,8 +215,13 @@ class Day extends Component {
   };
 
   handleClose() {
+    console.log(this.state.editedId)
     this.setState({ open: false });
     this.makeBlank();
+    this.setState({
+      editOpen: false
+    })
+    console.log(this.state.value)
   };
 
   makeBlank() {
@@ -316,6 +365,22 @@ class Day extends Component {
         />
       </div>
     );
+    const editActions = (
+      <div className='new-event-actions'>
+        <RaisedButton
+          label="Ok"
+          primary={true}
+          onClick={() => { this.handleEditEvent(), this.handleClose() }}
+          className='new-event-ok'
+        />
+        <RaisedButton
+          label='Cancel'
+          secondary={true}
+          onClick={this.handleClose}
+          className='new-event-cancel'
+        />
+      </div>
+    );
     return (
       <main>
         <Menu />
@@ -327,7 +392,7 @@ class Day extends Component {
           {/* {this.handleRestaurants()} */}
           <Dialog
             title={eventName}
-            actions={actions}
+            actions={this.state.editOpen === false ? actions : editActions}
             modal={false}
             open={this.state.open}
             onRequestClose={this.handleClose}
@@ -381,4 +446,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { updateSavedRestaurants, showGroup, searchRestaurants, updateEventsList, createNewFlight, createNewLodging, createNewActivity, createNewRental, deleteSelectedFlight, deleteSelectedLodging, deleteSelectedRental, deleteSelectedActivity })(Day);
+export default connect(mapStateToProps, { updateSavedRestaurants, showGroup, searchRestaurants, updateEventsList, createNewFlight, createNewLodging, createNewActivity, createNewRental, deleteSelectedFlight, deleteSelectedLodging, deleteSelectedRental, deleteSelectedActivity, editSelectedActivity, editSelectedFlight, editSelectedLodging, editSelectedRental })(Day);
