@@ -1,7 +1,29 @@
+@import "../../partials/themeController";
+
 .login {
   $ratio: .30;
   background-image: url('../../assets/images/beach-vacation-mobile.jpg');
   background-position: top;
   background-size: 1998px*$ratio 2696px*$ratio;
   height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+
+  h1 {
+    font-family: $logoFont;
+    font-size: 3.5em;
+    color: $darkColor;
+    padding-top: 10vh;
+    span {
+      font-size: 12px;
+    }
+  }
+}
+
+.login-lower-half {
+  align-self: end;
+}
+
+.login-button {
+  margin: 10vh;
 }
