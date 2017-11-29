@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Menu from '../Menu/Menu.js';
-import { showGroup, newTripModal, updateTripList, searchTripModal, getTripByCode, getCurrentUserID } from '../../ducks/frontEnd';
+import { showGroup, newTripModal, updateTripList, searchTripModal, getTripByCode, getCurrentUserID, createNewTrip } from '../../ducks/frontEnd';
 import { connect } from 'react-redux';
 import './Dashboard.css';
 import mountainLandscape from '../../assets/images/tripPlaceholders/mountain-landscape.jpg';
@@ -11,7 +11,7 @@ import DatePicker from 'material-ui/DatePicker';
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 import { Card, CardText, CardMedia, CardTitle } from 'material-ui/Card';
-import { addTrip, getAllTrips, getAllDays } from '../../ducks/frontEndABs.js';
+import { getAllTrips, getAllDays } from '../../ducks/frontEndABs.js';
 import IconButton from 'material-ui/IconButton';
 import ActionCancel from 'material-ui/svg-icons/navigation/cancel';
 import ContentCreate from 'material-ui/svg-icons/content/create';
@@ -215,7 +215,7 @@ class Dashboard extends Component {
     newTrip() {
         let tripObj = this.state.wizard;
 
-        this.props.addTrip('http://localhost:3010/api/', tripObj)
+        this.props.createNewTrip('http://localhost:3010/api/', tripObj)
     }
 
     handleTripDelete(e) {
@@ -346,4 +346,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { showGroup, newTripModal, updateTripList, searchTripModal, addTrip, getAllTrips, getAllDays, getTripByCode, getCurrentUserID })(Dashboard);
+export default connect(mapStateToProps, { showGroup, newTripModal, updateTripList, searchTripModal, createNewTrip, getAllTrips, getAllDays, getTripByCode, getCurrentUserID })(Dashboard);
