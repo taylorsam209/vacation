@@ -3,17 +3,14 @@ import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "reac
 import { compose, withStateHandlers } from "recompose";
 import { connect } from "react-redux";
 
-
-
 class Map extends Component {
 
-    shouldComponentUpdate(nextProps, nextState) {
-        if (this.props.currentRestaurant.coordinates !== nextProps.currentRestaurant.coordinates) return true;
-        else return false;
-    }
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     if (this.props.currentRestaurant.coordinates !== nextProps.currentRestaurant.coordinates) return true;
+    //     else return false;
+    // }
 
     render() {
-
         const { name, coordinates, location } = this.props.currentRestaurant;
         console.log("coordinates", this.props.currentRestaurant.coordinates);
         console.log("whole", this.props.currentRestaurant);

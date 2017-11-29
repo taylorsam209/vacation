@@ -3,8 +3,27 @@
 .Restaurant {
     min-height: 100%;
     width: 100%;
-     display:flex;
-    flex-direction: column;
+}
+
+
+.restaurant-container {
+    width: 80%;
+    margin: 20px auto 20px auto;
+    background-color: green;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    animation-delay: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    h4 {
+        margin-top:10px;
+    }
+    p {
+        margin-top:10px;
+    }
 }
 
 .reviews {
@@ -14,146 +33,40 @@
     color: rgb(139, 136, 136)
     }
 }
+.yelp-btn {
+    height:50px;
+    width:220px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    color: white;
+    background-color: $mediumColor;
+    border-radius: 2px;
+    font-size:1.25em;
+    font-weight: 550;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
     
-    .photo-container{
-        display: flex;
-        flex-direction: row;
-        margin: auto;
-        margin-top: 50px;
-    }
-    .carousel-container {
-        height: 400px;
-        width: 700px;
-        overflow: hidden;
-        position: relative;
-        margin: auto;
-        display: flex;
-        align-items: center;
-        align-content: center;
-        justify-content: center;
-        background-color: rgb(179, 179, 179); 
-    }
-    
-    .image {
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        background-size: cover; 
-        animation: fadeIn 1s;
-        transition: left .4s; /* transition lets photos slide over smoothly */
-      }
-    
-    //   .spinner{
-    //       height: 100px;
-    //       width: 100px;
-    //       border: solid 2px black;
-    //       animation: loading 1s infinite;
-    //       position: absolute;
-    //       margin: auto;
-    //   }
-    
-    //   @keyframes loading {
-    //     from{transform: rotate(0deg); }
-    //     to{transform: rotate(360deg); }
-    //   }
-    
-    .carousel-btn {
-        cursor: pointer;
-        color: white;
-        padding: 10px 20px;
-        border-radius: 3px;
-        border: medium solid black;
-        background-color: green;
-        transition: .4s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size:2em;
-        font-weight: bold;
-    }
-    
-        .carousel-btn:hover {
-            background-color: gray;
-        }
-    
-        .restaurant-description-container {
-            width: 80%;
-            margin: 20px auto 20px auto;
-            background-color: green;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-            -webkit-animation-name: fadeIn;
-            animation-name: fadeIn;
-            -webkit-animation-duration: 1s;
-            animation-duration: 1s;
-            animation-delay: 1s;
-            -webkit-animation-fill-mode: both;
-            animation-fill-mode: both;
-            h4{
-                margin-top:10px;
-            }
-            p {
-                margin-top:10px;
-            }
-        }
-    
-        .yelp-btn {
-            height:50px;
-            width:220px;
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: 10px;
-            color: white;
-            background-color: $mediumColor;
-            border-radius: 2px;
-            font-size:1.25em;
-            font-weight: 550;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-    
-        .add-restaurant-btn {
-            cursor: pointer;
-            height: 50px;
-            width: 150px;
-            margin: 20px auto 20px auto;
-            font-family: sans-serif;
-            font-size:1.25em;
-            color: white;
-            background: green;
-            border: yellow;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+.add-restaurant-btn {
+    cursor: pointer;
+    height: 50px;
+    width: 150px;
+    margin: 20px auto 20px auto;
+    font-family: sans-serif;
+    font-size:1.25em;
+    color: white;
+    background: green;
+    border: yellow;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-        @keyframes fadein {
-            from { opacity: 0; }
-            to   { opacity: 1; }
-        }
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
     
-        @-webkit-keyframes fadeInUp {
-            0% {
-            opacity: 0;
-            -webkit-transform: translate3d(0, 100%, 0);
-            transform: translate3d(0, 100%, 0);
-            }
-            100% {
-            opacity: 1;
-            -webkit-transform: none;
-            transform: none;
-            }
-            }
-            @keyframes fadeInUp {
-            0% {
-            opacity: 0;
-            -webkit-transform: translate3d(0, 100%, 0);
-            transform: translate3d(0, 100%, 0);
-            }
-            100% {
-            opacity: 1;
-            -webkit-transform: none;
-            transform: none;
-            }
-            } 
