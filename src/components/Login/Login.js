@@ -4,7 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import './Login.css';
 
 const style = {
-  margin: 12
+
 }
 
 class Login extends Component {
@@ -12,12 +12,18 @@ class Login extends Component {
     return (
       <main>
         <section className='login'>
+          <h1>Trippin'<span>&trade;</span></h1>
+          <div className='login-lower-half'>
           <a href={process.env.REACT_APP_LOGIN}>
-            <RaisedButton label='Login / Sign-up' primary={true} style={style}/>
+            <RaisedButton
+              label='Login / Sign-up'
+              secondary={true}
+              style={style}
+              className='login-button'/>
           </a>
-          <h1>Login</h1>
-          <About/>
+          </div>
         </section>
+        <About/>
       </main>
     );
   }
