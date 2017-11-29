@@ -257,7 +257,9 @@ export function createNewFlight(flightObj) {
 }
 
 export function editSelectedFlight(flightObj) {
+  console.log("Hit MReducer")
   let request = editFlight(url, flightObj).then(res => {
+    console.log("Received back to MReducer")
     return res
   });
   return {
