@@ -67,7 +67,7 @@ class Trip extends Component {
           <Card className='' style={{ margin: '10px', padding: '10px' }}>
             {/*<p style={{ fontSize: '36px' }} >{e.date}</p>*/}
             <CardTitle
-              title={`Day ${i+1}`}
+              title={e.day_name || `Day ${i+1}`}
               subtitle={e.date}
             />
             <IconButton tooltip="Cancel Day" touch={true} tooltipPosition="top-center" onClick={() => { this.handleDayDelete(e) }} iconStyle={styles.largeIcon}>
