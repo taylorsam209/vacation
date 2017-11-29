@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from 'react-redux'
 import './Trip.css';
 import { showGroup, updateDaysList, createNewDay, deletedSelectedDay, updateCurrentDay, updateEventsList } from '../../ducks/frontEnd';
+import _ from 'lodash';
 /* Components*/
 import Menu from '../Menu/Menu.js';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -40,13 +41,22 @@ class Trip extends Component {
 
   componentWillReceiveProps(nextProps) {
     nextProps.daysList;
-    this.handleGetAllDays();
   }
 
   handleAddDay() {
-    // const dayArr = [this.props.currentTrip.trip_id, this.state.dayDate];
-    const dayArr = { trip_id: 2, date: "03/04/2064" }
-    this.props.createNewDay(dayArr)
+    const {currentTrip, createNewDay} = this.props;
+    const {dayDate, dayName} = this.state;
+    console.log({dayDate});
+    const month = dayDate.getMonth() + 1;
+    const day = dayDate.getDate();
+    const year = dayDate.getFullYear();
+    const newDay = {
+        trip_id: currentTrip ? currentTrip.trip_id : 124,
+        date: `${month}/${day}/${year}`,
+        day_name: dayName
+       }
+
+    createNewDay(newDay);
   }
 
   handleGetAllDays() {
@@ -60,12 +70,31 @@ class Trip extends Component {
 
     };
 
-    return this.props.daysList.map((e, i, arr) => {
+    function sortByDate(daysList){
+      let modifiedDatesDaysList = daysList.map(day=>{
+        let modifiedDate = day.date.split('/');
+        let year = modifiedDate.pop();
+        modifiedDate.unshift(year);
+        day.date = modifiedDate.join('/');
+        return day;
+      });
+      let orderedDays = _.sortBy(modifiedDatesDaysList, ['date', 'day_name', 'trip_id', 'day_id']);
+      return orderedDays.map(day=>{
+        let modifiedDate = day.date.split('/');
+        let year = modifiedDate.shift();
+        modifiedDate.push(year);
+        day.date = modifiedDate.join('/');
+        return day;
+      });
+    }
+
+    const sortedDays = sortByDate(this.props.daysList);
+
+    return sortedDays.map((e, i, arr) => {
       return (
         <div key={i}>
           <br />
           <Card className='' style={{ margin: '10px', padding: '10px' }}>
-            {/*<p style={{ fontSize: '36px' }} >{e.date}</p>*/}
             <CardTitle
               title={e.day_name || `Day ${i+1}`}
               subtitle={e.date}
@@ -129,12 +158,10 @@ class Trip extends Component {
         <Menu />
         <section className='trip'>
           <h1>Current Trip</h1>
-          <br />
           <RaisedButton label="Add day" primary={true} onClick={this.handleOpen} />
-          <br />
-          <br />
-
-          {this.handleGetAllDays()}
+          <section className='day-display'>
+            {this.handleGetAllDays()}
+          </section>
           <Dialog
             title={dayName}
             actions={actions}
@@ -148,7 +175,7 @@ class Trip extends Component {
               onChange={(e) => this.updateDayName(e.target.value)}
             />
             Select a date.
-            <DatePicker hintText="New adventure begins..." onChange={(x, event) => { this.updateDayDate(x, event) }} />
+            <DatePicker hintText="New adventure begins..." onChange={(x, event) => this.updateDayDate(x, event) } />
           </Dialog>
         </section>
       </main>

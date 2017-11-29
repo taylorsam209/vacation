@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @import 'https://fonts.googleapis.com/css?family=Permanent+Marker|Tienne';
 .new-day-actions {
   display: grid;
@@ -9,3 +10,159 @@
 
 .new-day-cancel {
   grid-column: 2/3; }
+
+.day-display {
+  margin: 10px 10vw 0 10vw;
+  background-color: #00825D;
+  padding: 5px 0 5px 0;
+  border-radius: 2px; }
+
+/*
+
+:
+constructor
+:
+ƒ Date()
+getDate
+:
+ƒ getDate()
+getDay
+:
+ƒ getDay()
+getFullYear
+:
+ƒ getFullYear()
+getHours
+:
+ƒ getHours()
+getMilliseconds
+:
+ƒ getMilliseconds()
+getMinutes
+:
+ƒ getMinutes()
+getMonth
+:
+ƒ getMonth()
+getSeconds
+:
+ƒ getSeconds()
+getTime
+:
+ƒ getTime()
+getTimezoneOffset
+:
+ƒ getTimezoneOffset()
+getUTCDate
+:
+ƒ getUTCDate()
+getUTCDay
+:
+ƒ getUTCDay()
+getUTCFullYear
+:
+ƒ getUTCFullYear()
+getUTCHours
+:
+ƒ getUTCHours()
+getUTCMilliseconds
+:
+ƒ getUTCMilliseconds()
+getUTCMinutes
+:
+ƒ getUTCMinutes()
+getUTCMonth
+:
+ƒ getUTCMonth()
+getUTCSeconds
+:
+ƒ getUTCSeconds()
+getYear
+:
+ƒ getYear()
+setDate
+:
+ƒ setDate()
+setFullYear
+:
+ƒ setFullYear()
+setHours
+:
+ƒ setHours()
+setMilliseconds
+:
+ƒ setMilliseconds()
+setMinutes
+:
+ƒ setMinutes()
+setMonth
+:
+ƒ setMonth()
+setSeconds
+:
+ƒ setSeconds()
+setTime
+:
+ƒ setTime()
+setUTCDate
+:
+ƒ setUTCDate()
+setUTCFullYear
+:
+ƒ setUTCFullYear()
+setUTCHours
+:
+ƒ setUTCHours()
+setUTCMilliseconds
+:
+ƒ setUTCMilliseconds()
+setUTCMinutes
+:
+ƒ setUTCMinutes()
+setUTCMonth
+:
+ƒ setUTCMonth()
+setUTCSeconds
+:
+ƒ setUTCSeconds()
+setYear
+:
+ƒ setYear()
+toDateString
+:
+ƒ toDateString()
+toGMTString
+:
+ƒ toUTCString()
+toISOString
+:
+ƒ toISOString()
+toJSON
+:
+ƒ toJSON()
+toLocaleDateString
+:
+ƒ toLocaleDateString()
+toLocaleString
+:
+ƒ toLocaleString()
+toLocaleTimeString
+:
+ƒ toLocaleTimeString()
+toString
+:
+ƒ toString()
+toTimeString
+:
+ƒ toTimeString()
+toUTCString
+:
+ƒ toUTCString()
+valueOf
+:
+ƒ valueOf()
+Symbol(Symbol.toPrimitive)
+:
+ƒ [Symbol.toPrimitive]()
+
+*/
