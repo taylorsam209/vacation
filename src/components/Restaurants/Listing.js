@@ -66,4 +66,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { getRestaurant, addRestaurant, clearRestaurant, getReviews, clearReviews })(Listing);
+export default connect(mapStateToProps, { getRestaurant, addRestaurant, clearRestaurant, getReviews, clearReviews, openRestaurantModal })(Listing);

@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import './Day.css';
 import {
   showGroup, updateEventsList, createNewFlight, createNewLodging, createNewActivity, createNewRental, deleteSelectedFlight,
-  deleteSelectedLodging, deleteSelectedRental, deleteSelectedActivity, editSelectedActivity, editSelectedFlight, editSelectedLodging, editSelectedRental
+  deleteSelectedLodging, deleteSelectedRental, deleteSelectedActivity, editSelectedActivity, editSelectedFlight, editSelectedLodging, editSelectedRental,
+  openRestaurantModal, closeRestaurantModal
 } from '../../ducks/frontEnd';
 /* Components*/
 import Menu from '../Menu/Menu.js';
@@ -16,7 +17,7 @@ import IconButton from 'material-ui/IconButton';
 import ActionCancel from 'material-ui/svg-icons/navigation/cancel';
 import { addEvent, getAllEvents, deleteEvent } from '../../ducks/frontEndABs.js';
 import { Link } from "react-router-dom";
-import { searchRestaurants, updateSavedRestaurants } from "../../ducks/restaurant.js"
+import { searchRestaurants, updateSavedRestaurants, clearRestaurant, clearReviews, getRestaurant, getReviews } from "../../ducks/restaurant.js"
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import Edit from 'material-ui/svg-icons/image/edit'
 import { mapProps } from "recompose";
@@ -43,9 +44,10 @@ class Day extends Component {
     this.handleAddEvent = this.handleAddEvent.bind(this);
     this.handleGetAllEvents = this.handleGetAllEvents.bind(this);
     this.handleEventDelete = this.handleEventDelete.bind(this);
-    // this.handleRestaurants = this.handleRestaurants.bind(this);
+    this.handleRestaurants = this.handleRestaurants.bind(this);
     this.handleEventEditWindow = this.handleEventEditWindow.bind(this);
     this.handleEditEvent = this.handleEditEvent.bind(this);
+    this.handleAddRestaurant = this.handleAddRestaurant.bind(this);
   }
 
 
@@ -53,7 +55,10 @@ class Day extends Component {
   componentDidMount() {
     this.props.showGroup(true);
     this.props.updateEventsList(1);
-    console.log("Current Day", this.props.currentDay)
+    this.props.updateSavedRestaurants(3)
+    console.log("Current Day", this.props.currentDay);
+    console.log("Current Restaurants", this.props.savedRestaurants);
+    console.log("Rest Modal", this.props.restaurantModalToggle)
   }
 
   // componentWillReceiveProps(nextProps) {
@@ -78,8 +83,7 @@ class Day extends Component {
   }
 
   handleAddRestaurant() {
-    const restArr = [this.state.eventName, this.props.currentRestaurant.name]
-    this.props.addRestaurant(restArr)
+    this.props.addRestaurant(this.state.eventName)
   }
 
   handleGetAllEvents() {
@@ -111,26 +115,35 @@ class Day extends Component {
   }
 
 
-  // handleRestaurants() {
-  //   axios.get('/api/savedRestaurants/:id', 1).then(resp => {
-  //     return resp.map((e, i, arr) => {
-  //       return (
-  //         <div key={i}>
-  //           <Card className='' style={{ margin: '10px', padding: '10px' }}>
-  //             <Link to={`/restaraunt/${e.yelpId}`}>{e.title}</Link>
-  //             <img src={e.image_url || 'https://pixy.org/images/placeholder.png'} alt="" />
-  //             <IconButton tooltip="top-center" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventDelete(e) }}>
-  //               <ActionCancel />
-  //             </IconButton>
-  //             <IconButton tooltip="Edit Event" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventEdit(e) }}>
-  //               <Edit />
-  //             </IconButton>
-  //           </Card>
-  //         </div>
-  //       )
-  //     })
-  //   })
-  // }
+  handleRestaurants() {
+    if (this.props.savedRestaurants.length) {
+      return this.props.savedRestaurants.map((e, i, arr) => {
+        console.log(e)
+        return (
+          <div key={i}>
+            <Card className='' style={{ margin: '10px', padding: '10px' }}>
+              <Link onClick={() => {
+                if (this.props.currentRestaurant.id !== e.id) {
+                  this.props.clearRestaurant(),
+                    this.props.clearReviews()
+                }
+                this.props.getRestaurant(e.id),
+                  this.props.getReviews(e.id)
+              }} style={{ textDecoration: "none" }} to={`/restaurant/${e.id}`}>
+                <h2 className='details-button' >
+                  <p>{e.name}</p>
+                  <p>More Details</p>
+                </h2>
+              </Link>
+              <IconButton tooltip="top-center" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventDelete(e) }}>
+                <ActionCancel />
+              </IconButton>
+            </Card>
+          </div>
+        )
+      })
+    }
+  }
 
   handleEventDelete(e) {
     console.log("Attempt")
@@ -146,8 +159,9 @@ class Day extends Component {
     } else if (e.rental_company) {
       this.props.deleteSelectedRental(e.rental_id);
       this.props.updateEventsList(1);
-    } else if (e.yelpId) {
-
+    } else if (e.restaurant_id) {
+      this.props.deleteSelectedRestaurant({ restaurant_id: e.restaurant_id, day_id: e.day_id });
+      this.props.updateSavedRestaurants(3)
     }
   }
 
@@ -158,11 +172,11 @@ class Day extends Component {
       console.log("Hit Flight Edit")
       this.props.editSelectedFlight({ confirmation: this.state.inputOne, airline_name: this.state.inputTwo, flight_id: this.state.editedId })
     } else if (value === 2) {
-      this.props.editSelectedRental({ valueOne: this.state.inputOne, valueTwo: this.state.inputTwo, id: this.state.editedId })
+      this.props.editSelectedRental({ rental_company: this.state.inputOne, rental_details: this.state.inputTwo, rental_id: this.state.editedId })
     } else if (value === 3) {
-      this.props.editSelectedLodging({ valueOne: this.state.inputOne, valueTwo: this.state.inputTwo, id: this.state.editedId })
+      this.props.editSelectedLodging({ lodging_name: this.state.inputOne, lodging_details: this.state.inputTwo, lodging_id: this.state.editedId })
     } else if (value === 5) {
-      this.props.editSelectedActivity({ valueOne: this.state.inputOne, valueTwo: this.state.inputTwo, id: this.state.editedId })
+      this.props.editSelectedActivity({ activity_name: this.state.inputOne, activity_details: this.state.inputTwo, activity_id: this.state.editedId })
     }
   }
 
@@ -202,9 +216,6 @@ class Day extends Component {
         editedId: e.rental_id,
         value: 2
       })
-    } else if (e.yelpId) {
-      this.handleOpen();
-      this.updateInputOne(e.location);
     }
   }
 
@@ -389,7 +400,7 @@ class Day extends Component {
           <br />
           <RaisedButton label="Add event" primary={true} onClick={this.handleOpen} />
           {this.handleGetAllEvents()}
-          {/* {this.handleRestaurants()} */}
+          {this.handleRestaurants()}
           <Dialog
             title={eventName}
             actions={this.state.editOpen === false ? actions : editActions}
@@ -411,27 +422,28 @@ class Day extends Component {
             />
             {this.handleEventType()}
           </Dialog >
-          {/* <Dialog
+          <Dialog
             title={eventName}
             actions={restaurantActions}
             modal={false}
             open={this.props.restaurantModalToggle}
-            onRequestClose={this.props.closeRestaurantModal()}>
+            onRequestClose={this.props.closeRestaurantModal}>
             <div>
               <TextField
                 id="text-field-default-event"
                 defaultValue={eventName}
                 onChange={(e) => this.updateEventName(e.target.value)}
               />
-              <TextField
+              <p></p>
+              {/* <TextField
                 hintText={this.props.currentRestaurant.name}
                 id="text-field-default-event"
                 defaultValue={this.props.currentRestaurant.name}
-              />
+              /> */}
             </div>
-          </Dialog> */}
+          </Dialog>
         </section>
-      </main>
+      </main >
     )
   }
 }
@@ -446,4 +458,8 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { updateSavedRestaurants, showGroup, searchRestaurants, updateEventsList, createNewFlight, createNewLodging, createNewActivity, createNewRental, deleteSelectedFlight, deleteSelectedLodging, deleteSelectedRental, deleteSelectedActivity, editSelectedActivity, editSelectedFlight, editSelectedLodging, editSelectedRental })(Day);
+export default connect(mapStateToProps, {
+  updateSavedRestaurants, showGroup, searchRestaurants, updateEventsList, createNewFlight, createNewLodging, createNewActivity, createNewRental,
+  deleteSelectedFlight, deleteSelectedLodging, deleteSelectedRental, deleteSelectedActivity, editSelectedActivity, editSelectedFlight, editSelectedLodging, editSelectedRental,
+  openRestaurantModal, closeRestaurantModal, clearRestaurant, clearReviews, getRestaurant, getReviews
+})(Day);
