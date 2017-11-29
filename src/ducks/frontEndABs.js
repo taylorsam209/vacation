@@ -65,7 +65,7 @@ module.exports = {
 
   /* Deletes a day by day_id, returns an array of days by the deleted day's trip_id*/
   deleteDay(url, day_id) {
-    return axios.delete(`${url}trip/${day_id}`).then(res => {
+    return axios.delete(`${url}trip/day/${day_id}`).then(res => {
       return res.data;
     });
   },
@@ -83,52 +83,77 @@ module.exports = {
   },
 
   /* Post a new flight */
-  addFlight(url) {
-
+  addFlight(url, new_flight) {
+    return axios.post(`${url}flight`, new_flight).then(res => {
+      console.log("SR Attempt", res.data)
+      return res.data;
+    });
   },
 
-  editFlight(url) {
-
+  editFlight(url, edit_flight) {
+    return axios.put(`${url}flight`, edit_flight).then(res => {
+      return res.data;
+    });
   },
 
-  deleteFlight(url) {
-
+  deleteFlight(url, flight_id) {
+    return axios.delete(`${url}flight/${flight_id}`).then(res => {
+      return res.data;
+    });
   },
 
-  addRentalCar(url) {
-
+  addRentalCar(url, rentalObj) {
+    return axios.post(`${url}rentalcar`, rentalObj).then(res => {
+      return res.data;
+    });
   },
 
-  editRentalCar(url) {
-
+  editRentalCar(url, rentalObj) {
+    return axios.put(`${url}rentalcar`, rentalObj).then(res => {
+      return res.data;
+    });
   },
 
-  deleteRentalCar(url) {
-
+  deleteRentalCar(url, rental_id) {
+    return axios.delete(`${url}rentalcar/${rental_id}`).then(res => {
+      return res.data;
+    });
   },
 
-  addActivity(url) {
-
+  addActivity(url, activityObj) {
+    return axios.post(`${url}activity`, activityObj).then(res => {
+      return res.data;
+    });
   },
 
-  editActivity(url) {
-
+  editActivity(url, activityObj) {
+    return axios.put(`${url}activity`, activityObj).then(res => {
+      return res.data;
+    });
   },
 
-  deleteActivity(url) {
-
+  deleteActivity(url, activity_id) {
+    return axios.delete(`${url}activity/${activity_id}`).then(res => {
+      return res.data;
+    });
   },
 
-  addLodging(url) {
-
+  addLodging(url, lodgingObj) {
+    return axios.post(`${url}lodging`, lodgingObj).then(res => {
+      return res.data;
+    });
   },
 
-  editLodging(url) {
-
+  editLodging(url, lodgingObj) {
+    return axios.put(`${url}lodging`, lodgingObj).then(res => {
+      return res.data;
+    });
   },
 
-  deleteLodging(url) {
-
+  deleteLodging(url, lodging_id) {
+    return axios.delete(`${url}lodging/${lodging_id}`).then(res => {
+      return res.data;
+    });
   },
 
   // Noti
