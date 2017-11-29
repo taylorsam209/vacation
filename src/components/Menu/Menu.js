@@ -140,7 +140,8 @@ function mapStateToProps(state) {
   return {
     groupOpen: state.frontEnd.groupOpen,
     notiOpen: state.frontEnd.notiOpen,
-    gIcon: state.frontEnd.gIcon
+    gIcon: state.frontEnd.gIcon,
+    currentDay: state.frontEnd.currentDay
   }
 }
 

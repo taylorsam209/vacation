@@ -6,7 +6,8 @@ const initialState = {
     currentRestaurant: [],
     user: {},
     yelpId: '',
-    reviews: {}
+    reviews: {},
+    savedRestaurants: []
 }
 
 const FULFILLED = '_FULFILLED';
@@ -17,7 +18,18 @@ const GET_USER = "GET_USER";
 const CLEAR_LISTINGS = "CLEAR_LISTINGS";
 const CLEAR_RESTAURANT = "CLEAR_RESTAURANT";
 const GET_REVIEWS = 'GET_REVIEWS';
-const CLEAR_REVIEWS = 'CLEAR_REVIEWS';
+const CLEAR_REVIEWS = 'CLEAR_REVIEWS'
+    , UPDATE_SAVED_RESTAURANTS = 'UPDATE_SAVED_RESTAURANTS';
+
+export function updateSavedRestaurants(day_id) {
+    let request = axios.get(`/api/savedRestaurants/${day_id}`).then(res => {
+        return res;
+    });
+    return {
+        type: UPDATE_SAVED_RESTAURANTS,
+        payload: request
+    }
+}
 
 export function clearListings() {
     return {
@@ -117,7 +129,9 @@ export default function reducer(state = initialState, action) {
         case CLEAR_RESTAURANT:
             return Object.assign({}, state, { currentRestaurant: action.payload })
         case CLEAR_REVIEWS:
-            return Object.assign({}, state, { reviews: action.payload })
+            return Object.assign({}, state, { reviews: action.payload });
+        case UPDATE_SAVED_RESTAURANTS + FULFILLED:
+            return Object.assign({}, state, { savedRestaurants: action.payload });
         default:
             return state;
     }

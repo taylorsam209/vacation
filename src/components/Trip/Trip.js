@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux'
 import './Trip.css';
-import { showGroup } from '../../ducks/frontEnd';
+import { showGroup, updateDaysList, createNewDay, deletedSelectedDay, updateCurrentDay, updateEventsList } from '../../ducks/frontEnd';
 /* Components*/
 import Menu from '../Menu/Menu.js';
 import RaisedButton from 'material-ui/RaisedButton';
 import DatePicker from 'material-ui/DatePicker';
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
-import { addDay, getAllDays, deleteDay, getAllEvents } from '../../ducks/frontEndABs.js';
+import { deleteDay, getAllEvents } from '../../ducks/frontEndABs.js';
 import IconButton from 'material-ui/IconButton';
 import ActionCancel from 'material-ui/svg-icons/navigation/cancel';
 import Info from 'material-ui/svg-icons/action/info';
@@ -21,72 +21,7 @@ class Trip extends Component {
     this.state = {
       open: false,
       dayName: 'New Day',
-      dayDate: '12/03/2018',
-      daysArr: [{
-        "day_id": 3,
-        "trip_id": 1,
-        "date": "12/20/2017"
-      },
-      {
-        "day_id": 4,
-        "trip_id": 1,
-        "date": "12/21/2017"
-      },
-      {
-        "day_id": 6,
-        "trip_id": 1,
-        "date": "3/21/2017"
-      },
-      {
-        "day_id": 7,
-        "trip_id": 1,
-        "date": "01/14/2018"
-      },
-      {
-        "day_id": 8,
-        "trip_id": 1,
-        "date": "01/14/18"
-      },
-      {
-        "day_id": 9,
-        "trip_id": 1,
-        "date": "01/14/18"
-      },
-      {
-        "day_id": 10,
-        "trip_id": 1,
-        "date": "02/14/2088"
-      },
-      {
-        "day_id": 11,
-        "trip_id": 1,
-        "date": "02/14/2088"
-      },
-      {
-        "day_id": 12,
-        "trip_id": 1,
-        "date": "02/14/2088"
-      },
-      {
-        "day_id": 13,
-        "trip_id": 1,
-        "date": "02/14/2088"
-      },
-      {
-        "day_id": 14,
-        "trip_id": 1,
-        "date": "02/14/2088"
-      },
-      {
-        "day_id": 15,
-        "trip_id": 1,
-        "date": "02/14/2088"
-      },
-      {
-        "day_id": 16,
-        "trip_id": 1,
-        "date": "02/14/2088"
-      }]
+      dayDate: ''
     }
 
     this.handleOpen = this.handleOpen.bind(this);
@@ -99,15 +34,22 @@ class Trip extends Component {
 
   componentDidMount() {
     this.props.showGroup(true);
-    // this.props.getAllDays("/api/", 1);
+    this.props.updateDaysList(2);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    nextProps.daysList;
+    this.handleGetAllDays();
   }
 
   handleAddDay() {
-    const dayArr = [this.state.dayName, this.state.dayDate]
-    // this.props.addDay(dayArr)
+    // const dayArr = [this.props.currentTrip.trip_id, this.state.dayDate];
+    const dayArr = { trip_id: 2, date: "03/04/2064" }
+    this.props.createNewDay(dayArr)
   }
 
   handleGetAllDays() {
+    console.log("Days List", this.props.daysList)
     const styles = {
 
       largeIcon: {
@@ -117,17 +59,17 @@ class Trip extends Component {
 
     };
 
-    return this.state.daysArr.map((e, i, arr) => {
+    return this.props.daysList.map((e, i, arr) => {
       return (
         <div key={i}>
           <br />
           <Card className='' style={{ margin: '10px', padding: '10px' }}>
             <p style={{ fontSize: '36px' }} >{e.date}</p>
-            <IconButton tooltip="Cancel Day" touch={true} tooltipPosition="top-center" onClick={() => { this.handleDayDelete() }} iconStyle={styles.largeIcon}>
+            <IconButton tooltip="Cancel Day" touch={true} tooltipPosition="top-center" onClick={() => { this.handleDayDelete(e) }} iconStyle={styles.largeIcon}>
               <ActionCancel />
             </IconButton>
             <Link to='/day' className='logo-font' onClick={() => { this.props.getAllEvents }}>
-              <IconButton tooltip="Day Information" touch={true} tooltipPosition="top-center" iconStyle={styles.largeIcon} >
+              <IconButton tooltip="Day Information" touch={true} tooltipPosition="top-center" iconStyle={styles.largeIcon} onClick={() => { this.props.updateCurrentDay(e.day_id), this.props.updateEventsList(e.day_id) }}>
                 <Info />
               </IconButton>
             </Link>
@@ -139,7 +81,7 @@ class Trip extends Component {
   }
 
   handleDayDelete(e) {
-    this.props.deleteDay(e)
+    this.props.deletedSelectedDay(e.day_id)
   }
 
   handleOpen() {
@@ -209,10 +151,10 @@ class Trip extends Component {
   }
 }
 
-// function mapStateToProps(state){
-//   return {
-//
-//   }
-// };
+function mapStateToProps(state) {
+  return {
+    daysList: state.frontEnd.daysList
+  }
+};
 
-export default connect(null, { showGroup, addDay, getAllDays, deleteDay, getAllEvents })(Trip);
+export default connect(mapStateToProps, { showGroup, createNewDay, updateDaysList, deletedSelectedDay, updateEventsList, updateCurrentDay })(Trip);
