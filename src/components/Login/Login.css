@@ -1,5 +1,21 @@
+@import 'https://fonts.googleapis.com/css?family=Permanent+Marker|Tienne';
 .login {
   background-image: url("../../assets/images/beach-vacation-mobile.jpg");
   background-position: top;
   background-size: 599.4px 808.8px;
-  height: 100vh; }
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr 1fr; }
+  .login h1 {
+    font-family: "Permanent Marker", cursive;
+    font-size: 3.5em;
+    color: #2e382e;
+    padding-top: 10vh; }
+    .login h1 span {
+      font-size: 12px; }
+
+.login-lower-half {
+  align-self: end; }
+
+.login-button {
+  margin: 10vh; }
