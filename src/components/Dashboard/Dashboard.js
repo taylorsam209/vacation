@@ -59,15 +59,16 @@ class Dashboard extends Component {
 
     componentDidMount() {
         this.props.getCurrentUserID();
-        console.log(getCurrentUserID());
         this.props.showGroup(false);
         console.log("gIcon Results:", this.props.showGroup);
         this.props.updateTripList(this.props.user_id);
-        this.state.wizard.user_id = this.props.user_id;
+        
+        
     }
 
     componentWillReceiveProps(nextProps) {
         nextProps.updateTripList(nextProps.user_id);
+        this.state.wizard.user_id = nextProps.user_id;
     }
 
     handleTrips() {
@@ -248,7 +249,7 @@ class Dashboard extends Component {
                     label="Ok"
                     primary={true}
                     keyboardFocused={true}
-                    onClick={() => { this.handleClose(), this.newTrip(), console.log(this.state.wizard.user_id) }}
+                    onClick={() => { this.handleClose(), this.newTrip(), console.log('newTrip fired', this.state.wizard.user_id) }}
                     disabled={this.tripDisableToggle()}
                 />
                 <RaisedButton
