@@ -319,7 +319,6 @@ module.exports = {
         db.day.get_lodging([lodgingId])
             .then(lodging => {
                 let day_id = lodging[0].day_id;
-                console.log(day_id)
                 db.day.delete_lodging(lodgingId)
                     .then(() => {
                         db.day.get_all_rentals(day_id)
@@ -348,27 +347,99 @@ module.exports = {
     deleteFlight: (req, res) => {
         const db = req.app.get('db')
         const flightId = req.params.id;
+        const arr=[];
 
-        db.day.delete_flight(flightId)
-            .then(() => res.status(200).send())
+        db.day.get_flight([flightId])
+        .then(flight => {
+            let day_id=flight[0].day_id;
+            db.day.delete_flight(flightId)
+            .then(() => {
+                db.day.get_all_rentals(day_id)
+                .then(rentals => {
+                    arr.push(rentals)
+                    db.day.get_all_lodging(day_id)
+                        .then(lodging => {
+                            arr.push(lodging);
+                            db.day.get_all_flights(day_id)
+                                .then(flights => {
+                                    arr.push(flights);
+                                    db.day.get_all_activities(day_id)
+                                        .then(activities => {
+                                            arr.push(activities)
+                                            let newArr = [].concat.apply([], arr)
+                                            res.status(200).send(newArr);
+                                        })
+                                })
+                        })
+                })
+            })
             .catch(() => res.status(500).send('Cannot delete lodging.'))
+        })
     },
 
     deleteRentalCar: (req, res) => {
         const db = req.app.get('db')
         const rentalId = req.params.id;
+        const arr=[];
 
-        db.day.delete_rental_car(rentalId)
-            .then(() => res.status(200).send())
+        db.day.get_rental_car([rentalId])
+        .then(rentalCar => {
+            let day_id=rentalCar[0].day_id;
+            db.day.delete_rental_car(rentalId)
+            .then(() => {
+                db.day.get_all_rentals(day_id)
+                .then(rentals => {
+                    arr.push(rentals)
+                    db.day.get_all_lodging(day_id)
+                        .then(lodging => {
+                            arr.push(lodging);
+                            db.day.get_all_flights(day_id)
+                                .then(flights => {
+                                    arr.push(flights);
+                                    db.day.get_all_activities(day_id)
+                                        .then(activities => {
+                                            arr.push(activities)
+                                            let newArr = [].concat.apply([], arr)
+                                            res.status(200).send(newArr);
+                                        })
+                                })
+                        })
+                })
+            })
             .catch(() => res.status(500).send('Cannot delete lodging.'))
+        })
     },
 
     deleteActivity: (req, res) => {
         const db = req.app.get('db')
         const activityId = req.params.id;
+        const arr =[]
 
-        db.day.delete_activity(activityId)
-            .then(() => res.status(200).send())
+        db.day.get_activity([activityId])
+        .then(activity => {
+            let day_id=activity[0].day_id
+            db.day.delete_activity(activityId)
+            .then(() => {
+                db.day.get_all_rentals(day_id)
+                .then(rentals => {
+                    arr.push(rentals)
+                    db.day.get_all_lodging(day_id)
+                        .then(lodging => {
+                            arr.push(lodging);
+                            db.day.get_all_flights(day_id)
+                                .then(flights => {
+                                    arr.push(flights);
+                                    db.day.get_all_activities(day_id)
+                                        .then(activities => {
+                                            arr.push(activities)
+                                            let newArr = [].concat.apply([], arr)
+                                            res.status(200).send(newArr);
+                                        })
+                                })
+                        })
+                })
+            })
             .catch(() => res.status(500).send('Cannot delete lodging.'))
+        })
     }
 }

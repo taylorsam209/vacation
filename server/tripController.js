@@ -13,9 +13,9 @@ module.exports = {
 
     addDay: (req, res) => {
         const db = req.app.get('db');
-        const { trip_id, date } = req.body;
+        const { trip_id, date, day_name } = req.body;
 
-        db.trip.add_day([trip_id, date])
+        db.trip.add_day([trip_id, date, day_name])
             .then(trips => {
                 db.trip.get_all_days(trip_id)
                     .then(days => {
@@ -27,7 +27,7 @@ module.exports = {
 
     editDay: (req, res) => {
         const db = req.app.get('db');
-        const { date, day_id } = req.body;
+        const { date, day_id, day_name } = req.body;
 
         db.trip.edit_day([date, day_id])
             .then(() => {
