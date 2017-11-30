@@ -22,7 +22,7 @@ class Menu extends Component {
       currentNoti: []
     }
     this.handleGroupToggle = this.handleGroupToggle.bind(this);
-    this.handleNotiToggle = this.this.handleNotiToggle.bind(this);
+    this.handleNotiToggle = this.handleNotiToggle.bind(this);
     this.handleGetNoti = this.handleGetNoti.bind(this);
     this.handleGetGroup = this.handleGetGroup.bind(this);
     this.handleGroup = this.handleGroup.bind(this);
@@ -78,10 +78,12 @@ class Menu extends Component {
   }
 
   handleGroupDeleteAccess(e) {
-    if (e.user_id === this.props.currentTrip.user_id || e.user_id === this.props.user_id) {
-      <IconButton tooltip="top-center" touch={true} tooltipPosition="top-center" onClick={() => { this.handleGroupDelete(e) }}>
-        <ActionCancel />
-      </IconButton>
+    if (this.props.currentTrip) {
+      if (e.user_id === this.props.currentTrip.user_id || e.user_id === this.props.user_id) {
+        <IconButton tooltip="top-center" touch={true} tooltipPosition="top-center" onClick={() => { this.handleGroupDelete(e) }}>
+          <ActionCancel />
+        </IconButton>
+      }
     }
   }
 
