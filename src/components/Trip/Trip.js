@@ -92,24 +92,21 @@ class Trip extends Component {
 
     return sortedDays.map((e, i, arr) => {
       return (
-        <div key={i}>
-          <br />
-          <Card className='' style={{ margin: '10px', padding: '10px' }}>
-            <CardTitle
-              title={e.day_name || `Day ${i+1}`}
-              subtitle={e.date}
-            />
-            <IconButton tooltip="Cancel Day" touch={true} tooltipPosition="top-center" onClick={() => { this.handleDayDelete(e) }} iconStyle={styles.largeIcon}>
-              <ActionCancel />
+        <Card className='day-box' key={i}>
+          <CardTitle
+            title={e.day_name || `Day ${i+1}`}
+            subtitle={e.date}
+          />
+          <IconButton tooltip="Cancel Day" touch={true} tooltipPosition="top-center" onClick={() => { this.handleDayDelete(e) }} iconStyle={styles.largeIcon}>
+            <ActionCancel />
+          </IconButton>
+          <Link to={`/day/${e.day_id}`} className='logo-font' onClick={() => { this.props.getAllEvents }}>
+            <IconButton tooltip="Day Information" touch={true} tooltipPosition="top-center" iconStyle={styles.largeIcon} onClick={() => { this.props.updateCurrentDay(e.day_id), this.props.updateEventsList(e.day_id) }}>
+              <Info />
             </IconButton>
-            <Link to={`/day/${e.day_id}`} className='logo-font' onClick={() => { this.props.getAllEvents }}>
-              <IconButton tooltip="Day Information" touch={true} tooltipPosition="top-center" iconStyle={styles.largeIcon} onClick={() => { this.props.updateCurrentDay(e.day_id), this.props.updateEventsList(e.day_id) }}>
-                <Info />
-              </IconButton>
-            </Link>
-            <br />
-          </Card>
-        </div>
+          </Link>
+          <br />
+        </Card>
       )
     })
   }
@@ -134,8 +131,16 @@ class Trip extends Component {
     this.setState({ dayDate: value });
   };
 
+  tripViewStyle(){
+    return {
+      // backgroundImage: `url('${"/static/media/beach-vacation-mobile.ac25f94c.jpg"}')`
+    }
+  }
+
+
   render() {
     const { dayName } = this.state;
+    const { currentTrip } = this.state;
     const actions = (
       <div className='new-day-actions'>
         <RaisedButton
@@ -156,8 +161,14 @@ class Trip extends Component {
     return (
       <main>
         <Menu />
-        <section className='trip'>
-          <h1>Current Trip</h1>
+        <section className='trip-view' style={this.tripViewStyle()}>
+          {/*<h1></h1>*/}
+          <Card className='trip-view-header' zDepth={3}>
+            <CardTitle
+              title={currentTrip ? currentTrip.trip_name : 'Trip Name Here'}
+              subtitle={currentTrip ? currentTrip.date : 'Trip Date Here'}
+            />
+          </Card>
           <RaisedButton label="Add day" primary={true} onClick={this.handleOpen} />
           <section className='day-display'>
             {this.handleGetAllDays()}
