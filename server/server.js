@@ -85,7 +85,7 @@ passport.deserializeUser(function (id, done) {
     db.auth.find_current_user([id])
         .then(user => {
             done(null, user[0]);
-            console.log('This is USER[0]', user[0]);
+            // console.log('This is USER[0]', user[0]);
         })
 })
 
@@ -133,7 +133,8 @@ app.get('/api/restaurant/:id', restController.getRestaurant)
 app.get('/api/restaurant/reviews/:id', restController.getReviews)
 app.post('/api/restaurant', restController.addRestaurant)
 app.get('/api/savedRestaurants/:id', restController.getSavedRestaurants)
-app.delete('/api/restaurant/:id', restController.deleteRestaurant)
+app.get('/api/savedRestaurantsdata/:id', restController.getSavedRestaurantsData)
+app.delete('/api/restaurant', restController.deleteRestaurant)
 
 //Endpoints for Group Feature/Functions
 app.get('/api/trip/group/:id', groupController.getGroup);
