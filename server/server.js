@@ -133,7 +133,8 @@ app.get('/api/restaurant/:id', restController.getRestaurant)
 app.get('/api/restaurant/reviews/:id', restController.getReviews)
 app.post('/api/restaurant', restController.addRestaurant)
 app.get('/api/savedRestaurants/:id', restController.getSavedRestaurants)
-app.delete('/api/restaurant/:id', restController.deleteRestaurant)
+app.get('/api/savedRestaurantsdata/:id', restController.getSavedRestaurantsData)
+app.delete('/api/restaurant', restController.deleteRestaurant)
 
 //Endpoints for Group Feature/Functions
 app.get('/api/trip/group/:id', groupController.getGroup);

@@ -31,6 +31,16 @@ module.exports = {
             .catch(() => res.status(500).send("Fail"))
     },
 
+    getSavedRestaurantsData: (req, res) => {
+        const db =req.app.get('db');
+        const day_id = req.params.id;
+
+        db.rest.get_restaurants(day_id)
+        .then(restaurants => {
+            res.status(200).send(restaurants)
+        })
+    },
+
     getSavedRestaurants: (req, res) => {
         const db = req.app.get('db');
         var count = 0;
@@ -66,50 +76,50 @@ module.exports = {
             })
     },
 
-    deleteRestaurant: (req, res) => {
-        const db = req.app.get('db');
-        const restaurantId = req.params.id;
-
-        db.rest.delete_restaurant(restaurantId)
-        .then(resp => {
-            res.status(200).send("Restaurant successfully deleted.")
-        })
-        .catch(()=> res.status(500).send("Unable to delete restaurant"))
-    }
-
     // deleteRestaurant: (req, res) => {
     //     const db = req.app.get('db');
-    //     const {restaurant_id, day_id} = req.query;
-    //     var count = 0;
-    //     db.rest.delete_restaurant(restaurant_id)
-    //         .then(response => {
-    //             db.rest.get_restaurants(day_id)
-    //                 .then(yelpIdList => {
-    //                     let favListing = [];
-    //                     console.log("YelpID List", yelpIdList)
-    //                     if (!yelpIdList.length) { res.status(200).send(favListing) }
-    //                     for (let i = 0; i < yelpIdList.length; i++) {
-    //                         let yelpId = yelpIdList[i].yelp_id;
-    //                         GetMyResourceData(yelpId);
-    //                     }
-    //                     function GetMyResourceData(yelpId) {
-    //                         axios.get(`https://api.yelp.com/v3/businesses/${yelpId}`,
-    //                             { headers: { "Authorization": `Bearer ${process.env.YELP_ACCESS_TOKEN}` } })
-    //                             .then(response => {
-    //                                 count++;
-    //                                 favListing.push(response.data)
-    //                                 if (count === yelpIdList.length) {
-    //                                     res.send(favListing)
-    //                                 }
-    //                             })
-    //                             .catch(err => {
-    //                                 console.log(count, "err")
-    //                                 count++
-    //                             })
-    //                     }
-    //                     console.log(favListing)
-    //                 })
-    //         });
+    //     const restaurantId = req.params.id;
+
+    //     db.rest.delete_restaurant(restaurantId)
+    //     .then(resp => {
+    //         res.status(200).send("Restaurant successfully deleted.")
+    //     })
+    //     .catch(()=> res.status(500).send("Unable to delete restaurant"))
     // }
+
+    deleteRestaurant: (req, res) => {
+        const db = req.app.get('db');
+        const {restaurant_id, day_id} = req.body;
+        var count = 0;
+        db.rest.delete_restaurant(restaurant_id)
+            .then(response => {
+                db.rest.get_restaurants(day_id)
+                    .then(yelpIdList => {
+                        let favListing = [];
+                        console.log("YelpID List", yelpIdList)
+                        if (!yelpIdList.length) { res.status(200).send(favListing) }
+                        for (let i = 0; i < yelpIdList.length; i++) {
+                            let yelpId = yelpIdList[i].yelp_id;
+                            GetMyResourceData(yelpId);
+                        }
+                        function GetMyResourceData(yelpId) {
+                            axios.get(`https://api.yelp.com/v3/businesses/${yelpId}`,
+                                { headers: { "Authorization": `Bearer ${process.env.YELP_ACCESS_TOKEN}` } })
+                                .then(response => {
+                                    count++;
+                                    favListing.push(response.data)
+                                    if (count === yelpIdList.length) {
+                                        res.send(favListing)
+                                    }
+                                })
+                                .catch(err => {
+                                    console.log(count, "err")
+                                    count++
+                                })
+                        }
+                        console.log(favListing)
+                    })
+            });
+    }
 
 }

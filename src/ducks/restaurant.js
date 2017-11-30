@@ -1,5 +1,4 @@
 import axios from 'axios';
-// import swal from 'sweetalert';
 
 const initialState = {
     listing: [],
@@ -7,7 +6,8 @@ const initialState = {
     user: {},
     yelpId: '',
     reviews: {},
-    savedRestaurants: []
+    savedRestaurants: [],
+    savedRestaurantsData: []
 }
 
 const FULFILLED = '_FULFILLED';
@@ -18,15 +18,27 @@ const GET_USER = "GET_USER";
 const CLEAR_LISTINGS = "CLEAR_LISTINGS";
 const CLEAR_RESTAURANT = "CLEAR_RESTAURANT";
 const GET_REVIEWS = 'GET_REVIEWS';
-const CLEAR_REVIEWS = 'CLEAR_REVIEWS'
-    , UPDATE_SAVED_RESTAURANTS = 'UPDATE_SAVED_RESTAURANTS';
+const CLEAR_REVIEWS = 'CLEAR_REVIEWS';
+const DELETE_RESTAURANT = 'DELETE_RESTAURANT'
+const UPDATE_SAVED_RESTAURANTS = 'UPDATE_SAVED_RESTAURANTS';
+const UPDATE_SAVED_RESTAURANTS_DATA = 'UPDATE_SAVED_RESTAURANTS_DATA';
 
 export function updateSavedRestaurants(day_id) {
     let request = axios.get(`/api/savedRestaurants/${day_id}`).then(res => {
-        return res;
+        return res.data;
     });
     return {
         type: UPDATE_SAVED_RESTAURANTS,
+        payload: request
+    }
+}
+
+export function updateSavedRestaurantsData(day_id) {
+    let request = axios.get(`/api/savedRestaurantData/${day_id}`).then(res => {
+        return res.data
+    })
+    return {
+        type: UPDATE_SAVED_RESTAURANTS_DATA,
         payload: request
     }
 }
@@ -112,6 +124,16 @@ export function addRestaurant(dayId, yelpId) {
     }
 }
 
+export function deleteRestaurant(restObj) {
+    let savedRestaurants = axios.delete('/api/restaurant', restObj).then(response => {
+        return response.data
+    })
+    return {
+        type: DELETE_RESTAURANT,
+        payload: savedRestaurants
+    }
+}
+
 export default function reducer(state = initialState, action) {
     switch (action.type) {
         case SEARCH_RESTAURANTS + FULFILLED:
@@ -132,6 +154,10 @@ export default function reducer(state = initialState, action) {
             return Object.assign({}, state, { reviews: action.payload });
         case UPDATE_SAVED_RESTAURANTS + FULFILLED:
             return Object.assign({}, state, { savedRestaurants: action.payload });
+        case UPDATE_SAVED_RESTAURANTS_DATA + FULFILLED:
+            return Object.assign({}, state, { savedRestaurantsData: action.payload })
+        case DELETE_RESTAURANT + FULFILLED:
+            return Object.assign({}, state, { savedRestaurants: action.payload })
         default:
             return state;
     }
