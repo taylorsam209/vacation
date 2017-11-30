@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Menu from '../Menu/Menu.js';
-import { showGroup, newTripModal, updateTripList, searchTripModal, getTripByCode, getCurrentUserID, createNewTrip } from '../../ducks/frontEnd';
+import { showGroup, newTripModal, updateTripList, searchTripModal, getTripByCode, getCurrentUserID, createNewTrip, updateCurrentTrip } from '../../ducks/frontEnd';
 import { connect } from 'react-redux';
 import './Dashboard.css';
 import mountainLandscape from '../../assets/images/tripPlaceholders/mountain-landscape.jpg';
@@ -26,12 +26,12 @@ class Dashboard extends Component {
     constructor() {
         super();
         this.state = {
-                user_id: 0,
-                date: "",
-                trip_name: "",
-                trip_code: "",
-                trip_location: "",
-                trip_details: ""
+            user_id: 0,
+            date: "",
+            trip_name: "",
+            trip_code: "",
+            trip_location: "",
+            trip_details: ""
         }
 
         this.handleTrips = this.handleTrips.bind(this);
@@ -55,7 +55,7 @@ class Dashboard extends Component {
         this.props.showGroup(false);
         console.log("gIcon Results:", this.props.showGroup);
         this.props.updateTripList(this.props.user_id);
-
+        
 
     }
 
@@ -67,22 +67,27 @@ class Dashboard extends Component {
     handleTrips() {
         return this.props.tripList.map((trip, index) => {
             return (
-                <Card key={index} className='trip'>
-                    <CardMedia
-                        overlay={<CardTitle
-                            title={trip.trip_name}
-                            subtitle={trip.trip_location}
-                        />}
-                    >
-                        <img
-                            src={trip.trip_image || tripPlaceholders[0]}
-                            alt={trip.trip_name}
-                        />
-                    </CardMedia>
-                    <CardText>
-                        {trip.date}
-                    </CardText>
-                </Card>
+                <Link to={`/trip/${trip.trip_id}`} onClick={() => {
+                    this.props.updateCurrentTrip(trip.trip_id)
+                }
+                }>
+                    <Card key={index} className='trip'>
+                        <CardMedia
+                            overlay={<CardTitle
+                                title={trip.trip_name}
+                                subtitle={trip.trip_location}
+                            />}
+                        >
+                            <img
+                                src={trip.trip_image || tripPlaceholders[0]}
+                                alt={trip.trip_name}
+                            />
+                        </CardMedia>
+                        <CardText>
+                            {trip.date}
+                        </CardText>
+                    </Card>
+                </Link>
             )
         })
     }
@@ -129,9 +134,14 @@ class Dashboard extends Component {
         })
     }
     handleTripDate(event, date) {
+        console.log(event)
+        let month = date.getMonth() + 1
+        let day = date.getDate()
+        let year = date.getFullYear()
         this.setState({
-            date: date
+            date: `${month}/${day}/${year}`
         })
+        console.log(date);
     }
     handleTripLocation(e) {
         this.setState({
@@ -273,7 +283,7 @@ class Dashboard extends Component {
                     </CardText>
                 </Card>
                 <RaisedButton
-                    label='Search for Trip'
+                    label='Enter Trip Code'
                     labelColor='white'
                     primary={true}
                     style={{ margin: '5px' }}
@@ -339,4 +349,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { showGroup, newTripModal, updateTripList, searchTripModal, createNewTrip, getAllTrips, getAllDays, getTripByCode, getCurrentUserID })(Dashboard);
+export default connect(mapStateToProps, { showGroup, newTripModal, updateTripList, searchTripModal, createNewTrip, getAllTrips, getAllDays, getTripByCode, getCurrentUserID, updateCurrentTrip })(Dashboard);
