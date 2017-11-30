@@ -17,11 +17,11 @@ import IconButton from 'material-ui/IconButton';
 import ActionCancel from 'material-ui/svg-icons/navigation/cancel';
 import { addEvent, getAllEvents, deleteEvent } from '../../ducks/frontEndABs.js';
 import { Link } from "react-router-dom";
-import { searchRestaurants, updateSavedRestaurants, clearRestaurant, clearReviews, getRestaurant, getReviews } from "../../ducks/restaurant.js"
+import { searchRestaurants, updateSavedRestaurantsData, updateSavedRestaurants, clearRestaurant, clearReviews, getRestaurant, getReviews } from "../../ducks/restaurant.js"
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import Edit from 'material-ui/svg-icons/image/edit'
 import { mapProps } from "recompose";
-import axios from "axios"
+import axios from "axios";
 
 class Day extends Component {
   constructor(props) {
@@ -55,7 +55,8 @@ class Day extends Component {
   componentDidMount() {
     this.props.showGroup(true);
     this.props.updateEventsList(1);
-    this.props.updateSavedRestaurants(3)
+    this.props.updateSavedRestaurantsData(3);
+    this.props.updateSavedRestaurants(3);
     console.log("Current Day", this.props.currentDay);
     console.log("Current Restaurants", this.props.savedRestaurants);
     console.log("Rest Modal", this.props.restaurantModalToggle)
@@ -161,6 +162,7 @@ class Day extends Component {
       this.props.updateEventsList(1);
     } else if (e.restaurant_id) {
       this.props.deleteSelectedRestaurant({ restaurant_id: e.restaurant_id, day_id: e.day_id });
+      this.props.updateSavedRestaurantsData(3);
       this.props.updateSavedRestaurants(3)
     }
   }
@@ -454,12 +456,13 @@ function mapStateToProps(state) {
     currentRestaurant: state.restaurant.currentRestaurant,
     eventsList: state.frontEnd.eventsList,
     currentDay: state.frontEnd.currentDay,
-    savedRestaurants: state.restaurant.savedRestaurants
+    savedRestaurants: state.restaurant.savedRestaurants,
+    savedRestaurantsData: state.restaurant.savedRestaurantsData
   }
 }
 
 export default connect(mapStateToProps, {
   updateSavedRestaurants, showGroup, searchRestaurants, updateEventsList, createNewFlight, createNewLodging, createNewActivity, createNewRental,
   deleteSelectedFlight, deleteSelectedLodging, deleteSelectedRental, deleteSelectedActivity, editSelectedActivity, editSelectedFlight, editSelectedLodging, editSelectedRental,
-  openRestaurantModal, closeRestaurantModal, clearRestaurant, clearReviews, getRestaurant, getReviews
+  openRestaurantModal, closeRestaurantModal, clearRestaurant, clearReviews, getRestaurant, getReviews, updateSavedRestaurantsData
 })(Day);
