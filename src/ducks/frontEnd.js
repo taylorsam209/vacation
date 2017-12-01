@@ -63,8 +63,14 @@ const G_ICON_CHANGE = 'G_ICON_CHANGE'
   , UPDATE_NOTIFICATIONS_LIST = 'UPDATE_NOTIFICATIONS_LIST'
   , CREATE_NEW_NOTIFICATION = 'CREATE_NEW_NOTIFICATION'
   , DELETE_SELECTED_NOTIFICATION = 'DELETE_SELECTED_NOTIFICATION'
+  , CLEAR_CURRENT_TRIP = 'CLEAR_CURRENT_TRIP'
+  , CLEAR_TRIP_LIST = 'CLEAR_TRIP_LIST'
+  , CLEAR_CURRENT_DAY = 'CLEAR_CURRENT_DAY'
+  , CLEAR_DAYS_LIST = 'CLEAR_DAYS_LIST'
+  , CLEAR_EVENTS_LIST = 'CLEAR_EVENTS_LIST'
+  , CLEAR_CURRENT_EVENT = 'CLEAR_CURRENT_EVENT'
   , initialState = {
-    user_id: 4, // Temporary default user_id is Scott Serage's
+    user_id: null, 
     groupOpen: false,
     notiOpen: false,
     gIcon: true,
@@ -81,6 +87,13 @@ const G_ICON_CHANGE = 'G_ICON_CHANGE'
     restaurantModalToggle: false
 
   };
+
+export function clearArray(action) {
+  return {
+    type: action,
+    payload: []
+  }
+}
 
 export function getCurrentUserID() {
   let userId = axios.get('/auth/me').then(response => {
@@ -483,6 +496,8 @@ export default function reducer(state = initialState, action) {
       return Object.assign({}, state, { restaurantModalToggle: action.payload });
     case UPDATE_NOTIFICATIONS_LIST:
       return Object.assign({}, state, { notificationsList: action.payload });
+    case CLEAR_DAYS_LIST:
+      return Object.assign({}, state, {daysList: action.payload});
     case CREATE_NEW_NOTIFICATION:
       return state; // action.payload is a message, need to create a way to display it
     case DELETE_SELECTED_NOTIFICATION:

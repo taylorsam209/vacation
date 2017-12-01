@@ -52,27 +52,33 @@ class Day extends Component {
 
   componentDidMount() {
     this.props.showGroup(true);
-    this.props.updateEventsList(1);
+    if(this.props.currentDay) {
+    this.props.updateEventsList(this.props.currentDay.day_id);
+    }
     console.log("Current Day", this.props.currentDay)
   }
 
   // componentWillReceiveProps(nextProps) {
   //   nextProps.eventsList;
   //   this.handleGetAllEvents();
+  // if(nextProps.currentDay) {
+  //   nextProps.updateEventsList(nextProps.currentDay.day_id);
+  //   }
   // }
 
   handleAddEvent() {
+    const {currentDay} = this.props;
     if (this.state.value === 1) {
-      const flightObj = { confirmation: this.state.inputOne, airline_name: this.state.inputTwo, day_id: 1 }
+      const flightObj = { confirmation: this.state.inputOne, airline_name: this.state.inputTwo, day_id: currentDay.day_id }
       this.props.createNewFlight(flightObj)
     } else if (this.state.value === 3) {
-      const lodgingObj = { lodging_name: this.state.inputOne, lodging_details: this.state.inputTwo, day_id: 1 }
+      const lodgingObj = { lodging_name: this.state.inputOne, lodging_details: this.state.inputTwo, day_id: currentDay.day_id }
       this.props.createNewLodging(lodgingObj)
     } else if (this.state.value === 5) {
-      const activityObj = { activity_name: this.state.inputOne, activity_details: this.state.inputTwo, day_id: 1 }
+      const activityObj = { activity_name: this.state.inputOne, activity_details: this.state.inputTwo, day_id: currentDay.day_id }
       this.props.createNewActivity(activityObj)
     } else if (this.state.value === 2) {
-      const rentalObj = { rental_company: this.state.inputOne, rental_details: this.state.inputTwo, day_id: 1 }
+      const rentalObj = { rental_company: this.state.inputOne, rental_details: this.state.inputTwo, day_id: currentDay.day_id }
       this.props.createNewRental(rentalObj)
     }
   }

@@ -1,8 +1,9 @@
 insert into days (
     trip_id,
-    date
+    date, day_name
 )
 values(
     $1,
-    $2
+    $2,
+    $3
 )
