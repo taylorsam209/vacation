@@ -8,9 +8,9 @@ import store from "./store";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-const turqoiseGreen = '#8FD8AB'
-    , jet = '#2E382E'
-    , spanishViridian = '#00825D';
+const turqoiseGreen = '#e75f51'
+    , jet = '#264653'
+    , spanishViridian = '#264653';
 
 const theme1 = getMuiTheme({
   fontFamily: '"Tienne", serif',
