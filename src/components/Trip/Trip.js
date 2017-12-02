@@ -142,7 +142,7 @@ class Trip extends Component {
 
   render() {
     const { dayName } = this.state;
-    const { currentTrip } = this.state;
+    const { currentTrip } = this.props;
     const actions = (
       <div className='new-day-actions'>
         <RaisedButton
@@ -162,8 +162,8 @@ class Trip extends Component {
 
     return (
       <main>
-        <Menu />
         <section className='trip-view' style={this.tripViewStyle()}>
+        <Menu />
           {/*<h1></h1>*/}
           <Card className='trip-view-header' zDepth={3}>
             <CardTitle

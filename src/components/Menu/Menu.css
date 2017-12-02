@@ -1,6 +1,6 @@
 @import 'https://fonts.googleapis.com/css?family=Permanent+Marker|Tienne';
 .menu {
-  background: #00825D;
+  background: #264653;
   height: 46px;
   display: grid;
   grid-template-columns: 2fr repeat(4, 1fr) 2fr;

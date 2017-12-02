@@ -52,8 +52,8 @@ class Day extends Component {
 
   componentDidMount() {
     this.props.showGroup(true);
-    if(this.props.currentDay) {
-    this.props.updateEventsList(this.props.currentDay.day_id);
+    if (this.props.currentDay) {
+      this.props.updateEventsList(this.props.currentDay.day_id);
     }
     console.log("Current Day", this.props.currentDay)
   }
@@ -67,7 +67,7 @@ class Day extends Component {
   // }
 
   handleAddEvent() {
-    const {currentDay} = this.props;
+    const { currentDay } = this.props;
     if (this.state.value === 1) {
       const flightObj = { confirmation: this.state.inputOne, airline_name: this.state.inputTwo, day_id: currentDay.day_id }
       this.props.createNewFlight(flightObj)
@@ -94,7 +94,7 @@ class Day extends Component {
       return this.props.eventsList.map((e, i, arr) => {
         return (
           <div key={i}>
-            <Card className='' style={{ margin: '10px', padding: '10px' }}>
+            <Card className='event-container' style={{ margin: '10px', padding: '10px' }}>
               <p>{e.confirmation || null}</p>
               <p>{e.airline_name || null}</p>
               <p>{e.lodging_name || null}</p>
@@ -389,9 +389,14 @@ class Day extends Component {
     );
     return (
       <main>
-        <Menu />
         <section className='day'>
-          <h1>Day</h1>
+          <Menu />
+          <Card className='title-container' zDepth={3}>
+            <CardTitle
+              title={this.props.currentDay ? this.props.currentDay.day_name : 'Day'}
+              subtitle={this.props.currentDay ? this.props.currentDay.date: ''}
+            />
+          </Card>
           <br />
           <RaisedButton label="Add event" primary={true} onClick={this.handleOpen} />
           {this.handleGetAllEvents()}
