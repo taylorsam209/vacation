@@ -55,7 +55,7 @@ class Dashboard extends Component {
         this.props.showGroup(false);
         console.log("gIcon Results:", this.props.showGroup);
         this.props.updateTripList(this.props.user_id);
-        
+
 
     }
 
@@ -278,7 +278,7 @@ class Dashboard extends Component {
                     <CardText>
                         {currentTrip ? currentTrip.trip_location : ''}
                     </CardText>
-                    <CardText>
+                    <CardText>`
                         {currentTrip ? currentTrip.trip_details : ''}
                     </CardText>
                 </Card>
