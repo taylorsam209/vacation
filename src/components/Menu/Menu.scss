@@ -1,7 +1,7 @@
 @import "../../partials/themeController";
 
 .menu {
-  background: $mediumColor;
+  background: $darkerColor;
   height: 46px;
   display: grid;
   grid-template-columns: 2fr repeat(4, 1fr) 2fr;

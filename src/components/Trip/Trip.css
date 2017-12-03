@@ -1,10 +1,21 @@
 @charset "UTF-8";
 @import 'https://fonts.googleapis.com/css?family=Permanent+Marker|Tienne';
 .trip-view {
-  background-image: url("../../assets/images/beach-vacation-mobile.jpg"); }
+  background: url("../../assets/images/mountain.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100vw;
+  min-height: 100vh; }
 
 .trip-view-header {
-  margin-bottom: 20px; }
+  margin-bottom: 20px;
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  animation-delay: 0.75s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both; }
 
 .new-day-actions {
   display: grid;
@@ -19,12 +30,31 @@
 
 .day-display {
   margin: 10px 10vw 0 10vw;
-  background-color: #00825D;
+  background-color: #e9c46a;
   padding: 5px 0 5px 0;
-  border-radius: 2px; }
+  border-radius: 2px;
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  animation-delay: 0.75s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both; }
 
 .day-box {
   margin: 20px; }
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
 
 /*
 

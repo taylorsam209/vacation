@@ -264,22 +264,21 @@ class Dashboard extends Component {
         ];
         const { currentTrip } = this.props;
         return (
-            <div>
+            <div id="Dashboard">
                 <Menu />
-                <h6 className='dash-header'>Your most recently viewed trip:</h6>
+                <h4 className='dash-header'>Recently viewed:</h4>
                 <Card className='recently-viewed-trip' zDepth={3}>
                     <CardTitle
                         title={currentTrip ? currentTrip.trip_name : ''}
-                        subtitle={currentTrip ? currentTrip.trip_location : ''}
+                    // subtitle={currentTrip ? currentTrip.trip_location : ''}
                     />
                     <CardMedia>
-                        <img src={currentTrip ? currentTrip.trip_image : mountainLandscape} />
+                        <img src={mountainLandscape} />
+                        {/* <img src={currentTrip ? currentTrip.trip_image : mountainLandscape} /> */}
                     </CardMedia>
                     <CardText>
-                        {currentTrip ? currentTrip.trip_location : ''}
-                    </CardText>
-                    <CardText>`
-                        {currentTrip ? currentTrip.trip_details : ''}
+                        <p>{currentTrip ? currentTrip.trip_location : ''}</p>
+                        <p>{currentTrip ? currentTrip.trip_details : ''}</p>
                     </CardText>
                 </Card>
                 <RaisedButton

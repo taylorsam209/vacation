@@ -66,9 +66,9 @@ module.exports = {
     editFlight: (req, res) => {
         const db = req.app.get('db');
         const arr = [];
-        const { confirmation, airline_name, flight_id } = req.body;
+        const { confirmation, airline_name, flight_id, flight_name } = req.body;
 
-        db.day.edit_flight([confirmation, airline_name, flight_id])
+        db.day.edit_flight([confirmation, airline_name, flight_id, flight_name])
             .then(() => {
                 db.day.get_flight(flight_id)
                     .then(flight => {
@@ -98,10 +98,10 @@ module.exports = {
 
     editRentalCar: (req, res) => {
         const db = req.app.get('db');
-        const { rental_company, rental_details, rental_id } = req.body;
+        const { rental_company, rental_details, rental_id, rental_name } = req.body;
         const arr = [];
 
-        db.day.edit_rental_car([rental_company, rental_details, rental_id])
+        db.day.edit_rental_car([rental_company, rental_details, rental_id, rental_name])
             .then(() => {
                 db.day.get_rental_car(rental_id)
                     .then(rental => {
@@ -131,10 +131,10 @@ module.exports = {
 
     editActivity: (req, res) => {
         const db = req.app.get('db');
-        const { activity_name, activity_details, activity_id } = req.body;
+        const { activity_name, activity_details, activity_id, activities_name } = req.body;
         const arr = [];
 
-        db.day.edit_activity([activity_name, activity_details, activity_id])
+        db.day.edit_activity([activity_name, activity_details, activity_id, activities_name])
             .then(() => {
                 db.day.get_activity(activity_id)
                     .then(activity => {
@@ -164,10 +164,10 @@ module.exports = {
 
     editLodging: (req, res) => {
         const db = req.app.get('db');
-        const { lodging_name, lodging_details, lodging_id } = req.body;
+        const { lodging_name, lodging_details, lodging_id, event_name } = req.body;
         const arr = [];
 
-        db.day.edit_lodging([lodging_name, lodging_details, lodging_id])
+        db.day.edit_lodging([lodging_name, lodging_details, lodging_id, event_name])
             .then(() => {
                 db.day.get_lodging(lodging_id)
                     .then(lodging => {
@@ -197,10 +197,10 @@ module.exports = {
 
     addLodging: (req, res) => {
         const db = req.app.get('db');
-        const { lodging_name, lodging_details, day_id } = req.body;
+        const { lodging_name, lodging_details, day_id, event_name } = req.body;
         const arr = [];
 
-        db.day.add_lodging([lodging_name, lodging_details, day_id])
+        db.day.add_lodging([lodging_name, lodging_details, day_id, event_name])
             .then(() => {
                 db.day.get_all_rentals(day_id)
                     .then(rentals => {
@@ -226,10 +226,10 @@ module.exports = {
 
     addFlight: (req, res) => {
         const db = req.app.get('db');
-        const { confirmation, airline_name, day_id } = req.body;
+        const { confirmation, airline_name, day_id, flight_name } = req.body;
         const arr = [];
 
-        db.day.add_flight([confirmation, airline_name, day_id])
+        db.day.add_flight([confirmation, airline_name, day_id, flight_name])
             .then(() => {
                 db.day.get_all_rentals(day_id)
                     .then(rentals => {
@@ -255,10 +255,10 @@ module.exports = {
 
     addRentalCar: (req, res) => {
         const db = req.app.get('db');
-        const { rental_company, rental_details, day_id } = req.body;
+        const { rental_company, rental_details, day_id, rental_name } = req.body;
         const arr = [];
 
-        db.day.add_rental_car([rental_company, rental_details, day_id])
+        db.day.add_rental_car([rental_company, rental_details, day_id, rental_name])
             .then(() => {
                 db.day.get_all_rentals(day_id)
                     .then(rentals => {
@@ -284,10 +284,10 @@ module.exports = {
 
     addActivity: (req, res) => {
         const db = req.app.get('db');
-        const { activity_name, activity_details, day_id } = req.body;
+        const { activity_name, activity_details, day_id, activities_name } = req.body;
         const arr = [];
 
-        db.day.add_activity([activity_name, activity_details, day_id])
+        db.day.add_activity([activity_name, activity_details, day_id, activities_name])
             .then(() => {
                 db.day.get_all_rentals(day_id)
                     .then(rentals => {
