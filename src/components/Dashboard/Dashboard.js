@@ -225,8 +225,8 @@ class Dashboard extends Component {
         this.props.deleteTrip(e)
     }
 
-    searchTrip(e) {
-        this.props.getTripByCode(e)
+    searchTrip() {
+        this.props.getTripByCode(this.state.trip_code)
     }
 
     render() {
