@@ -59,8 +59,11 @@ class Restaurant extends Component {
               <div className='yelp-btn'><i className="fa fa-yelp fa-fw" aria-hidden="true"></i>Yelp Page</div>
             </a>
           </div>
+          {/* <Link to={`/day/${currentDay}`} >
+            <RaisedButton label='Add Event' primary={true} style={{ margin: '10px 0 10px 0' }} onClick={() => { this.props.addRestaurant(currentDay.day_id, id), this.props.openRestaurantModal() }} />
+          </Link> */}
           <Link to={`/day/${currentDay}`} >
-            <RaisedButton label='Add Event' primary={true} style={{ margin: '10px 0 10px 0' }} onClick={() => { this.props.addRestaurant(currentDay, id), this.props.openRestaurantModal() }} />
+            <RaisedButton label='Add Event' primary={true} style={{ margin: '10px 0 10px 0' }} onClick={() => { this.props.openRestaurantModal() }} />
           </Link>
         </Card>
         <Map />
@@ -77,4 +80,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { addRestaurant })(Restaurant);
+export default connect(mapStateToProps, { addRestaurant, openRestaurantModal })(Restaurant);

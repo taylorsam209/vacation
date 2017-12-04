@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { showGroup, showNoti, groupShow } from '../../ducks/frontEnd';
+import { showGroup, showNoti, groupShow, getCurrentUserID, updateEventsList } from '../../ducks/frontEnd';
 import { connect } from 'react-redux';
 import './Menu.css';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -32,6 +32,18 @@ class Menu extends Component {
     this.handleGroupDeleteAccess = this.handleGroupDeleteAccess.bind(this);
   }
 
+  componentDidMount() {
+    // this.handleGetNoti()
+    // this.handleGetGroup()
+    console.log("Day Id", this.props.currentDay)
+    this.props.getCurrentUserID();
+    // if (this.props.currentDay) {
+    //   console.log("Day Id", this.props.currentDay.day_id)
+    //   this.props.updateEventsList(this.props.currentDay.day_id);
+    // }
+    console.log("Current Day", this.props.currentDay)
+  }
+
   handleNotiToggle() {
     if (this.props.groupOpen) {
       this.handleGroupToggle();
@@ -42,6 +54,7 @@ class Menu extends Component {
   }
 
   handleGetNoti() {
+    console.log('EVENTS', this.props.eventsList, this.props.savedRestaurants, this.props.currentRestaurant)
     axios.get(`/api/notify/${this.props.user_id}`).then(resp => {
       this.setState({
         currentNoti: resp.data
@@ -115,8 +128,6 @@ class Menu extends Component {
   }
 
   render() {
-    { this.handleGetNoti() }
-    { this.handleGetGroup() }
     const { gIcon } = this.props;
     return (
       <nav className='menu'>
@@ -182,8 +193,11 @@ function mapStateToProps(state) {
     gIcon: state.frontEnd.gIcon,
     currentDay: state.frontEnd.currentDay,
     currentTrip: state.frontEnd.currentTrip,
-    user_id: state.frontEnd.user_id
+    user_id: state.frontEnd.user_id,
+    eventsList: state.frontEnd.eventsList,
+    savedRestaurants: state.restaurant.savedRestaurants,
+    currentRestaurant: state.restaurant.currentRestaurant
   }
 }
 
-export default connect(mapStateToProps, { showGroup, showNoti, groupShow, getAllTrips, getAllGroup, getAllNoti })(Menu);
+export default connect(mapStateToProps, { showGroup, showNoti, groupShow, getAllTrips, getAllGroup, getAllNoti, getCurrentUserID, updateEventsList })(Menu);

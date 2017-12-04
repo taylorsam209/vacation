@@ -46,7 +46,7 @@ class Listing extends Component {
                   </Link>
                 </CardText>
                 <Link to={`/day/${currentDay}`} >
-                  <RaisedButton label='Add Event' primary={true} style={{ margin: '10px 0 10px 0' }} onClick={() => { this.props.addRestaurant(currentDay, e.id), this.props.openRestaurantModal() }} />
+                  <RaisedButton label='Add Event' primary={true} style={{ margin: '10px 0 10px 0' }} onClick={() => { this.props.getRestaurant(e.id), this.props.openRestaurantModal() }} />
                 </Link>
               </Card>
             )

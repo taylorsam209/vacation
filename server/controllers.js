@@ -26,12 +26,13 @@ module.exports = {
     addTrip: (req, res) => {
         const db = req.app.get("db")
         const { user_id, date, trip_name, trip_code, trip_location, trip_details } = req.body;
+        const message = `Here is the trip code for your trip to ${trip_name}: ${trip_code}`
 
         db.dashboard.add_trip([user_id, date, trip_name, trip_code, trip_location, trip_details])
             .then((trips) => {
                 db.dashboard.get_all_trips(user_id)
                     .then(trips => {
-
+                        db.dashboard.new_trip_noti(message, user_id)
                         res.status(200).send(trips)
                     })
             })
