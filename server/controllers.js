@@ -23,6 +23,18 @@ module.exports = {
             })
             .catch(() => res.status(500).send("Cannot locate specified trip"))
     },
+    getTripByCode: (req, res) => {
+        const db = req.app.get("db")
+        const trip_code = req.params.id;
+        const { user } = req.body;
+
+        db.dashboard.get_trip_by_code(trip_code)
+            .then(trip => {
+                db.group.join_group([user, trip_code])
+                res.status(200).send(trip[0])
+            })
+            .catch(() => res.status(500).send("Cannot locate specified trip"))
+    },
     addTrip: (req, res) => {
         const db = req.app.get("db")
         const { user_id, date, trip_name, trip_code, trip_location, trip_details } = req.body;

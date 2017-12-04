@@ -17,6 +17,14 @@ module.exports = {
     });
   },
 
+  /* Used for the search on dashboard.
+  */
+  getTripByCode(trip_code, user) {
+    return axios.get(`${url}trip/${trip_code}`, { user: user }).then(res => {
+      return res.data
+    })
+  },
+
   /* Takes a trip object with a user_id required.
      Returns an array of trip objects
      including the new trip */

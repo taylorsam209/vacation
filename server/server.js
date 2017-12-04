@@ -96,6 +96,7 @@ app.delete('/api/users/:id', userController.deleteUser);
 //Endpoints for Dashboard Component
 app.get('/api/trips/users/:id', controllers.getAllTrips)
 app.get('/api/trip/:id', controllers.getTrip)
+app.get('/api/trip:id', controllers.getTripByCode)
 app.post('/api/trip', controllers.addTrip)
 app.delete('/api/trip/:id', controllers.deleteTrip)
 

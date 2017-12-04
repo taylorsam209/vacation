@@ -82,7 +82,7 @@ const G_ICON_CHANGE = 'G_ICON_CHANGE'
     eventsList: [],
     currentEvent: null,
     searchTripOpen: false,
-    currentTripForCode: '',
+    currentTripForCode: [],
     notificationsList: [],
     restaurantModalToggle: false
 
@@ -404,11 +404,14 @@ export function searchTripModal(value) {
   }
 }
 
-export function getTripByCode(code) {
+export function getTripByCode(trip_code, user) {
   // return getTripByCode(url, code).then(res => {
+  let request = getTripByCode(url, code, user).then(res => {
+    return res
+  });
   return {
     type: TRIP_CODE_SEARCH,
-    payload: code
+    payload: request
   };
   // });
 }
