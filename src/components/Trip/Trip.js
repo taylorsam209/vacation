@@ -40,7 +40,7 @@ class Trip extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    nextProps.daysList;
+    nextProps.updateDaysList(nextProps.currentTrip ? nextProps.currentTrip.trip_id : 124);
   }
 
   handleAddDay() {
@@ -88,8 +88,10 @@ class Trip extends Component {
       });
     }
 
+    
     const sortedDays = sortByDate(this.props.daysList);
-
+    console.log(sortedDays)
+    
     return sortedDays.map((e, i, arr) => {
       return (
         <Card className='day-box' key={i}>
@@ -100,7 +102,7 @@ class Trip extends Component {
           <IconButton tooltip="Cancel Day" touch={true} tooltipPosition="top-center" onClick={() => { this.handleDayDelete(e) }} iconStyle={styles.largeIcon}>
             <ActionCancel />
           </IconButton>
-          <Link to={`/day/${e.day_id}`} className='logo-font' onClick={() => { this.props.getAllEvents }}>
+          <Link to={`/day/${e.day_id}`} className='logo-font'>
             <IconButton tooltip="Day Information" touch={true} tooltipPosition="top-center" iconStyle={styles.largeIcon} onClick={() => { this.props.updateCurrentDay(e.day_id), this.props.updateEventsList(e.day_id) }}>
               <Info />
             </IconButton>
@@ -140,7 +142,7 @@ class Trip extends Component {
 
   render() {
     const { dayName } = this.state;
-    const { currentTrip } = this.state;
+    const { currentTrip } = this.props;
     const actions = (
       <div className='new-day-actions'>
         <RaisedButton
@@ -160,8 +162,8 @@ class Trip extends Component {
 
     return (
       <main>
-        <Menu />
         <section className='trip-view' style={this.tripViewStyle()}>
+        <Menu />
           {/*<h1></h1>*/}
           <Card className='trip-view-header' zDepth={3}>
             <CardTitle
