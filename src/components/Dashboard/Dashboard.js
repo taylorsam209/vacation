@@ -55,7 +55,7 @@ class Dashboard extends Component {
         this.props.showGroup(false);
         console.log("gIcon Results:", this.props.showGroup);
         this.props.updateTripList(this.props.user_id);
-        
+
 
     }
 
@@ -270,15 +270,15 @@ class Dashboard extends Component {
                 <Card className='recently-viewed-trip' zDepth={3}>
                     <CardTitle
                         title={currentTrip ? currentTrip.trip_name : ''}
-                        // subtitle={currentTrip ? currentTrip.trip_location : ''}
+                    // subtitle={currentTrip ? currentTrip.trip_location : ''}
                     />
                     <CardMedia>
-                    <img src= {mountainLandscape} />
+                        <img src={mountainLandscape} />
                         {/* <img src={currentTrip ? currentTrip.trip_image : mountainLandscape} /> */}
                     </CardMedia>
                     <CardText>
-                    <p>{currentTrip ? currentTrip.trip_location : ''}</p>
-                    <p>{currentTrip ? currentTrip.trip_details : ''}</p>
+                        <p>{currentTrip ? currentTrip.trip_location : ''}</p>
+                        <p>{currentTrip ? currentTrip.trip_details : ''}</p>
                     </CardText>
                 </Card>
                 <RaisedButton

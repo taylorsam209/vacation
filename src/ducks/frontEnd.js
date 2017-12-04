@@ -70,7 +70,7 @@ const G_ICON_CHANGE = 'G_ICON_CHANGE'
   , CLEAR_EVENTS_LIST = 'CLEAR_EVENTS_LIST'
   , CLEAR_CURRENT_EVENT = 'CLEAR_CURRENT_EVENT'
   , initialState = {
-    user_id: null, 
+    user_id: null,
     groupOpen: false,
     notiOpen: false,
     gIcon: true,
@@ -185,9 +185,9 @@ export function updateTripList(user_id) {
 }
 // Requests all days by trip_id and updates the dayList with the returned array
 export function updateDaysList(trip_id) {
-  console.log("Attempt at Day List")
+  // console.log("Attempt at Day List")
   let request = getAllDays(url, trip_id).then(res => {
-    console.log("Response", res)
+    // console.log("Response", res)
     return res;
   });
   return {
@@ -198,7 +198,9 @@ export function updateDaysList(trip_id) {
 
 // Updates the currentDay by day_id
 export function updateCurrentDay(day_id) {
+  console.log("Hit Update Day", day_id)
   let request = getDay(url, day_id).then(res => {
+    console.log("Day Resp", res)
     return res;
   });
   return {
@@ -242,6 +244,7 @@ export function deletedSelectedDay(day_id) {
 
 // Updates the eventsList by day_id
 export function updateEventsList(day_id) {
+  console.log("Update Event Hit")
   let request = getEvents(url, day_id).then(res => {
     return res;
   });
@@ -260,6 +263,7 @@ export function updateCurrentEvent(eventObj) {
 }
 
 export function createNewFlight(flightObj) {
+  console.log("Update Event Hit")
   let request = addFlight(url, flightObj).then(res => {
     return res
   });
@@ -270,7 +274,7 @@ export function createNewFlight(flightObj) {
 }
 
 export function editSelectedFlight(flightObj) {
-  console.log("Hit MReducer")
+  console.log("Update Event Hit")
   let request = editFlight(url, flightObj).then(res => {
     console.log("Received back to MReducer")
     return res
@@ -282,6 +286,7 @@ export function editSelectedFlight(flightObj) {
 }
 
 export function deleteSelectedFlight(flightId) {
+  console.log("Update Event Hit")
   let request = deleteFlight(url, flightId).then(res => {
     return res
   });
@@ -291,7 +296,9 @@ export function deleteSelectedFlight(flightId) {
   }
 }
 
+
 export function createNewRental(rentalObj) {
+  console.log("Update Event Hit")
   let request = addRentalCar(url, rentalObj).then(res => {
     return res
   });
@@ -302,6 +309,7 @@ export function createNewRental(rentalObj) {
 }
 
 export function editSelectedRental(rentalObj) {
+  console.log("Update Event Hit")
   let request = editRentalCar(url, rentalObj).then(res => {
     return res
   });
@@ -312,6 +320,7 @@ export function editSelectedRental(rentalObj) {
 }
 
 export function deleteSelectedRental(rentalId) {
+  console.log("Update Event Hit")
   let request = deleteRentalCar(url, rentalId).then(res => {
     return res
   });
@@ -322,6 +331,7 @@ export function deleteSelectedRental(rentalId) {
 }
 
 export function createNewActivity(activityObj) {
+  console.log("Update Event Hit")
   let request = addActivity(url, activityObj).then(res => {
     return res
   });
@@ -332,6 +342,7 @@ export function createNewActivity(activityObj) {
 }
 
 export function editSelectedActivity(activityObj) {
+  console.log("Update Event Hit")
   let request = editActivity(url, activityObj).then(res => {
     return res
   });
@@ -342,6 +353,7 @@ export function editSelectedActivity(activityObj) {
 }
 
 export function deleteSelectedActivity(activityId) {
+  console.log("Update Event Hit")
   let request = deleteActivity(url, activityId).then(res => {
     return res
   });
@@ -352,6 +364,7 @@ export function deleteSelectedActivity(activityId) {
 }
 
 export function createNewLodging(lodgingObj) {
+  console.log("Update Event Hit")
   let request = addLodging(url, lodgingObj).then(res => {
     return res
   });
@@ -362,6 +375,7 @@ export function createNewLodging(lodgingObj) {
 }
 
 export function editSelectedLodging(lodgingObj) {
+  console.log("Update Event Hit")
   let request = editLodging(url, lodgingObj).then(res => {
     return res
   });
@@ -372,6 +386,7 @@ export function editSelectedLodging(lodgingObj) {
 }
 
 export function deleteSelectedLodging(lodgingId) {
+  console.log("Update Event Hit")
   let request = deleteLodging(url, lodgingId).then(res => {
     return res
   });
@@ -497,7 +512,7 @@ export default function reducer(state = initialState, action) {
     case UPDATE_NOTIFICATIONS_LIST:
       return Object.assign({}, state, { notificationsList: action.payload });
     case CLEAR_DAYS_LIST:
-      return Object.assign({}, state, {daysList: action.payload});
+      return Object.assign({}, state, { daysList: action.payload });
     case CREATE_NEW_NOTIFICATION:
       return state; // action.payload is a message, need to create a way to display it
     case DELETE_SELECTED_NOTIFICATION:

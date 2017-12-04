@@ -1,2 +1,1 @@
-select * from groups 
-where trip_id =$1;
+select users.user_id, users.user_name, users.email, users.auth_id, groups.trip_id, groups.group_user_id from users inner join groups on users.user_id = groups.user_id where trip_id = $1
