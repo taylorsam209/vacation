@@ -24,6 +24,8 @@ const UPDATE_SAVED_RESTAURANTS = 'UPDATE_SAVED_RESTAURANTS';
 const UPDATE_SAVED_RESTAURANTS_DATA = 'UPDATE_SAVED_RESTAURANTS_DATA';
 
 export function updateSavedRestaurants(day_id) {
+    console.log("Saved Restaraunts Got Hit")
+
     let request = axios.get(`/api/savedRestaurants/${day_id}`).then(res => {
         return res.data;
     });
@@ -34,7 +36,8 @@ export function updateSavedRestaurants(day_id) {
 }
 
 export function updateSavedRestaurantsData(day_id) {
-    let request = axios.get(`/api/savedRestaurantData/${day_id}`).then(res => {
+    console.log("Hit USR")
+    let request = axios.get(`/api/savedRestaurantsData/${day_id}`).then(res => {
         return res.data
     })
     return {
@@ -77,6 +80,8 @@ export function searchRestaurants(location) {
 }
 
 export function getRestaurant(id) {
+    console.log("Current Restaraunts Got Hit")
+
     let restaurant = axios.get(`/api/restaurant/${id}`)
         .then(response => {
             return response.data
@@ -110,7 +115,7 @@ export function getCurrentUser() {
 }
 
 export function addRestaurant(dayId, yelpId) {
-    console.log("Add Restaurant Function", dayId)
+    console.log("Add Rest: ", dayId, yelpId)
     const data = {
         dayId: dayId,
         yelpId: yelpId
@@ -125,7 +130,8 @@ export function addRestaurant(dayId, yelpId) {
 }
 
 export function deleteRestaurant(restObj) {
-    let savedRestaurants = axios.delete('/api/restaurant', restObj).then(response => {
+    console.log("Hit Delete Rest", restObj)
+    let savedRestaurants = axios.delete(`/api/restaurant/?restaurant_id=${restObj.restaurant_id}&day_id=${restObj.day_id}`).then(response => {
         return response.data
     })
     return {

@@ -17,28 +17,28 @@ module.exports = {
             .then((response) => res.status(200).send(response.data))
     },
 
-    getReviews:(req, res) => {
+    getReviews: (req, res) => {
         axios.get(`https://api.yelp.com/v3/businesses/${req.params.id}/reviews`,
-        { headers: { "Authorization": `Bearer ${process.env.YELP_ACCESS_TOKEN}` } })
-        .then((response) => res.status(200).send(response.data))
+            { headers: { "Authorization": `Bearer ${process.env.YELP_ACCESS_TOKEN}` } })
+            .then((response) => res.status(200).send(response.data))
     },
 
     addRestaurant: (req, res) => {
         const db = req.app.get('db');
-        const { day_id, yelp_id } = req.body;
-        db.rest.add_restaurant([day_id, yelp_id])
+        const { dayId, yelpId } = req.body;
+        db.rest.add_restaurant([dayId, yelpId])
             .then(() => res.status(200).send("Success"))
             .catch(() => res.status(500).send("Fail"))
     },
 
     getSavedRestaurantsData: (req, res) => {
-        const db =req.app.get('db');
+        const db = req.app.get('db');
         const day_id = req.params.id;
 
         db.rest.get_restaurants(day_id)
-        .then(restaurants => {
-            res.status(200).send(restaurants)
-        })
+            .then(restaurants => {
+                res.status(200).send(restaurants)
+            })
     },
 
     getSavedRestaurants: (req, res) => {
@@ -89,7 +89,7 @@ module.exports = {
 
     deleteRestaurant: (req, res) => {
         const db = req.app.get('db');
-        const {restaurant_id, day_id} = req.body;
+        const { restaurant_id, day_id } = req.query;
         var count = 0;
         db.rest.delete_restaurant(restaurant_id)
             .then(response => {
