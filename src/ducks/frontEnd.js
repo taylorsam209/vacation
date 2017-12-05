@@ -95,6 +95,13 @@ export function clearArray(action) {
   }
 }
 
+export function clearObj(action) {
+  return {
+    type: action,
+    payload: null
+  }
+}
+
 export function getCurrentUserID() {
   let userId = axios.get('/auth/me').then(response => {
     return response.data.user_id
@@ -406,7 +413,7 @@ export function searchTripModal(value) {
 
 export function getTripByCode(trip_code, user) {
   // return getTripByCode(url, code).then(res => {
-  let request = getTripByCode(url, code, user).then(res => {
+  let request = getTripByCode(url, trip_code, user).then(res => {
     return res
   });
   return {

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux'
 import './Trip.css';
-import { showGroup, updateDaysList, createNewDay, deletedSelectedDay, updateCurrentDay, updateEventsList } from '../../ducks/frontEnd';
+import { showGroup, updateDaysList, createNewDay, deletedSelectedDay, updateCurrentDay, updateEventsList, updateCurrentTrip } from '../../ducks/frontEnd';
 import _ from 'lodash';
 /* Components*/
 import Menu from '../Menu/Menu.js';
@@ -16,6 +16,8 @@ import Info from 'material-ui/svg-icons/action/info';
 import { Link } from "react-router-dom";
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import { updateSavedRestaurants, updateSavedRestaurantsData } from '../../ducks/restaurant';
+import HandleGetAllDays from './HandleGetAllDays';
+
 
 class Trip extends Component {
   constructor(props) {
@@ -29,7 +31,6 @@ class Trip extends Component {
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleAddDay = this.handleAddDay.bind(this);
-    this.handleGetAllDays = this.handleGetAllDays.bind(this);
     this.handleDayDelete = this.handleDayDelete.bind(this);
     this.handleEventAdaptation = this.handleEventAdaptation.bind(this);
 
@@ -38,18 +39,15 @@ class Trip extends Component {
   componentDidMount() {
     console.log("This is the line")
 
-    const { currentTrip } = this.props;
-    this.props.showGroup(true);
-    if (this.props.currentTrip) {
-      this.props.updateDaysList(currentTrip.trip_id);
-    }
+    // const { currentTrip } = this.props;
+    // this.props.showGroup(true);
+    // if (this.props.currentTrip) {
+    //   this.props.updateDaysList(currentTrip.trip_id);
+    // }
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("This is the line")
-    nextProps.currentTrip
-    console.log(this.props.currentTrip)
-    this.props.updateDaysList(nextProps.currentTrip.trip_id);
+    
   }
 
   handleEventAdaptation(e) {
@@ -78,59 +76,7 @@ class Trip extends Component {
     createNewDay(newDay);
   }
 
-  handleGetAllDays() {
-    console.log("Days List", this.props.daysList)
-    const styles = {
 
-      largeIcon: {
-        width: 60,
-        height: 60,
-      },
-
-    };
-
-    function sortByDate(daysList) {
-      let modifiedDatesDaysList = daysList.map(day => {
-        let modifiedDate = day.date.split('/');
-        let year = modifiedDate.pop();
-        modifiedDate.unshift(year);
-        day.date = modifiedDate.join('/');
-        return day;
-      });
-      let orderedDays = _.sortBy(modifiedDatesDaysList, ['date', 'day_name', 'trip_id', 'day_id']);
-      return orderedDays.map(day => {
-        let modifiedDate = day.date.split('/');
-        let year = modifiedDate.shift();
-        modifiedDate.push(year);
-        day.date = modifiedDate.join('/');
-        return day;
-      });
-    }
-
-
-    const sortedDays = sortByDate(this.props.daysList);
-    console.log(sortedDays)
-
-    return sortedDays.map((e, i, arr) => {
-      return (
-        <Card className='day-box' key={i}>
-          <CardTitle
-            title={e.day_name || `Day ${i + 1}`}
-            subtitle={e.date}
-          />
-          <IconButton tooltip="Cancel Day" touch={true} tooltipPosition="top-center" onClick={() => { this.handleDayDelete(e) }} iconStyle={styles.largeIcon}>
-            <ActionCancel />
-          </IconButton>
-          <Link to={`/day/${e.day_id}`} className='logo-font'>
-            <IconButton tooltip="Day Information" touch={true} tooltipPosition="top-center" iconStyle={styles.largeIcon} onClick={() => { this.props.updateCurrentDay(e.day_id), this.handleEventAdaptation(e.day_id) }}>
-              <Info />
-            </IconButton>
-          </Link>
-          <br />
-        </Card>
-      )
-    })
-  }
 
   handleDayDelete(e) {
     this.props.deletedSelectedDay(e.day_id)
@@ -197,9 +143,12 @@ class Trip extends Component {
               subtitle={currentTrip ? currentTrip.date : 'Trip Date Here'}
             />
           </Card>
-          <RaisedButton label="Add day" primary={true} onClick={this.handleOpen} />
+          {this.props.user_id === this.props.currentTrip.owner_id ? <RaisedButton label="Add day" primary={true} onClick={this.handleOpen} /> : null }
           <section className='day-display'>
-            {this.handleGetAllDays()}
+            <HandleGetAllDays
+              handleEventAdaptation={this.handleEventAdaptation}
+              handleDayDelete={this.handleDayDelete}
+            />
           </section>
           <Dialog
             title={dayName}
@@ -224,10 +173,11 @@ class Trip extends Component {
 
 function mapStateToProps(state) {
   return {
+    user_id: state.frontEnd.user_id,
     daysList: state.frontEnd.daysList,
     currentTrip: state.frontEnd.currentTrip,
     currentDay: state.frontEnd.currentDay,
   }
 };
 
-export default connect(mapStateToProps, { showGroup, createNewDay, updateDaysList, deletedSelectedDay, updateEventsList, updateCurrentDay, updateSavedRestaurants, updateSavedRestaurantsData })(Trip);
+export default connect(mapStateToProps, { showGroup, createNewDay, updateDaysList, deletedSelectedDay, updateEventsList, updateCurrentDay, updateSavedRestaurants, updateSavedRestaurantsData, updateCurrentTrip })(Trip);
