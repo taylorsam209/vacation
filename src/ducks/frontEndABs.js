@@ -19,7 +19,7 @@ module.exports = {
 
   /* Used for the search on dashboard.
   */
-  getTripByCode(trip_code, user) {
+  getTripByCode(url, trip_code, user) {
     return axios.get(`${url}trip/${trip_code}`, { user: user }).then(res => {
       return res.data
     })
