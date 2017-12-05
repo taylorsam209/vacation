@@ -51,35 +51,13 @@ class Day extends Component {
   }
 
   componentDidMount() {
-    console.log("Day Id", this.props.currentDay)
-    console.log("Name: ", this.props.currentRestaurant);
-    console.log("SavedName: ", this.props.savedRestaurants)
-    console.log("SavedData: ", this.props.savedRestaurantsData)
-
     this.props.showGroup(true);
-    if (this.props.currentDay) {
-      this.props.updateEventsList(this.props.currentDay.day_id);
-    }
-    console.log("Current Day", this.props.currentDay)
-    // if (this.props.currentDay) {
-    //   this.props.updateSavedRestaurants(this.props.currentDay.day_id);
-    //   this.props.updateSavedRestaurantsData(this.props.currentDay.day_id);
-    // }
-    // if (this.props.currentDay) {
-    //   this.props.updateEventsList(this.props.currentDay.day_id);
-    // }
-    if (this.props.currentDay) {
-      console.log("Hit Yelp and Client")
-      this.props.updateEventsList(this.props.currentDay.day_id);
-      this.props.updateSavedRestaurants(this.props.currentDay.day_id);
-      this.props.updateSavedRestaurantsData(this.props.currentDay.day_id);
-    }
   }
 
   componentWillReceiveProps(nextProps) {
     console.log("Hit the Event Update")
-    nextProps.savedRestaurants;
-    this.handleRestaurants();
+    // nextProps.savedRestaurants;
+    // this.handleRestaurants();
     //   // if (this.props.currentDay) {
     //   //   this.props.updateSavedRestaurants(this.props.currentDay.day_id);
     //   //   this.props.updateSavedRestaurantsData(this.props.currentDay.day_id);
@@ -129,12 +107,12 @@ class Day extends Component {
               <p>{e.activity_details || null}</p>
               <p>{e.rental_company || null}</p>
               <p>{e.rental_details || null}</p>
-              <IconButton tooltip="Cancel Event" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventDelete(e) }}>
-                <ActionCancel />
-              </IconButton>
-              <IconButton tooltip="Edit Event" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventEditWindow(e) }}>
+              {this.props.user_id === this.props.currentTrip.owner_id ? <IconButton tooltip="Cancel Event" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventDelete(e) }}>
+                <ActionCancel /> 
+              </IconButton> :null}
+              {this.props.user_id === this.props.currentTrip.owner_id ? <IconButton tooltip="Edit Event" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventEditWindow(e) }}>
                 <Edit />
-              </IconButton>
+              </IconButton> : null}
             </Card>
           </div>
         )
@@ -165,9 +143,9 @@ class Day extends Component {
                   <p>More Details</p>
                 </h2>
               </Link>
-              <IconButton tooltip="top-center" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventDelete(e) }}>
+              {this.props.user_id === this.props.currentTrip.owner_id ? <IconButton tooltip="top-center" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventDelete(e) }}>
                 <ActionCancel />
-              </IconButton>
+              </IconButton> : null}
             </Card>
           </div>
         )
@@ -410,7 +388,7 @@ class Day extends Component {
         <RaisedButton
           label="Ok"
           primary={true}
-          onClick={() => { this.handleAddRestaurant(), this.props.closeRestaurantModal() }}
+          onClick={() => { this.handleAddRestaurant(), this.props.updateSavedRestaurants(this.props.currentDay.day_id), this.props.updateSavedRestaurantsData(this.props.currentDay.day_id), this.props.closeRestaurantModal() }}
           className='new-event-ok'
         />
         <RaisedButton
@@ -448,7 +426,7 @@ class Day extends Component {
             />
           </Card>
           <br />
-          <RaisedButton label="Add event" primary={true} onClick={this.handleOpen} />
+          {this.props.user_id === this.props.currentTrip.owner_id ? <RaisedButton label="Add event" primary={true} onClick={this.handleOpen} /> :null}
           {this.handleGetAllEvents()}
           {this.handleRestaurants()}
           <Dialog
@@ -499,6 +477,8 @@ class Day extends Component {
 }
 function mapStateToProps(state) {
   return {
+    user_id: state.frontEnd.user_id,
+    currentTrip: state.frontEnd.currentTrip,
     gIcon: state.gIcon,
     restaurantModalToggle: state.frontEnd.restaurantModalToggle,
     currentRestaurant: state.restaurant.currentRestaurant,
