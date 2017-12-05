@@ -8,12 +8,19 @@ module.exports = {
 
         db.dashboard.get_all_trips(userId)
             .then(trips => {
-                res.status(200).send(trips)
+                var tempTrips = trips;
+                db.dashboard.get_trip_by_group(userId).then(allTrips => {
+                    for (var i = 0; i < allTrips.length; i++) {
+                        tempTrips.push(allTrips[i])
+                    }
+                    res.status(200).send(tempTrips)
+                })
             })
             .catch(() => res.status(500).send("Cannot locate trips"))
     },
 
     getTrip: (req, res) => {
+        console.log("Wrong")
         const db = req.app.get("db")
         const tripId = req.params.id;
 
@@ -24,13 +31,19 @@ module.exports = {
             .catch(() => res.status(500).send("Cannot locate specified trip"))
     },
     getTripByCode: (req, res) => {
+        console.log("Hit Controller GTBC")
         const db = req.app.get("db")
         const trip_code = req.params.id;
-        const { user } = req.body;
+        const user = req.params.userid;
+        console.log(" User: ", user)
 
         db.dashboard.get_trip_by_code(trip_code)
             .then(trip => {
-                db.group.join_group([user, trip_code])
+                var tempTrip = trip[0].trip_id
+                console.log("Return dashboard GTBC", tempTrip, user)
+                db.group.join_group([user, tempTrip]).then(resp => {
+                    console.log("I hope it Added a trip")
+                })
                 res.status(200).send(trip[0])
             })
             .catch(() => res.status(500).send("Cannot locate specified trip"))
@@ -44,8 +57,14 @@ module.exports = {
             .then((trips) => {
                 db.dashboard.get_all_trips(user_id)
                     .then(trips => {
-                        db.dashboard.new_trip_noti(message, user_id)
-                        res.status(200).send(trips)
+                        var tempTrips = trips;
+                        db.dashboard.get_trip_by_group(user_id).then(allTrips => {
+                            for (var i = 0; i < allTrips.length; i++) {
+                                tempTrips.push(allTrips[i])
+                            }
+                            db.dashboard.new_trip_noti(message, user_id)
+                            res.status(200).send(tempTrips)
+                        })
                     })
             })
             .catch(() => res.status(500).send("Cannot add new trip"))
