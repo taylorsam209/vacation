@@ -14,6 +14,7 @@ const { getAllTrips // Dashboard
   , addDay
   , editDay
   , deleteDay
+  , requestTripByCode
 
   // Day Component
 
@@ -404,9 +405,9 @@ export function searchTripModal(value) {
   }
 }
 
-export function getTripByCode(trip_code, user) {
-  // return getTripByCode(url, code).then(res => {
-  let request = getTripByCode(url, code, user).then(res => {
+export function getTripByCode(trip_code, user_id) {
+  console.log("Hit MR GTBC")
+  let request = requestTripByCode(url, trip_code, user_id).then(res => {
     return res
   });
   return {

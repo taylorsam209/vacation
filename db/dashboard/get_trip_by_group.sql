@@ -1,0 +1,1 @@
+select t.trip_id, t.date, t.trip_name, t.trip_code, t.trip_location, t.trip_details, g.user_id, t.user_id as owner_id, g.group_user_id from trips as t inner join groups as g on t.trip_id = g.trip_id where g.user_id = $1
