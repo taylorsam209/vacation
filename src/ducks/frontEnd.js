@@ -96,6 +96,13 @@ export function clearArray(action) {
   }
 }
 
+export function clearObj(action) {
+  return {
+    type: action,
+    payload: null
+  }
+}
+
 export function getCurrentUserID() {
   let userId = axios.get('/auth/me').then(response => {
     return response.data.user_id
