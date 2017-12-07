@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
+import {connect} from 'react-redux';
+import {getCurrentUserID} from './ducks/frontEnd.js';
 import { HashRouter, Route } from "react-router-dom";
 import Login from './components/Login/Login.js';
 import Dashboard from './components/Dashboard/Dashboard.js';
@@ -10,6 +12,11 @@ import Restaurant from './components/Restaurants/Restaurant.js';
 
 
 class App extends Component {
+
+  componentDidMount(){
+    this.props.getCurrentUserID();
+  }
+
   render() {
     return (
       <HashRouter>
@@ -26,4 +33,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect(null,{getCurrentUserID})(App);

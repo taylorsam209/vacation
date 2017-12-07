@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { updateEventsList, updateCurrentDay } from '../../ducks/frontEnd';
-import {updateSavedRestaurants, updateSavedRestaurantsData} from '../../ducks/restaurant'
+import { updateSavedRestaurants, updateSavedRestaurantsData } from '../../ducks/restaurant'
 import _ from 'lodash';
 import { Card, CardTitle } from 'material-ui/Card';
 import IconButton from 'material-ui/IconButton';
@@ -48,9 +48,9 @@ function HandleGetAllDays(props) {
           title={e.day_name || `Day ${i + 1}`}
           subtitle={e.date}
         />
-        {this.props.user_id === this.props.currentTrip.owner_id ? <IconButton tooltip="Cancel Day" touch={true} tooltipPosition="top-center" onClick={() => { props.handleDayDelete(e) }} iconStyle={styles.largeIcon}>
+        {props.currentTrip ? props.user_id == props.currentTrip.user_id ? <IconButton tooltip="Cancel Day" touch={true} tooltipPosition="top-center" onClick={() => { props.handleDayDelete(e) }} iconStyle={styles.largeIcon}>
           <ActionCancel />
-        </IconButton> : null }
+        </IconButton> : null : null}
         <Link to={`/day/${e.day_id}`} className='logo-font'>
           <IconButton tooltip="Day Information" touch={true} tooltipPosition="top-center" iconStyle={styles.largeIcon} onClick={() => { updateCurrentDay(e.day_id), updateEventsList(e.day_id), updateSavedRestaurants(e.day_id), updateSavedRestaurantsData(e.day_id), props.handleEventAdaptation(e.day_id) }}>
             <Info />
@@ -70,7 +70,7 @@ function HandleGetAllDays(props) {
 
 function mapStateToProps(state) {
   return {
-    currentTrip: state.currentTrip.owner_id,
+    currentTrip: state.frontEnd.currentTrip,
     user_id: state.frontEnd.user_id,
     daysList: state.frontEnd.daysList
   }
