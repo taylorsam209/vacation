@@ -8,3 +8,13 @@ $lightDark: #2a9d8f;
 $medium: #e9c46a;
 $bright: #f4a261;
 $light: #e75f51;
+
+// <IconButton tooltip="Cancel Trip" touch={true} tooltipPosition="top-center" onClick={  }}>
+//     <ActionCancel />
+// </IconButton>
+
+// <RaisedButton
+//   label='Cancel Trip'
+//   secondary={true}
+//   onClick={() => {this.handleTripDelete(trip)}}
+// />

@@ -85,9 +85,12 @@ class Dashboard extends Component {
 
                     </CardText>
                 </Link>
-                    <IconButton tooltip="Cancel Trip" touch={true} tooltipPosition="top-center" onClick={() => { this.handleTripDelete(trip) }}>
-                        <ActionCancel />
-                    </IconButton>
+                <RaisedButton
+                  label='Cancel Trip'
+                  secondary={true}
+                  onClick={() => this.handleTripDelete(trip)}
+                  style={{marginBottom: '5px'}}
+                />
                 </Card>
 
             )
@@ -335,9 +338,12 @@ class Dashboard extends Component {
                     /> <br />
                     <br />
                 </Dialog>
-                <section className='trip-display'>
+                { tripList.length ?
+                  <section className='trip-display'>
                     {this.handleTrips(tripList)}
-                </section>
+                  </section>
+                  : null
+                }
             </div >
         )
     }
