@@ -406,7 +406,7 @@ export function searchTripModal(value) {
 
 export function getTripByCode(trip_code, user) {
   // return getTripByCode(url, code).then(res => {
-  let request = getTripByCode(url, code, user).then(res => {
+  let request = getTripByCode(url, trip_code, user).then(res => {
     return res
   });
   return {
