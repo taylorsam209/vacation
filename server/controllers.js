@@ -20,7 +20,6 @@ module.exports = {
     },
 
     getTrip: (req, res) => {
-        console.log("Wrong")
         const db = req.app.get("db")
         const tripId = req.params.id;
 
@@ -40,9 +39,12 @@ module.exports = {
         db.dashboard.get_trip_by_code(trip_code)
             .then(trip => {
                 var tempTrip = trip[0].trip_id
-                console.log("Return dashboard GTBC", tempTrip, user)
                 db.group.join_group([user, tempTrip]).then(resp => {
-                    console.log("I hope it Added a trip")
+                    db.group.get_trip_by_code([trip_code]).then(respo => {
+                        console.log("1", respo)
+                        const message = `A new user has joined one of your trips!`
+                        db.noti.add_notification(respo.trip_id, respo[0].user_id, message)
+                    })
                 })
                 res.status(200).send(trip[0])
             })
@@ -62,7 +64,9 @@ module.exports = {
                             for (var i = 0; i < allTrips.length; i++) {
                                 tempTrips.push(allTrips[i])
                             }
-                            db.dashboard.new_trip_noti(message, user_id)
+                            db.group.get_trip_by_code([trip_code]).then(resp => {
+                                db.noti.add_notification(resp.trip_id, user_id, message)
+                            })
                             res.status(200).send(tempTrips)
                         })
                     })
@@ -77,7 +81,8 @@ module.exports = {
         db.dashboard.get_trip(tripId)
             .then(trip => {
                 let userId = trip[0].user_id;
-                console.log(userId);
+                const message = `A user has left one of your trips!`
+                db.noti.add_notification(tripId, userId, message)
                 db.dashboard.delete_trip(tripId)
                     .then(() => {
                         db.dashboard.get_all_trips(userId)

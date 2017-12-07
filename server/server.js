@@ -14,7 +14,8 @@ const express = require("express"),
     userController = require('./userController'),
     groupController = require('./groupController');
 
-const PORT = 3010;
+const PORT = 8082;
+
 const app = express();
 
 app.use(bodyParser.json());
@@ -52,6 +53,8 @@ passport.use(new Auth0Strategy({
             const user = profile._json;
             db.auth.create_user([user.name, user.email, user.picture, user.identities[0].user_id])
                 .then(user => {
+                    const message = `Welcome to Trippin' Vacation Planner!`
+                    db.noti.add_notification(message, user[0].user_id)
                     return done(null, user[0].user_id)
                 })
         }

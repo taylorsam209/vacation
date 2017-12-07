@@ -33,12 +33,11 @@ class Trip extends Component {
     this.handleAddDay = this.handleAddDay.bind(this);
     this.handleDayDelete = this.handleDayDelete.bind(this);
     this.handleEventAdaptation = this.handleEventAdaptation.bind(this);
-
+    this.handleAdminAccess = this.handleAdminAccess.bind(this);
   }
 
   componentDidMount() {
-    console.log("This is the line")
-
+    console.log("This is the line", this.props.currentTrip)
     // const { currentTrip } = this.props;
     // this.props.showGroup(true);
     // if (this.props.currentTrip) {
@@ -47,7 +46,14 @@ class Trip extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    
+    this.handleAdminAccess()
+  }
+  handleAdminAccess() {
+    const currentTrip = this.props;
+    return (
+      currentTrip ? this.props.user_id == currentTrip.user_id ? <RaisedButton label="Add day" primary={true} onClick={this.handleOpen} /> : null : null
+    )
+
   }
 
   handleEventAdaptation(e) {
@@ -143,7 +149,7 @@ class Trip extends Component {
               subtitle={currentTrip ? currentTrip.date : 'Trip Date Here'}
             />
           </Card>
-          {this.props.user_id === this.props.currentTrip.owner_id ? <RaisedButton label="Add day" primary={true} onClick={this.handleOpen} /> : null }
+          {this.handleAdminAccess()}
           <section className='day-display'>
             <HandleGetAllDays
               handleEventAdaptation={this.handleEventAdaptation}
@@ -177,6 +183,7 @@ function mapStateToProps(state) {
     daysList: state.frontEnd.daysList,
     currentTrip: state.frontEnd.currentTrip,
     currentDay: state.frontEnd.currentDay,
+    buttonDisplay: state.frontEnd.buttonDisplay
   }
 };
 
