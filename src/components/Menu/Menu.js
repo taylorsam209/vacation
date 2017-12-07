@@ -13,13 +13,15 @@ import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import { getAllTrips, getAllGroup, getAllNoti } from '../../ducks/frontEndABs.js';
 import ActionCancel from 'material-ui/svg-icons/navigation/cancel';
 import axios from 'axios';
+import Badge from 'material-ui/Badge';
 
 class Menu extends Component {
   constructor(props) {
     super(props);
     this.state = {
       currentGroup: [],
-      currentNoti: []
+      currentNoti: [],
+      stateTrip: []
     }
     this.handleGroupToggle = this.handleGroupToggle.bind(this);
     this.handleNotiToggle = this.handleNotiToggle.bind(this);
@@ -35,13 +37,34 @@ class Menu extends Component {
   componentDidMount() {
     // this.handleGetNoti()
     // this.handleGetGroup()
-    console.log("Day Id", this.props.currentDay)
     this.props.getCurrentUserID();
     // if (this.props.currentDay) {
     //   console.log("Day Id", this.props.currentDay.day_id)
     //   this.props.updateEventsList(this.props.currentDay.day_id);
     // }
-    console.log("Current Day", this.props.currentDay)
+  }
+
+  componentDidUpdate() {
+    console.log("Hit CDU", this.state.stateTrip)
+    if (this.state.currentGroup) {
+      console.log("Hit Get Group")
+      this.handleGetGroup();
+    }
+    if (this.state.currentNoti) {
+      console.log("Hit Get Noti")
+      this.handleGetNoti();
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log("next props", nextProps.currentTrip)
+    console.log("UPDATED", this.state.stateTrip)
+    console.log("old props", this.props.currentTrip)
+    if (this.state.stateTrip) {
+      this.setState({
+        stateTrip: nextProps.currentTrip
+      })
+    }
   }
 
   handleNotiToggle() {
@@ -54,7 +77,6 @@ class Menu extends Component {
   }
 
   handleGetNoti() {
-    console.log('EVENTS', this.props.eventsList, this.props.savedRestaurants, this.props.currentRestaurant)
     axios.get(`/api/notify/${this.props.user_id}`).then(resp => {
       this.setState({
         currentNoti: resp.data
@@ -72,11 +94,13 @@ class Menu extends Component {
   }
 
   handleGetGroup() {
-    axios.get(`/api/trip/group/${2}`).then(resp => {
-      this.setState({
-        currentGroup: resp.data
+    if (this.state.stateTrip) {
+      axios.get(`/api/trip/group/${this.state.stateTrip.trip_id}`).then(resp => {
+        this.setState({
+          currentGroup: resp.data
+        })
       })
-    })
+    }
   }
 
   handleGroup() {
@@ -92,18 +116,16 @@ class Menu extends Component {
 
   handleGroupDeleteAccess(e) {
     if (this.props.currentTrip) {
-      if (e.user_id === this.props.currentTrip.user_id || e.user_id === this.props.user_id) {
-        <IconButton tooltip="top-center" touch={true} tooltipPosition="top-center" onClick={() => { this.handleGroupDelete(e) }}>
+      if (this.props.user_id === this.props.currentTrip.user_id || e.user_id === this.props.user_id) {
+        return (<IconButton tooltip="top-center" touch={true} tooltipPosition="top-center" onClick={() => { this.handleGroupDelete(e) }}>
           <ActionCancel />
-        </IconButton>
+        </IconButton>)
       }
     }
   }
 
   handleGroupDelete(e) {
-    // var member = { user_id: e.user_id, trip_id: this.props.currentTrip.trip_id }
-    var member = { user_id: e.user_id, trip_id: 1 }
-    axios.delete(`/api/group`, member).then(resp => {
+    axios.delete(`/api/group/${e.user_id}/${this.props.currentTrip.trip_id}`).then(resp => {
       this.handleGetGroup();
     })
   }
@@ -128,6 +150,7 @@ class Menu extends Component {
   }
 
   render() {
+    console.log("render noti", this.state.currentNoti)
     const { gIcon } = this.props;
     return (
       <nav className='menu'>
@@ -138,19 +161,36 @@ class Menu extends Component {
         </Link>
 
         {
-          gIcon &&
-          <GroupIcon
+          gIcon ? this.state.currentGroup.length == 0 ? <GroupIcon
             className='group-icon'
             color='white'
             onClick={() => { this.handleGroupToggle(), this.handleGetGroup() }}
-          />
+          /> :
+            <Badge
+              badgeContent={this.state.currentGroup.length}
+              primary={true}
+            >
+              <GroupIcon
+                className='group-icon'
+                color='white'
+                onClick={() => { this.handleGroupToggle(), this.handleGetGroup() }}
+              />
+            </Badge> : null
         }
-
-        <NotificationsIcon
-          className='noti-icon'
-          color='white'
-          onClick={() => { this.handleNotiToggle(), this.handleGetNoti() }}
-        />
+        {this.props.notificationsList.length != 0 ? <Badge
+          badgeContent={this.props.notificationsList.length}
+          primary={true}
+        >
+          <NotificationsIcon
+            className='noti-icon'
+            color='white'
+            onClick={() => { this.handleNotiToggle(), this.handleGetNoti() }}
+          />
+        </Badge> : <NotificationsIcon
+            className='noti-icon'
+            color='white'
+            onClick={() => { this.handleNotiToggle(), this.handleGetNoti() }}
+          />}
 
         <a href={process.env.REACT_APP_LOGOUT} className='logout'>
           <RaisedButton
@@ -196,7 +236,8 @@ function mapStateToProps(state) {
     user_id: state.frontEnd.user_id,
     eventsList: state.frontEnd.eventsList,
     savedRestaurants: state.restaurant.savedRestaurants,
-    currentRestaurant: state.restaurant.currentRestaurant
+    currentRestaurant: state.restaurant.currentRestaurant,
+    notificationsList: state.frontEnd.notificationsList
   }
 }
 

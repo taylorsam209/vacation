@@ -144,4 +144,4 @@ app.delete('/api/restaurant', restController.deleteRestaurant)
 app.get('/api/trip/group/:id', groupController.getGroup);
 app.get('/api/trip/code/:id', groupController.getTripByCode);
 app.post('/api/group', groupController.joinGroup);
-app.delete('/api/group', groupController.deleteMember);
+app.delete('/api/group/:user/:trip', groupController.deleteMember);
