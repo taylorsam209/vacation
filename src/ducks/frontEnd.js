@@ -412,15 +412,9 @@ export function searchTripModal(value) {
   }
 }
 
-<<<<<<< HEAD
-export function getTripByCode(trip_code, user) {
-  // return getTripByCode(url, code).then(res => {
-  let request = getTripByCode(url, trip_code, user).then(res => {
-=======
 export function getTripByCode(trip_code, user_id) {
   console.log("Hit MR GTBC")
   let request = requestTripByCode(url, trip_code, user_id).then(res => {
->>>>>>> master
     return res
   });
   return {
