@@ -1,2 +1,1 @@
-select * from trips
-where user_id = $1;
+select t.trip_id, t.user_id as owner_id, t.date, t.trip_name, t.trip_code, t.trip_location, t.trip_details from trips as t where user_id = $1;
