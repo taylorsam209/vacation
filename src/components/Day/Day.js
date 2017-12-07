@@ -92,10 +92,11 @@ class Day extends Component {
   }
 
   handleGetAllEvents() {
-
-    // console.log('look at me', this.props.eventsList)
     if (this.props.eventsList.length) {
       return this.props.eventsList.map((e, i, arr) => {
+        console.log("event", e)
+        console.log("current", this.props.currentTrip)
+        console.log("user", this.props.user_id)
         return (
           <div key={i}>
             <Card className='event-container' style={{ margin: '10px', padding: '10px' }}>
@@ -107,12 +108,12 @@ class Day extends Component {
               <p>{e.activity_details || null}</p>
               <p>{e.rental_company || null}</p>
               <p>{e.rental_details || null}</p>
-              {this.props.user_id === this.props.currentTrip.owner_id ? <IconButton tooltip="Cancel Event" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventDelete(e) }}>
-                <ActionCancel /> 
-              </IconButton> :null}
-              {this.props.user_id === this.props.currentTrip.owner_id ? <IconButton tooltip="Edit Event" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventEditWindow(e) }}>
+              {this.props.currentTrip ? this.props.user_id == this.props.currentTrip.user_id ? <IconButton tooltip="Cancel Event" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventDelete(e) }}>
+                <ActionCancel />
+              </IconButton> : null : null}
+              {this.props.currentTrip ? this.props.user_id == this.props.currentTrip.user_id ? <IconButton tooltip="Edit Event" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventEditWindow(e) }}>
                 <Edit />
-              </IconButton> : null}
+              </IconButton> : null : null}
             </Card>
           </div>
         )
@@ -143,9 +144,9 @@ class Day extends Component {
                   <p>More Details</p>
                 </h2>
               </Link>
-              {this.props.user_id === this.props.currentTrip.owner_id ? <IconButton tooltip="top-center" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventDelete(e) }}>
+              {this.props.currentTrip ? this.props.user_id == this.props.currentTrip.user_id ? <IconButton tooltip="top-center" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventDelete(e) }}>
                 <ActionCancel />
-              </IconButton> : null}
+              </IconButton> : null : null}
             </Card>
           </div>
         )
@@ -426,7 +427,7 @@ class Day extends Component {
             />
           </Card>
           <br />
-          {this.props.user_id === this.props.currentTrip.owner_id ? <RaisedButton label="Add event" primary={true} onClick={this.handleOpen} /> :null}
+          {this.props.currentTrip ? this.props.user_id == this.props.currentTrip.user_id ? <RaisedButton label="Add event" primary={true} onClick={this.handleOpen} /> : null : null}
           {this.handleGetAllEvents()}
           {this.handleRestaurants()}
           <Dialog
