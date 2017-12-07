@@ -37,7 +37,7 @@ class Trip extends Component {
   }
 
   componentDidMount() {
-    console.log("This is the line", this.props.currentTrip)
+    this.props.showGroup(true);
     // const { currentTrip } = this.props;
     // this.props.showGroup(true);
     // if (this.props.currentTrip) {

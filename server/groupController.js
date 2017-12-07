@@ -36,13 +36,13 @@ module.exports = {
 
     deleteMember: (req, res) => {
         const db = req.app.get('db');
-        const { user_id, trip_id } = req.body;
-
-        db.group.delete_member([user_id, trip_id])
+        const user_id = req.params.user;
+        const trip_id = req.params.trip
+        db.group.delete_member(user_id, trip_id)
             .then(() => {
-                db.dashboard.get_trip([trip_id]).then(respo => {
+                db.dashboard.get_trip(trip_id).then(respo => {
                     const message = `You have been removed from ${respo[0].trip_name}!`
-                    db.noti.add_notification(message, user_id)
+                    db.noti.add_notification(trip_id, user_id, message)
                 })
                 res.status(200).send("Member has been removed.")
             })
