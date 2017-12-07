@@ -85,8 +85,8 @@ const G_ICON_CHANGE = 'G_ICON_CHANGE'
     searchTripOpen: false,
     currentTripForCode: [],
     notificationsList: [],
-    restaurantModalToggle: false
-
+    restaurantModalToggle: false,
+    buttonDisplay: true
   };
 
 export function clearArray(action) {
