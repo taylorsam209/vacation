@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Menu from '../Menu/Menu.js';
-import { showGroup, newTripModal, updateTripList, searchTripModal, getTripByCode, getCurrentUserID, createNewTrip, updateCurrentTrip } from '../../ducks/frontEnd';
+import { showGroup, newTripModal, updateTripList, searchTripModal, getTripByCode, getCurrentUserID, createNewTrip, updateCurrentTrip, deleteSelectedTrip, updateDaysList } from '../../ducks/frontEnd';
 import { connect } from 'react-redux';
 import './Dashboard.css';
 import mountainLandscape from '../../assets/images/tripPlaceholders/mountain-landscape.jpg';
@@ -55,8 +55,6 @@ class Dashboard extends Component {
         this.props.showGroup(false);
         console.log("gIcon Results:", this.props.showGroup);
         this.props.updateTripList(this.props.user_id);
-
-
     }
 
     componentWillReceiveProps(nextProps) {
@@ -65,29 +63,36 @@ class Dashboard extends Component {
     }
 
     handleTrips() {
+        console.log("trips", this.props.tripList)
         return this.props.tripList.map((trip, index) => {
+            console.log("trip: ", trip)
             return (
-                <Link to={`/trip/${trip.trip_id}`} onClick={() => {
-                    this.props.updateCurrentTrip(trip.trip_id)
+
+                <Card key={index} className='trip'> <Link to={`/trip/${trip.trip_id}`} onClick={() => {
+                    this.props.updateCurrentTrip(trip.trip_id), this.props.updateDaysList(trip.trip_id)
                 }
                 }>
-                    <Card key={index} className='trip'>
-                        <CardMedia
-                            overlay={<CardTitle
-                                title={trip.trip_name}
-                                subtitle={trip.trip_location}
-                            />}
-                        >
-                            <img
-                                src={trip.trip_image || tripPlaceholders[0]}
-                                alt={trip.trip_name}
-                            />
-                        </CardMedia>
-                        <CardText>
-                            {trip.date}
-                        </CardText>
-                    </Card>
+                    <CardMedia
+                        overlay={<CardTitle
+                            title={trip.trip_name}
+                            subtitle={trip.trip_location}
+                        />}
+                    >
+                        <img
+                            src={trip.trip_image || tripPlaceholders[0]}
+                            alt={trip.trip_name}
+                        />
+                    </CardMedia>
+                    <CardText>
+                        {trip.date}
+
+                    </CardText>
                 </Link>
+                    <IconButton tooltip="Cancel Trip" touch={true} tooltipPosition="top-center" onClick={() => { this.handleTripDelete(trip) }}>
+                        <ActionCancel />
+                    </IconButton>
+                </Card>
+
             )
         })
     }
@@ -222,11 +227,12 @@ class Dashboard extends Component {
     }
 
     handleTripDelete(e) {
-        this.props.deleteTrip(e)
+        console.log("trip id", e.trip_id)
+        this.props.deleteSelectedTrip(e.trip_id)
     }
-
     searchTrip() {
-        this.props.getTripByCode(this.state.trip_code)
+        console.log("Constant Call?")
+        this.props.getTripByCode(this.state.trip_code, this.props.user_id)
     }
 
     render() {
@@ -348,4 +354,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { showGroup, newTripModal, updateTripList, searchTripModal, createNewTrip, getAllTrips, getAllDays, getTripByCode, getCurrentUserID, updateCurrentTrip })(Dashboard);
+export default connect(mapStateToProps, { showGroup, newTripModal, updateTripList, searchTripModal, createNewTrip, getAllTrips, getAllDays, getTripByCode, getCurrentUserID, updateCurrentTrip, deleteSelectedTrip, updateDaysList })(Dashboard);
