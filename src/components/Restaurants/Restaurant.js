@@ -43,7 +43,8 @@ class Restaurant extends Component {
     return (
       <div className="Restaurant">
         <Menu />
-        <h1>{name}</h1>
+        {this.props.currentRestaurant.length !== 0 ? <h1 className="title">{name}</h1> : null }
+         {this.props.currentRestaurant.length !== 0 ?
         <Card className='restaurant-container'>
           <CardMedia overlay={<CardTitle title={'Rating: ' + rating} subtitle={'Review Count: ' + review_count} />}>
             <img src={image_url || 'https://pixy.org/images/placeholder.png'} alt='' />
@@ -65,8 +66,8 @@ class Restaurant extends Component {
           <Link to={`/day/${currentDay}`} >
             <RaisedButton label='Add Event' primary={true} style={{ margin: '10px 0 10px 0' }} onClick={() => { this.props.openRestaurantModal() }} />
           </Link>
-        </Card>
-        <Map />
+        </Card> : null }
+        <Map /> 
       </div>
     );
   }
