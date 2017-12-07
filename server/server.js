@@ -14,8 +14,7 @@ const express = require("express"),
     userController = require('./userController'),
     groupController = require('./groupController');
 
-const PORT = 8082;
-
+const PORT = process.env.PORT;
 const app = express();
 
 app.use(bodyParser.json());

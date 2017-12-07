@@ -58,14 +58,11 @@ class Dashboard extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        nextProps.updateTripList(nextProps.user_id);
-        this.state.user_id = nextProps.user_id;
+        //nextProps.updateTripList(nextProps.user_id);
     }
 
-    handleTrips() {
-        console.log("trips", this.props.tripList)
-        return this.props.tripList.map((trip, index) => {
-            console.log("trip: ", trip)
+    handleTrips(tripList) {
+        return tripList.map((trip, index) => {
             return (
 
                 <Card key={index} className='trip'> <Link to={`/trip/${trip.trip_id}`} onClick={() => {
@@ -88,9 +85,12 @@ class Dashboard extends Component {
 
                     </CardText>
                 </Link>
-                    <IconButton tooltip="Cancel Trip" touch={true} tooltipPosition="top-center" onClick={() => { this.handleTripDelete(trip) }}>
-                        <ActionCancel />
-                    </IconButton>
+                <RaisedButton
+                  label='Cancel Trip'
+                  secondary={true}
+                  onClick={() => this.handleTripDelete(trip)}
+                  style={{marginBottom: '5px'}}
+                />
                 </Card>
 
             )
@@ -268,7 +268,10 @@ class Dashboard extends Component {
                     className='new-day-cancel'
                 /></div>
         ];
-        const { currentTrip } = this.props;
+        const { currentTrip, tripList, user_id } = this.props;
+        if(user_id && tripList.length === 0){
+          this.props.updateTripList(user_id);
+        }
         return (
             <div id="Dashboard">
                 <Menu />
@@ -335,9 +338,12 @@ class Dashboard extends Component {
                     /> <br />
                     <br />
                 </Dialog>
-                <section className='trip-display'>
-                    {this.handleTrips()}
-                </section>
+                { tripList.length ?
+                  <section className='trip-display'>
+                    {this.handleTrips(tripList)}
+                  </section>
+                  : null
+                }
             </div >
         )
     }

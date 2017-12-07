@@ -12,6 +12,18 @@ const turqoiseGreen = '#e75f51'
     , jet = '#264653'
     , spanishViridian = '#264653';
 
+
+//     {
+//     "datePicker": {
+//         "color": "#3f51b5",
+//         "calendarYearBackgroundColor": "#ffc107",
+//         "textColor": "#009688",
+//         "calendarTextColor": "#607d8b",
+//         "selectColor": "#616161",
+//         "selectTextColor": "#ffeb3b"
+//     }
+// }
+
 const theme1 = getMuiTheme({
   fontFamily: '"Tienne", serif',
   palette: {
