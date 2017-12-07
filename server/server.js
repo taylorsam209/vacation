@@ -18,7 +18,7 @@ const PORT = process.env.PORT;
 const app = express();
 
 app.use(bodyParser.json());
-app.use( express.static( `${__dirname}/../build` ) );
+app.use(express.static(`${__dirname}/../build`));
 app.use(cors());
 
 app.use(
@@ -144,9 +144,9 @@ app.delete('/api/restaurant', restController.deleteRestaurant)
 app.get('/api/trip/group/:id', groupController.getGroup);
 app.get('/api/trip/code/:id', groupController.getTripByCode);
 app.post('/api/group', groupController.joinGroup);
-app.delete('/api/group', groupController.deleteMember);
+app.delete('/api/group/:user/:trip', groupController.deleteMember);
 
 const path = require('path')
-app.get('*', (req, res)=>{
-  res.sendFile(path.join(__dirname, '../build/index.html'));
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../build/index.html'));
 })
