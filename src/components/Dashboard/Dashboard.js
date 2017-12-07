@@ -344,7 +344,7 @@ class Dashboard extends Component {
                   </section>
                   : null
                 }
-            </div >
+            </div>
         )
     }
 }
