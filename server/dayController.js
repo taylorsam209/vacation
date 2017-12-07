@@ -66,10 +66,12 @@ module.exports = {
     editFlight: (req, res) => {
         const db = req.app.get('db');
         const arr = [];
-        const { confirmation, airline_name, flight_id, flight_name } = req.body;
+        const { confirmation, airline_name, flight_id} = req.body;
+        console.log(req.body)
 
-        db.day.edit_flight([confirmation, airline_name, flight_id, flight_name])
+        db.day.edit_flight([confirmation, airline_name, flight_id])
             .then(() => {
+                console.log("Success")
                 db.day.get_flight(flight_id)
                     .then(flight => {
                         let dayId = flight[0].day_id;
