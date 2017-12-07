@@ -20,9 +20,10 @@ class Listing extends Component {
   render() {
     const { currentDay } = this.props;
     return (
-      <div className="Listing">
+      <div id="Listing">
         <Menu />
         <h1>Restaurants</h1>
+        {this.props.listing.length !== 0 ? 
         <div className='content-container'>
           {this.props.listing.map((e, i, arr) => {
             return (
@@ -51,7 +52,7 @@ class Listing extends Component {
               </Card>
             )
           })}
-        </div>
+        </div> : null }
       </div>
     )
   }

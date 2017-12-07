@@ -54,21 +54,7 @@ class Day extends Component {
     this.props.showGroup(true);
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log("Hit the Event Update")
-    // nextProps.savedRestaurants;
-    // this.handleRestaurants();
-    //   // if (this.props.currentDay) {
-    //   //   this.props.updateSavedRestaurants(this.props.currentDay.day_id);
-    //   //   this.props.updateSavedRestaurantsData(this.props.currentDay.day_id);
-    //   // }
-    //   if (this.props.currentDay) {
-    //     this.props.updateEventsList(this.props.currentDay.day_id);
-    //   }
-  }
-
   handleAddEvent() {
-
     const { currentDay } = this.props;
     if (this.state.value === 1) {
       const flightObj = { confirmation: this.state.inputOne, airline_name: this.state.inputTwo, day_id: currentDay.day_id }
@@ -99,21 +85,41 @@ class Day extends Component {
         console.log("user", this.props.user_id)
         return (
           <div key={i}>
-            <Card className='event-container' style={{ margin: '10px', padding: '10px' }}>
-              <p>{e.confirmation || null}</p>
-              <p>{e.airline_name || null}</p>
-              <p>{e.lodging_name || null}</p>
-              <p>{e.lodging_details || null}</p>
-              <p>{e.activity_name || null}</p>
-              <p>{e.activity_details || null}</p>
-              <p>{e.rental_company || null}</p>
-              <p>{e.rental_details || null}</p>
-              {this.props.currentTrip ? this.props.user_id == this.props.currentTrip.user_id ? <IconButton tooltip="Cancel Event" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventDelete(e) }}>
-                <ActionCancel />
-              </IconButton> : null : null}
-              {this.props.currentTrip ? this.props.user_id == this.props.currentTrip.user_id ? <IconButton tooltip="Edit Event" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventEditWindow(e) }}>
-                <Edit />
-              </IconButton> : null : null}
+            <Card className='event-container'>
+           
+              {e.lodging_name ? <CardTitle
+                title={e.lodging_name}
+                subtitle={e.lodging_details}
+              /> : null}
+              {e.airline_name ? <CardTitle
+                title={e.airline_name}
+                subtitle={e.confirmation}
+              /> : null}
+              {e.activity_name ? <CardTitle
+                title={e.activity_name}
+                subtitle={e.activity_details}
+              /> : null}
+              {e.rental_company ? <CardTitle
+                title={e.rental_company}
+                subtitle={e.rental_details}
+              /> : null} 
+            
+              {this.props.currentTrip ? this.props.user_id == this.props.currentTrip.user_id ?
+                <RaisedButton
+                  label='Edit'
+                  labelColor='white'
+                  primary={true}
+                  style={{ margin: '5px' }}
+                  onClick={() => { this.handleEventEditWindow(e) }}
+                /> : null : null}
+              {this.props.currentTrip ? this.props.user_id == this.props.currentTrip.user_id ?
+                <RaisedButton
+                  label='Delete'
+                  labelColor='white'
+                  secondary={true}
+                  style={{ margin: '5px' }}
+                  onClick={() => { this.handleEventDelete(e) }}
+                /> : null : null}
             </Card>
           </div>
         )
@@ -121,32 +127,42 @@ class Day extends Component {
     }
   }
 
-
   handleRestaurants() {
     console.log("handleRestaurant", this.props.savedRestaurants);
     console.log("handleRestaurantData", this.props.savedRestaurantsData)
     if (this.props.savedRestaurants.length) {
       return this.props.savedRestaurants.map((e, i, arr) => {
-        console.log(e)
         return (
           <div key={i}>
-            <Card className='' style={{ margin: '10px', padding: '10px' }}>
-              <Link onClick={() => {
-                if (this.props.currentRestaurant.id !== e.id) {
-                  this.props.clearRestaurant(),
-                    this.props.clearReviews()
-                }
-                this.props.getRestaurant(e.id),
-                  this.props.getReviews(e.id)
-              }} style={{ textDecoration: "none" }} to={`/restaurant/${e.id}`}>
-                <h2 className='details-button' >
-                  <p>{e.name}</p>
-                  <p>More Details</p>
-                </h2>
+            <Card className='restaurant-event-container'>
+              <CardTitle
+                title={e.name}
+                subtitle={"Rating: " + e.rating}
+              />
+              <Link style={{ textDecoration: "none" }} to={`/restaurant/${e.id}`}>
+                <RaisedButton
+                  label='View'
+                  labelColor='white'
+                  primary={true}
+                  style={{ margin: '5px' }}
+                  onClick={() => {
+                    if (this.props.currentRestaurant.id !== e.id) {
+                      this.props.clearRestaurant(),
+                        this.props.clearReviews()
+                    }
+                    this.props.getRestaurant(e.id),
+                      this.props.getReviews(e.id)
+                  }}
+                />
               </Link>
-              {this.props.currentTrip ? this.props.user_id == this.props.currentTrip.user_id ? <IconButton tooltip="top-center" touch={true} tooltipPosition="top-center" onClick={() => { this.handleEventDelete(e) }}>
-                <ActionCancel />
-              </IconButton> : null : null}
+              {this.props.currentTrip ? this.props.user_id == this.props.currentTrip.user_id ?
+                <RaisedButton
+                  label='Delete'
+                  labelColor='white'
+                  secondary={true}
+                  style={{ margin: '5px' }}
+                  onClick={() => { this.handleEventDelete(e) }}
+                /> : null : null}
             </Card>
           </div>
         )
@@ -158,34 +174,28 @@ class Day extends Component {
     console.log("Attempt", e)
     if (e.confirmation) {
       this.props.deleteSelectedFlight(e.flight_id);
-      this.props.updateEventsList(1);
+      this.props.updateEventsList(e.day_id);
     } else if (e.lodging_name) {
       this.props.deleteSelectedLodging(e.lodging_id);
-      this.props.updateEventsList(1);
+      this.props.updateEventsList(e.day_id);
     } else if (e.activity_name) {
       this.props.deleteSelectedActivity(e.activity_id);
-      this.props.updateEventsList(1);
+      this.props.updateEventsList(e.day_id);
     } else if (e.rental_company) {
       this.props.deleteSelectedRental(e.rental_id);
-      this.props.updateEventsList(1);
+      this.props.updateEventsList(e.day_id);
     } else if (e.id) {
-      console.log("Rest delete Attempt", this.props.savedRestaurantsData)
       for (var i = 0; i < this.props.savedRestaurantsData.length; i++) {
         if (this.props.savedRestaurantsData[i].yelp_id === e.id) {
           this.props.deleteRestaurant({ restaurant_id: this.props.savedRestaurantsData[i].restaurant_id, day_id: this.props.savedRestaurantsData[i].day_id });
         }
       }
-
     }
-
   }
 
   handleEditEvent() {
-
-    console.log("Hit Edit Event Function")
     const value = this.state.value;
     if (value === 1) {
-      console.log("Hit Flight Edit")
       this.props.editSelectedFlight({ confirmation: this.state.inputOne, airline_name: this.state.inputTwo, flight_id: this.state.editedId })
     } else if (value === 2) {
       this.props.editSelectedRental({ rental_company: this.state.inputOne, rental_details: this.state.inputTwo, rental_id: this.state.editedId })
@@ -197,7 +207,6 @@ class Day extends Component {
   }
 
   handleEventEditWindow(e) {
-
     this.setState({
       editOpen: true
     })
@@ -420,14 +429,14 @@ class Day extends Component {
       <main>
         <section className='day'>
           <Menu />
-          <Card className='title-container' zDepth={3}>
+          {this.props.currentDay ? <Card className='title-container' zDepth={3}>
             <CardTitle
-              title={this.props.currentDay ? this.props.currentDay.day_name : 'Day'}
-              subtitle={this.props.currentDay ? this.props.currentDay.date : ''}
+              title={this.props.currentDay.day_name}
+              subtitle={this.props.currentDay.date}
             />
-          </Card>
+          </Card> : null}
           <br />
-          {this.props.currentTrip ? this.props.user_id == this.props.currentTrip.user_id ? <RaisedButton label="Add event" primary={true} onClick={this.handleOpen} /> : null : null}
+          {this.props.currentTrip ? this.props.user_id == this.props.currentTrip.user_id ? <RaisedButton className="add-event-button" label="Add event" primary={true} onClick={this.handleOpen} /> : null : null}
           {this.handleGetAllEvents()}
           {this.handleRestaurants()}
           <Dialog
