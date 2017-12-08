@@ -1,11 +1,6 @@
 @import 'https://fonts.googleapis.com/css?family=Permanent+Marker|Tienne';
 #Listing {
-  text-align: center;
-  background: url("../../assets/images/mountain.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  width: 100vw;
-  min-height: 100%; }
+  text-align: center; }
 
 .content-container {
   width: 85%;
