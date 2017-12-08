@@ -221,8 +221,8 @@ class Dashboard extends Component {
     }
 
     newTrip() {
-        let tripObj = this.state;
-
+        let temp = this.state;
+        let tripObj = Object.assign({}, temp, {user_id: this.props.user_id})
         this.props.createNewTrip(tripObj)
     }
 

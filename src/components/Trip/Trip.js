@@ -150,12 +150,15 @@ class Trip extends Component {
             />
           </Card>
           {this.handleAdminAccess()}
+          { this.props.daysList.length > 0 &&
           <section className='day-display'>
+
             <HandleGetAllDays
               handleEventAdaptation={this.handleEventAdaptation}
               handleDayDelete={this.handleDayDelete}
             />
           </section>
+          }
           <Dialog
             title={dayName}
             actions={actions}

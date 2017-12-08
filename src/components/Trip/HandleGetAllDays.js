@@ -8,6 +8,7 @@ import IconButton from 'material-ui/IconButton';
 import ActionCancel from 'material-ui/svg-icons/navigation/cancel';
 import { Link } from "react-router-dom";
 import Info from 'material-ui/svg-icons/action/info';
+import RaisedButton from 'material-ui/RaisedButton';
 
 function sortByDate(daysList) {
   let modifiedDatesDaysList = daysList.map(day => {
@@ -48,14 +49,23 @@ function HandleGetAllDays(props) {
           title={e.day_name || `Day ${i + 1}`}
           subtitle={e.date}
         />
-        {props.currentTrip ? props.user_id == props.currentTrip.user_id ? <IconButton tooltip="Cancel Day" touch={true} tooltipPosition="top-center" onClick={() => { props.handleDayDelete(e) }} iconStyle={styles.largeIcon}>
-          <ActionCancel />
-        </IconButton> : null : null}
+
         <Link to={`/day/${e.day_id}`} className='logo-font'>
-          <IconButton tooltip="Day Information" touch={true} tooltipPosition="top-center" iconStyle={styles.largeIcon} onClick={() => { updateCurrentDay(e.day_id), updateEventsList(e.day_id), updateSavedRestaurants(e.day_id), updateSavedRestaurantsData(e.day_id), props.handleEventAdaptation(e.day_id) }}>
-            <Info />
-          </IconButton>
+        <RaisedButton
+          label="View"
+          primary={true}
+          style={{marginBottom: '5px'}}
+          onClick={()=>{ updateCurrentDay(e.day_id), updateEventsList(e.day_id), updateSavedRestaurants(e.day_id), updateSavedRestaurantsData(e.day_id), props.handleEventAdaptation(e.day_id) }}
+        />
         </Link>
+        { props.currentTrip && props.user_id == props.currentTrip.user_id &&
+        <RaisedButton
+          label='Delete'
+          secondary={true}
+          style={{marginBottom: '5px'}}
+          onClick={()=>props.handleDayDelete(e)}
+        />
+        }
         <br />
       </Card>
     )
