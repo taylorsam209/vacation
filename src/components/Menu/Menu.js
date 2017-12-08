@@ -45,13 +45,13 @@ class Menu extends Component {
   }
 
   componentDidUpdate() {
-    console.log("Hit CDU", this.state.stateTrip)
+
     if (this.state.currentGroup) {
-      console.log("Hit Get Group")
+      
       this.handleGetGroup();
     }
     if (this.state.currentNoti) {
-      console.log("Hit Get Noti")
+
       this.handleGetNoti();
     }
   }

@@ -1,6 +1,6 @@
 const ab = require('./frontEndABs.js');
 
-const url = 'http://localhost:3010/api/';
+const url = 'http://localhost:8082/api/';
 
 describe('Test getTrip(url, trip_id):', () => {
   /* Test Author: Scott */
