@@ -22,7 +22,7 @@ Link http://trippinonline.com/
 ## Views
 <br><br>
 <p align="center">
-    <img src="https://github.com/taylorsam209/vacation/blob/master/src/assets/Landing.PNG" width="700">
+    <img src="https://github.com/taylorsam209/vacation/blob/master/src/assets/Landing.PNG" width="500">
 </p> 
 <p align="center">
     Landing view with Sign-In.
@@ -30,7 +30,7 @@ Link http://trippinonline.com/
 
 <br><br>
 <p align="center">
-    <img src="https://github.com/taylorsam209/vacation/blob/master/src/assets/Trip.PNG" width="700">
+    <img src="https://github.com/taylorsam209/vacation/blob/master/src/assets/Trip.PNG" width="500">
 </p> 
 <p align="center">
     Dashboard view showing all trips of user that is logged in.
@@ -38,7 +38,7 @@ Link http://trippinonline.com/
 
 <br><br>
 <p align="center">
-    <img src="https://github.com/taylorsam209/vacation/blob/master/src/assets/Day.PNG" width="700">
+    <img src="https://github.com/taylorsam209/vacation/blob/master/src/assets/Day.PNG" width="500">
 </p> 
 <p align="center">
     Day view of selected trip.
@@ -46,7 +46,7 @@ Link http://trippinonline.com/
 
 <br><br>
 <p align="center">
-    <img src="https://github.com/taylorsam209/vacation/blob/master/src/assets/DatePicker.PNG" width="700">
+    <img src="https://github.com/taylorsam209/vacation/blob/master/src/assets/DatePicker.PNG" width="500">
 </p> 
 <p align="center">
     Date Picker modal for selecting dates utilizing material-ui.
@@ -54,7 +54,7 @@ Link http://trippinonline.com/
 
 <br><br>
 <p align="center">
-    <img src="https://github.com/taylorsam209/vacation/blob/master/src/assets/Event.PNG" width="700">
+    <img src="https://github.com/taylorsam209/vacation/blob/master/src/assets/Event.PNG" width="500">
 </p>
 <p align="center">
    View of modal for adding new events to specific dates.
@@ -62,7 +62,7 @@ Link http://trippinonline.com/
 
 <br><br>
 <p align="center">
-    <img src="https://github.com/taylorsam209/vacation/blob/master/src/assets/Restaurant.PNG" width="700">
+    <img src="https://github.com/taylorsam209/vacation/blob/master/src/assets/Restaurant.PNG" width="500">
 </p> 
 <p align="center">
     View of Restaurants in local area of planned trip.
@@ -70,7 +70,7 @@ Link http://trippinonline.com/
 
 <br><br>
 <p align="center">
-    <img src="https://github.com/taylorsam209/vacation/blob/master/src/assets/Details.PNG" width="700">
+    <img src="https://github.com/taylorsam209/vacation/blob/master/src/assets/Details.PNG" width="500">
 </p> 
 <p align="center">
     Detailed view of selected restaurant.
@@ -78,7 +78,7 @@ Link http://trippinonline.com/
 
 <br><br>
 <p align="center">
-    <img src="https://github.com/taylorsam209/vacation/blob/master/src/assets/Map.PNG" width="700">
+    <img src="https://github.com/taylorsam209/vacation/blob/master/src/assets/Map.PNG" width="500">
 </p> 
 <p align="center">
     Map view of restaurant location utilizing Google Maps API.
